@@ -1,0 +1,337 @@
+---
+title: "Bench Protocols"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# **Overview of wet bench protocols for Nemabiome sequencing** {#anchor}
+#### 1. Preparation of DNA template
+#### 2. Preparation of library
+#### 3. Quantification of library
+#### 4. Preparation and denaturation of library
+#### 5. Loading combined libraries onto a miseq run
+
+
+
+# **1. Preparation of DNA template** {#anchor}
+### Reagents required {.css_class}
+* lysis buffer (Made in-house, see recipe below)
+* proteinase K (20mg/ml)
+* thermomixer
+* 1.5ml eppendorf tubes   
+
+
+####Lysis buffer (Total vol 50ml)
+|volume ($\mu$l)|stock Reagent|conccentration in lysis buffer|
+|:----:|:----:|:----|
+|2500 |1M KCl|50mM KCl|
+|500 |1M Tris (pH 8.3)|10mM Tris (pH 8.3)|
+|125 |1M MgCl~2~|2.5mM MgCl~2~|
+|225 |Nonidet p-40|0.45% Nonidet p-40|
+|225 |Tween-20|0.45% Tween-20|
+|250 |2% gelatin|0.01% gelatin|  
+Make-up to 50ml with mol grade water. Autoclave, aliquot and store at -20  
+
+### Protocol {.css_class}
+1. UV plastic ware and mol grade water for 15min
+2. Transfer 1000 ethanol-fixed L3s (or L1s or eggs) to 1.5ml tube
+3. Add lysis buffer to achieve a vol 1.4ml and incubate at room temp for 5min
+4. Centrifuge at 13000g for 4min to pellet parasite material
+5. Remove and discard majority of supernatent (do not touch pellet)
+6. Add 1ml lysis buffer and re-suspend pellet with pipet
+7. Repeat steps 4-6 twice more
+8. Centrifugeat 13000g for 4min to pellet parasite material
+9. Remove and discard supernatent to leave approx 100$\mu$l
+10. Re-suspend pellet and add another 50$\mu$l of lysis buffer
+
+11. If lysing L3s place on thermomixer for 15min at 95 with shaking (1000RPM)  
+*This helps with the break down of the L3s tough outer sheath*
+
+12. Place at -80 for a min of 1hour to allow ice crystals to help with the degradation process
+13. Allow to de-frost on ice
+14. Add 6$\mu$l Proteniase K (20mg/ml) to each sample to achieve a final conc of 0.8mg/ml in 150$\mu$l
+15. Place on thermomixer at 55 for 120min with shaking at 800RPM followed by 20min at 95 to denature the proteinase K
+16. Place directly on ice and make a 1:10 lysate dilution (with mol grade water) in a new tube for using as template for PCR 
+17. Store both lysate and lysate dilution at -80  
+*storage at -80 is critical due to the crude nature of the DNA preparation as quality of template will degrade over time at -20*
+
+
+# **2. Preparation of library** {#anchor}
+
+## 2.1 Amplication of ITS-2 region and addition of adaptors {#ccs_id}
+### Reagents required: {.css_class}
+* Kapa HiFi Hotstart PCR kit with dNTPs (Kapa Biosystems, KK2502)
+* 0.2ml 96-well plates, clear, half-skirted (VWR, 83007-374)
+* Microseal "A" film (Biorad, MSA-5001)
+* 1.5ml tubes
+* 8-channel pipettor
+* filter aerosol tips
+* mol grade water
+* thermocycler
+
+#### **Forward Primers**
+NC1_with_Illumina_Adapter_(0N)
+TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGACGTCTGGTTCAGGGTTGTT
+NC1_with_Illumina_Adapter_(1N)
+TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNACGTCTGGTTCAGGGTTGTT
+NC1_with_Illumina_Adapter_(2N)
+TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNNACGTCTGGTTCAGGGTTGTT
+NC1_with_Illumina_Adapter_(3N)
+TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNNNACGTCTGGTTCAGGGTTGTT   
+
+
+#### **Reverse primers**
+NC2_with_Illumina_Adapter_(0N)
+GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGTTAGTTTCTTTTCCTCCGCT
+NC2_with_Illumina_Adapter_(1N)
+GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGNTTAGTTTCTTTTCCTCCGCT
+NC2_with_Illumina_Adapter_(2N)
+GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGNNTTAGTTTCTTTTCCTCCGCT
+NC2_with_Illumina_Adapter_(3N)
+GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGNNNTTAGTTTCTTTTCCTCCGCT  
+
+### Protocol {.css_class}   
+1. UV pasticware and mol grade water for 15min prior to PCR set-up
+2. Combine 2.5$\mu$l of each of the forward primers at stock concentration (100nM) to 90$\mu$l of mol grade water to achieve forward primer mix at 10nM working concentrationOn. Do the same for the reverse primers.
+3. On ice make-up Mastermix using forward and reverse primer mixes and the recipe below.
+4. Aliquot mastermix (21$\mu$l) to each well of 96-well plate
+5. Add 4$\mu$l template (lysate dilution) to wells using multi-channel pipettor
+6. Place microseal "A" film over completed plate and place on thermocycler (with pre-heated lid) and run the program below.  
+
+#### **Mastermix (25$\mu$l)** 
+|volume ($\mu$l)|Reagent|
+|:----:|:-----|
+|5     |KAPA HiFi Buffer (x5)|
+|0.75  |NC1 primer mix (10mM)|
+|0.75  |NC2 primer mix (10mM)|
+|0.75  |dNTPs (10mM)         |
+|0.5   |KAPA HiFi Polymerase (0.5U)|
+|13.25 |mol grade water|
+|4     |1:10 dilution of lysate|  
+
+#### **Cycling conditions**  
+1. 95 for 2min  
+2. 98 for 20sec  
+3. 62 for 15sec  
+4. 72 for 15sec  
+5. Repeat steps 2-4 25 times
+6. 72 for 2min  
+
+*Cycles kept low to limit potential bias, but can be increased to 30-35 cycles for samples with low DNA. If amplicons are not to be cleaned immediately store at -20. It is not advisable though to delay the library preparation process as PCR products will degrade even at -20 if stored for longer than a couple of days*
+
+
+## 2.2 Magnetic bead purification protocol {#ccs_id}
+
+### Reagents required: {.css_class}
+* AMPure XP beads (Beckman Coulter, A63881) - Aliquot and store at 4degrees
+* 96-well Magnetic-Ring stand (Applied biosystems, AM10050)
+* 0.8ml 96-well storage plates (Thermo-Scientific, AB-0859)
+* 0.2ml 96-well plate, clear, half-skirted (VWR, 83007-374)
+* 8-channel pipettors
+* Reagent reservoirs
+* abosolte ethanol (mol grade)  
+* mol grade water  
+
+*Filter aerosol pipette tipss and 8-channel pipettor used for majority of steps in this protocol. Also all quantities quoted are for clean-up of a full plate (96 samples)*  
+
+### Protocol: {.css_class} 
+1. Bring an aliquot of AMPure beads to room temp  
+2. Prepare fresh 80% ethanol from mol grade absolute ethanol (50ml)   
+3. Centrifuge amplification plate to collect condensation (300g for 2min)  
+4. Remove seal from plate in bio-safety cabinet (if possible)  
+5. Transfer the 25$\mu$l reactions into 0.8ml 96-well storage plates using multi-channel pipettor  
+6. Voretx beads for 30sec to ensure even disperal before placing in reagent reservoir  
+7. Transfer 25$\mu$l of beads to each well of the storage plate and gently pipet up and down 10 times to ensure the beads are well-mixed with the PCR sample  
+8. Incubate at room temp for 5min  
+9. Place plate on magnetic stand for 2min (or until supernatent has cleared)
+10. Once clear use multi-channel pipettor to remove and discard supernatent from the wells  
+11. With the plate still on the magnetic stand, wash beads with 80% ethanol by adding 200$\mu$l to each well (using a multi-channel pipettor and a reagent reservoir). Do not re-suspend the beads at this point  
+12. Incubate for 30sec (or until clear) and then remove and discard supernatent  
+13. Wash again with another 200$\mu$l of 80% ethanol. Incubate for 30sec and then as before remove and discard supernatent.  
+14. Use a small volume single-channel pipettor (P20, with fine tips) to remove excess ethanol from each well  
+15. Allow beads to air-dry for 15min  
+16. Remove plate from magnetic stand  
+17. Add 40$\mu$l of mol grade water to each well with multi-channel pipettor and gently pipet up and down 10 times to re-suspend the beads  
+18. Incubate at room temp for 2min  
+19. Place the plate back on the magnetic stand for 2min (or until cleared)  
+20. Transfer approx 34$\mu$l of the supernatent to a new 0.2ml 96-well plate without touching the beads  
+21. A microseal "A" is placed over cleaned-up samples to allow temporary storage at -20  
+
+## 2.3 Addition of illumina barcodes {#ccs_id}  
+
+### Reagents required: {.css_class}  
+* Kapa HiFi Hotstart PCR kit with dNTPs (Kapa Biosystems, KK2502)
+* 0.2ml 96-well plates, clear, half-skirted (VWR, 83007-374)
+* Microseal "A" film (Biorad, MSA-5001)
+* 1.5ml tubes
+* 8-channel pipettor
+* filter aerosol tips
+* mol grade water
+* thermocycler  
+
+#### **Forward primers**
+|Primer name|sequence of primer|Row in 96-well plate format|  
+|:---:|:---|:---:|
+|N501_i5| AATGATACGGCGACCACCGAGATCTACACTAGATCGCTCGTCGGCAGCGTC |A| 
+|N502_i5| AATGATACGGCGACCACCGAGATCTACACCTCTCTATTCGTCGGCAGCGTC |B| 
+|N503_i5| AATGATACGGCGACCACCGAGATCTACACTATCCTCTTCGTCGGCAGCGTC |C|
+|N504_i5| AATGATACGGCGACCACCGAGATCTACACAGAGTAGATCGTCGGCAGCGTC |D| 
+|N505_i5| AATGATACGGCGACCACCGAGATCTACACGTAAGGAGTCGTCGGCAGCGTC |E| 
+|N506_i5| AATGATACGGCGACCACCGAGATCTACACACTGCATATCGTCGGCAGCGTC |F|
+|N507_i5| AATGATACGGCGACCACCGAGATCTACACAAGGAGTATCGTCGGCAGCGTC |G| 
+|N508_i5| AATGATACGGCGACCACCGAGATCTACACCTAAGCCTTCGTCGGCAGCGTC |H| 
+
+#### **Reverse primers**  
+|Primer name|sequence of primer|Column in 96-well plate format|  
+|:---:|:---|:---:|
+|N701_i7| CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGG|1|  
+|N702_i7| CAAGCAGAAGACGGCATACGAGATCTAGTACGGTCTCGTGGGCTCGG|2| 
+|N703_i7| CAAGCAGAAGACGGCATACGAGATTTCTGCCTGTCTCGTGGGCTCGG|3|  
+|N704_i7| CAAGCAGAAGACGGCATACGAGATGCTCAGGAGTCTCGTGGGCTCGG|4|  
+|N705_i7| CAAGCAGAAGACGGCATACGAGATAGGAGTCCGTCTCGTGGGCTCGG|5|  
+|N706_i7| CAAGCAGAAGACGGCATACGAGATCATGCCTAGTCTCGTGGGCTCGG|6|  
+|N707_i7| CAAGCAGAAGACGGCATACGAGATGTAGAGAGGTCTCGTGGGCTCGG|7|  
+|N708_i7| CAAGCAGAAGACGGCATACGAGATCCTCTCTGGTCTCGTGGGCTCGG|8|  
+|N709_i7| CAAGCAGAAGACGGCATACGAGATAGCGTAGCGTCTCGTGGGCTCGG|9|  
+|N710_i7| CAAGCAGAAGACGGCATACGAGATCAGCCTCGGTCTCGTGGGCTCGG|10|  
+|N711_i7| CAAGCAGAAGACGGCATACGAGATTGCCTCTTGTCTCGTGGGCTCGG|11|  
+|N712_i7| CAAGCAGAAGACGGCATACGAGATTCCTCTACGTCTCGTGGGCTCGG|12|   
+
+### Protocol: {.css_class}  
+1. UV pasticware and mol grade water for 15min prior to PCR set-up
+2. On ice make-up Mastermix of water, buffer and dNTPs only (No polymerase or primers yet).
+3. Aliquot mastermix (19$\mu$l) to each well of 96-well plate
+4. Add 1.25$\mu$l forward primer to each well of the designated row (A-H, see table above).
+5. Add 1.25$\mu$l reverse primer to each well of the designated column (1-12, see table above).
+5. Add 0.5$\mu$l polyermase to each well
+6. Add 3$\mu$l template (amplicons from the 1st round of PCR) to wells using multi-channel pipettor
+7. Place microseal "A" film over completed plate and place on thermocycler (with pre-heated lid) and run the program below.
+8. The resulting PCR products are cleaned-up using the magnetic bead purification protocol similiar to the 1st round of PCR (see section 3.2 above).
+
+#### **Mastermix (25$\mu$l)** 
+|volume ($\mu$l)|Reagent|
+|:----:|:-----|
+|5     |KAPA HiFi Buffer (x5)|
+|1.25  |Forward primer, N501-508 (10mM)|
+|1.25  |Reverse primer, N701-712 (10mM)|
+|0.75  |dNTPs (10mM)         |
+|0.5   |KAPA HiFi Polymerase (0.5U)|
+|13.25 |mol grade water|
+|3     |1st round PCR product|    
+
+#### **Cycling conditions**  
+1. 98 for 45sec  
+2. 98 for 20sec  
+3. 63 for 20sec  
+4. 72 for 2min  
+5. Repeat steps 2-4 7 times
+
+*Cycles kept low to limit potential bias*  
+
+
+## 2.4 Quantification of individual samples and pooling of library {#css_id}
+1. Nanodrop quantification of cleaned-up products resulting from second round of PCR
+2. Make Normalized library by combining samples into a single tube to ensure all samples are present in equal concentrations (typically combine 50ng per sample).This should ensure uniform coverage of reads for all samples in the library.
+3. Nanodrop library and dilute with mol grade water to achieve approx 5ng/$\mu$l
+
+# **3. Quantification of library** {#anchor}
+### Reagents required: {.css_class}
+* Illumina library Quantification Kit, Universal qPCR Mix (Kapa Biosystems, KK4824)
+* qPCR machine
+* Mol grade water
+* 10mM Tris-Hcl, pH 8 with 0.05% Tween-20
+* Multiplate PCR plate, low profile, clear, unskirted, (Biorad, MLL9601)
+* Microseal "B" seal (Biorad, MSB1001)
+
+*When setting-up qPCR reactions always take care when pipetting small volumes and use filter aerosol pipette tips. Work on ice and use foil to prevent UV degradation of sybr green in master mix*
+
+### Protocol {.css_class}
+1. Dilute library (1:1000) with 10mM Tris-Hcl, pH 8 with 0.05% Tween-20 in triplicate
+2. Using these 1:1000 dilutions set-up 1:2 serial dilutions to achieve 1:2000, 1:4000 and 1:8000 (keep in fridge until needed)
+3. Before using the Illumina library Quantification kit for the first time add 1ml of primer premix (x10) to the 5ml bottle of Sybr fast qPCR Master mix (x2) and mix well
+4. UV all plasticware and water for 15min
+5. Prepare qPCR plate by adding:
+     * 12$\mu$l Sybr fast qPCR mastermix (with primers added)  
+     * 4$\mu$l mol grade water  
+     * and either 4$\mu$l diluted library, one of supplied standards (Standard 1-6) or another 4$\mu$l of mol grade water to act as a negative control
+6. Place Microseal "B" seal over raections
+6. Run on qPCR machine with the following cycling conditions:
+      95 for 5min then 35 cycles of 95 for 30 sec and 60 for 45 sec
+7. Look at data to confirm 90-110% reaction efficiency for samples and for standards
+8. Calculate library quantification using absolute quantification against the 425bp DNA standard
+
+# **4. Preparation and denaturation of library** {#anchor}
+### Reagents required: {.css_class}
+* Mol. grade water
+* 1.5ml eppendorf tubes
+* ice
+* 5M NaOH
+* vortex
+* bench-top centrifuge
+* 10mM Tris-Cl, pH 8.5 with 0.1% Tween-20
+* Hybridization buffer (HT1, thawed and kept on ice)
+* PhiX control v3 (Illumina, FC-110-3001)
+
+### Protocol {.css_class}
+1. Dilute library to 4nM with water
+2. Prepare 1ml fresh 0.2M NaOH from 5M NaOH stock solution
+3. Denature 4nM library:  
+      i) add 5$\mu$l 4nM library with 5$\mu$l 0.2M NaOH in new 1.5ml tube
+      ii) vortex briefly and centrifuge @ 300g for 1min
+      iii) incubate at room temp. for 5min
+      iv) add 990$\mu$l hybridization buffer (chilled) to produce 20pm library
+      v) place on ice
+4. Dilute 20pm library to 15pmol: 
+      i) add 900$\mu$l 20pmol library to new 1.5ml tube
+      ii) add 300$\mu$l hybridization buffer (chilled)
+      iii) invert several times and place on ice
+5. Prepare 4nM PhiX library:
+      i) add 2$\mu$l 10nM PhiX library to new 1.5ml tube
+      ii) add 3$\mu$l 10mM Tris-Cl, pH 8.5 with 0.1% Tween-20
+6. Denature 4nM PhiX library:
+      i) add 5$\mu$l 4nM PhiX library with 5$\mu$l 0.2M NaOH to new 1.5ml tube
+      ii) vortex briefly and centrifuge @ 300g for 1min
+      iii) incubate at room temp. for 5min
+      iv) add 990$\mu$l hybridization buffer (chilled) to produce 20pM PhiX library
+      v) place on ice  
+*This denatured 20pM PhiX library can be stored at -20 for upto 3 weeks*
+7. Dilute 20pM PhiX library to 15pM:  
+      i) add 225$\mu$l 20pM Phix Library to new 1.5ml tube
+      ii) add 75$\mu$l hybridization buffer (chilled)
+      iii) invert several times and place on ice
+8. Combine 15pM libraries (80% sample library: 20% PhiX library):
+      i) add 800$\mu$l 15pM sample library to new 1.5ml tube
+      ii) add 200$\mu$l 15pM PhiX library
+      iii) invert several times and place on ice until ready for loading into cartridge
+      
+# **5. Loading combined libraries onto a miseq run** {#anchor}
+### Reagents required: {.css_class}
+* Illumina Miseq v2 Reagent Kit, 500 cycles (MS-102-2003, contains 2 boxes)  
+*Box 1, contains Reagent cartridge and hybridization buffer (HT1)- store at -20*  
+*Box 2, contains Flow cell and Incorporation buffer (RP2) - store at 4*
+* water bath
+* tweezers
+* mol grade water in sequeezy bottle
+* kim wipes
+* ethanol wipes
+
+### Protocol {.css_class}
+1. Thaw cartridge in water bath at room temp. for 1hour
+2. Invert cartridge 10times to mix reagents and bang down on bench to eliminate any visible air bubbles. 
+3. Wipe foil covering of position 17 before piercing with a 1ml pipette tip.
+4. Load 600$\mu$l of the "combined library" into the cartridge (position 17)
+5. Start software and delete previous run to ensure >25% memory space on machine
+6. Prepare and load flow cell
+      i) use tweezers to remove flow cell from salt solution. 
+      ii) wash-off salt with mol. grade water in a squeeze bottle, focusing on the nooks and crannies
+      iii) dry thoroughly with kim wipe
+      iv) use ethanol wipe to gently remove dust and grease stains from the flow cell
+      v) remove old flow cell from machine and place new one into position
+7. Load incorporation buffer and empty waste bottle into position and lower sippers
+8. Load cartridge and csv sample sheet file
