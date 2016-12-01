@@ -1,20 +1,4 @@
 name: "Nemabiome"
-navbar:
-  img: nemabiome_small.png
-  left:
-    - text: "Home"
-      icon: ion-ios-home-outline
-      href: index.html
-    - text: "Protocols"
-      icon: ion-ios-flask-outline
-      menu:
-        - text: "Bench Protocols"
-          href: bench.html
-        - text: "Analysis Protocols"
-          href: analysis.html
-    - text: "About"
-      href: about.html
-      icon: ion-ios-information-outline
 output:
   html_document:
-    theme: yeti
+    theme: lumen

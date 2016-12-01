@@ -1,7 +1,15 @@
 ---
-title: "Nemabiome"
 output: html_document
 ---
 
-## Welcome to the Nemabiome website!
+<div class="jumbotron">
+<div class="container">
 
+<img src="nemabiome_full.png">
+
+Your source for all things Nemabiome related.
+
+<p><a class="btn btn-primary btn-lg" href="bench.html" role="button">Get started on your protocol!</a></p>
+
+</div>
+</div>
