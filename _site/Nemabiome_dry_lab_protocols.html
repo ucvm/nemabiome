@@ -9,9 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Russell Avramenko" />
 
 
-<title>Analysis Protocols</title>
+<title>Nemabiome dry lab protocols</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,9 +20,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -167,100 +165,6 @@ $(document).ready(function () {
 
 
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.9em;
-  padding-left: 5px;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
@@ -323,80 +227,82 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Analysis Protocols</h1>
+<h1 class="title toc-ignore">Nemabiome dry lab protocols</h1>
+<h4 class="author"><em>Russell Avramenko</em></h4>
+<h4 class="date"><em>December 1, 2016</em></h4>
 
 </div>
 
 
+<div id="anchor" class="section level1">
+<h1><strong>Overview of dry lab protocols for Nemabiome sequencing</strong></h1>
+<div id="downloading-analysis-software" class="section level4">
+<h4>1. Downloading Analysis Software</h4>
+</div>
+<div id="preparing-sequencing-files-for-analysis" class="section level4">
+<h4>2. Preparing sequencing files for analysis</h4>
+</div>
+<div id="downloading-analysis-files" class="section level4">
+<h4>3. Downloading Analysis Files</h4>
+</div>
+<div id="running-analysis" class="section level4">
+<h4>4. Running Analysis</h4>
+</div>
+<div id="data-analysis" class="section level4">
+<h4>5. Data Analysis</h4>
+</div>
+<div id="nemabiome-data-analysis" class="section level3">
+<h3><strong>Nemabiome Data Analysis:</strong></h3>
 <p>Once you have generated the data from the MiSeq you must complete the following steps in order to analyze the data.</p>
-<div id="downloading-analysis-software" class="section level1">
-<h1><span class="header-section-number">1</span> Downloading analysis software</h1>
-<p>The primary software used for analysis is Mothur. This program is command line based, and will require you to type simple commands into either Terminal (Mac) or Command Prompt (Windows).</p>
-<p>To download Mothur go to <a href="https://www.mothur.org/">www.mothur.org</a>, click “Download” and download the latest version. This will download a single folder. You must move this folder to your home directory (your C: Drive on a PC, or your ‘User’ folder on a Mac)</p>
-<div class="panel panel-info">
-<div class="panel-heading">
-Tip
 </div>
-<div class="panel-body">
-<p>To check that you have placed the folder in the correct location, open up either Terminal (Mac) or Command Prompt (PC). Type <code>~/mothur/mothur</code> (Mac) or <code>C:\mothur\mothur.exe</code> (PC). If your screen looks similar to this:</p>
+</div>
+<div id="anchor" class="section level1">
+<h1><strong>1. Downloading Analysis Software</strong></h1>
+<p>The primary software used for analysis is Mothur. This program is command line based, and will require you to type simple commands into either Terminal (Mac) or Command Prompt (Windows).</p>
+<p>To download Mothur go to www.mothur.org, click “Download” and download the latest version. This will download a single folder. You must move this folder to your home directory (your C: Drive on a PC, or your ‘User’ folder on a Mac)</p>
+<p>Tip: To check that you have placed the folder in the correct location, open up either Terminal (Mac) or Command Prompt (PC). Type <code>~/mothur/mothur</code> (Mac) or <code>C:\mothur\mothur.exe</code> (PC). If your screen looks similar to this:</p>
 <p>You have done it correctly.</p>
 </div>
-</div>
-</div>
 <div id="preparing-files-for-analysis" class="section level1">
-<h1><span class="header-section-number">2</span> Preparing files for analysis</h1>
+<h1><strong>2. Preparing files for analysis</strong></h1>
 <div id="downloading-sequencing-data-files-from-basespace" class="section level2">
-<h2><span class="header-section-number">2.1</span> Downloading sequencing data files from BaseSpace</h2>
+<h2><strong>2.1 Downloading sequencing data files from BaseSpace</strong></h2>
 <p>To download the sequencing fields from BaseSpace. Go to <a href="https://basespace.illumina.com/home/index" class="uri">https://basespace.illumina.com/home/index</a>, log-in, and navigate to your sequencing run. Click “Download” and select “All FASTQ files for this run”. Then click “Download your files”. BaseSpace uses the “BaseSpace Downloader” to download your files. If you have not previously downloaded this program, you must download it at this time. Select the location to download your files.</p>
 <p>Once your files have downloaded, navigate to the folder where the files were downloaded. There will be one folder that corresponds to each sample that was sequenced. In each of these folders there will be two files, one that corresponds to the forward reads, and one that corresponds to the reverse reads. The forward and reverse read files for all samples will need to be moved to a single folder for analysis to conduct the analysis.</p>
-<div class="panel panel-success">
-<div class="panel-heading">
-Recommendation
-</div>
-<div class="panel-body">
-<p>Create a folder on your home directory with the name of your sequencing run (for the rest of this example it will be called “MiSeq_Run”). Move all of your files into this folder.</p>
-</div>
-</div>
+<p>Recommendation: Create a folder on your home directory with the name of your sequencing run (for the rest of this example it will be called “MiSeq_Run”). Move all of your files into this folder.</p>
 <p>Once the files have been moved, the files must be unzipped/uncompressed. This can be done with the Archive Utility on a Mac and any file compression software, such as WinZip, on a PC. Make sure you unzip your files into the folder that you have created (i.e. “Miseq_Run”)</p>
 </div>
 <div id="create-sample-list" class="section level2">
-<h2><span class="header-section-number">2.2</span> Create sample list</h2>
+<h2><strong>2.2 Create Sample List</strong></h2>
 <p>You will need to create a file that contains the name of your sample, and specifies which files correspond to this sample. This will tell the program which files to analyze for each particular sample. You can download the file “stability.files” in the Downloads section for an example of what this file must look like. Each line in this file represents a single sample that must be analyzed. The first column is the sample name, the second column is the file name for the forward read file, and the third column is the name of the reverse read file. Each column is separated by a single tab. An example is also listed below.</p>
 <p>Example:</p>
-<pre><code>sample1 sample1_ S1_L001_R1_001.fastq    sample1_S1_L001_R2_001.fastq
-sample2 sample2_ S2_L001_R1_001.fastq    sample2_S2_L001_R2_001.fastq
-sample3 sample3_ S3_L001_R1_001.fastq    sample3_S3_L001_R2_001.fastq
-...</code></pre>
+<p><code>sample1  sample1_ S1_L001_R1_001.fastq    sample1_S1_L001_R2_001.fastq</code> <code>sample2  sample2_ S2_L001_R1_001.fastq    sample2_S2_L001_R2_001.fastq</code> <code>sample3  sample3_ S3_L001_R1_001.fastq    sample3_S3_L001_R2_001.fastq</code> <code>.......</code></p>
 <p>Sample names may vary between different Illumina platforms, so please check the names of your downloaded files, to ensure the file names are correct. Please name this file as “stability.files”, with the “.files” file extension. Place this file in your folder that you created for analysis. This is the only file that you will need to create from scratch for this analysis, if you use the provided files.</p>
 </div>
 </div>
 <div id="download-analysis-files" class="section level1">
-<h1><span class="header-section-number">3</span> Download analysis files</h1>
-<p>Download the analysis files <code>nematode_ITS2_database_version1.fasta</code>, <code>nematode_taxonomy.tax</code> and <code>batchfile.txt</code> from the <a href="examples.html#Dowloads">downloads</a> section. Place these files in the folder that contains your sequencing data (i.e. ‘MiSeq_Run’)</p>
+<h1><strong>3. Download Analysis Files</strong></h1>
+<p>Download the analysis files <code>nematode_ITS2_database.fasta</code>, <code>nematode_taxonomy.tax</code> and <code>batchfile.txt</code> from the downloads section. Place these files in the folder that contains your sequencing data (i.e. ‘MiSeq_Run’)</p>
 <p>For a standard application do not make any changes to these files. If you are aware of the number of processors that your computer has, open up the <code>batchfile.txt</code> file, go to the first line and change the parameter “processors” from “processors=2” to the number of processors in your computer.</p>
 </div>
-<div id="running-analysis" class="section level1">
-<h1><span class="header-section-number">4</span> Running analysis</h1>
+<div id="running-analysis-1" class="section level1">
+<h1><strong>4. Running Analysis</strong></h1>
 <p>Once all files have been downloaded, open up Terminal or Command Prompt. You will then need to navigate to the folder you created, which can be done using the “cd” command. If you created your analysis folder in your home directory type:</p>
-<pre><code>cd MiSeq_Run</code></pre>
+<p><code>cd MiSeq_Run</code></p>
 <p>This will change to this folder.</p>
 <p>Then type:</p>
-<pre><code>~/mothur/mothur batchfile.txt</code></pre>
-<p>(On a Mac)</p>
+<p><code>~/mothur/mothur batchfile.txt</code> (On a Mac)</p>
 <p>OR</p>
-<pre><code>C:\mothur\mothur.exe C:\MiSeq_Run\batchfile.txt</code></pre>
-<p>(On a PC)</p>
+<p><code>C:\mothur\mothur.exe C:\MiSeq_Run\batchfile.txt</code> (On a PC)</p>
 <p>This will launch Mothur, and begin to complete the commands that are contained within the batchfile. You will need to leave your computer open and running while the analysis completes. The amount of time that it will take to run will vary with your computer, and the number of samples/reads that you will be analyzing. General run times will probably be around ~4 hours, on a standard computer, 96 samples with an average read depth of ~50,000 reads.</p>
 </div>
-<div id="data-analysis" class="section level1">
-<h1><span class="header-section-number">5</span> Data analysis</h1>
+<div id="data-analysis-1" class="section level1">
+<h1><strong>5. Data Analysis</strong></h1>
 <p>Once the analysis has completed, you will have a file called <code>nemabiome_results.summary</code>. You can open this file up and copy the contents into an Excel workbook to properly view the data.</p>
 </div>
 
 
 
-</div>
-</div>
 
 </div>
 

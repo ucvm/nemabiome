@@ -1,4 +1,4 @@
 name: "Nemabiome"
 output:
   html_document:
-    theme: lumen
+    theme: paper
