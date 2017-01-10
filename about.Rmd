@@ -1,13 +1,21 @@
 ---
-title: About
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-<div class="alert alert-warning">
+## About these protocols
 
-Under construction
+Some more text describing how incredible and amazing this website is and how it will change forever the face of parasite research.
 
-</div>
+## Authors
+
+* The nemabiome concept and development of tools to study the nemabiome is done in the lab of John Gilleard
+* Bench protocols written by Elizabeth Redman
+* Analysis protocols written by Russell Avramenko
+* ITS2 database and taxonomy constructed by Russell Avramenko
+* Website built by Matthew Workentine
+
+
+*This website is hosted on github.com, code available [here](https://github.com/ucvm/nemabiome)*
