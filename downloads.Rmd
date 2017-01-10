@@ -1,0 +1,28 @@
+---
+title: Downloads
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+## Example files:
+
+* Example MiSeq data files - download and unzip all three files
+	- [Set1](downloads/Fastq_files_set1.zip)
+	- [Set2](downloads/Fastq_files_set2.zip)
+	- [Set3](downloads/Fastq_files_set3.zip)
+
+* Sample list
+	- [nemabiome.files](downloads/nemabiome.files)
+
+* Example of results
+	- [example_nemabiome_results.summary](downloads/example_nemabiome_results.summary)
+
+## Files necessary for all analysis
+
+* [Mothur batch file](downloads/batchfile.txt)
+* [Nematode taxonomy file](downloads/nematode_taxonomy.tax)
+* [Nematode ITS2 database version 1](downloads/nematode_ITS2_database_version1.fasta)
