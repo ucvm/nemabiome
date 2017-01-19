@@ -60,9 +60,9 @@ You will need to create a file that contains the name of your sample, and specif
 Example:
 
 ```
-sample1	sample1_ S1_L001_R1_001.fastq	 sample1_S1_L001_R2_001.fastq
-sample2	sample2_ S2_L001_R1_001.fastq	 sample2_S2_L001_R2_001.fastq
-sample3	sample3_ S3_L001_R1_001.fastq	 sample3_S3_L001_R2_001.fastq
+sample1	sample1_S1_L001_R1_001.fastq	 sample1_S1_L001_R2_001.fastq
+sample2	sample2_S2_L001_R1_001.fastq	 sample2_S2_L001_R2_001.fastq
+sample3	sample3_S3_L001_R1_001.fastq	 sample3_S3_L001_R2_001.fastq
 ...
 ```
 
