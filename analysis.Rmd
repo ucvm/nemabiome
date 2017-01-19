@@ -70,7 +70,7 @@ Sample names may vary between different Illumina platforms, so please check the 
 
 # Download analysis files
 
-Download the analysis files `nematode_ITS2_database.fasta`,  `nematode_taxonomy.tax` and `batchfile.txt` from the downloads section. Place these files in the folder that contains your sequencing data (i.e. 'MiSeq_Run')
+Download the analysis files `nematode_ITS2_database_version1.fasta`,  `nematode_taxonomy.tax` and `batchfile.txt` from the [downloads](examples.html#Dowloads) section. Place these files in the folder that contains your sequencing data (i.e. 'MiSeq_Run')
 
 For a standard application do not make any changes to these files. If you are aware of the number of processors that your computer has, open up the `batchfile.txt` file, go to the first line and change the parameter “processors” from “processors=2” to the number of processors in your computer. 
 

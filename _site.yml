@@ -1,4 +1,5 @@
 name: "Nemabiome"
 output:
   html_document:
-    theme: lumen
+    theme: journal
+output_dir: "docs"
