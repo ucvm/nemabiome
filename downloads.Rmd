@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = FALSE)
 	- [nemabiome.files](downloads/nemabiome.files)
 
 * Example of results
-	- [example_nemabiome_results.summary](downloads/example_nemabiome_results.summary)
+	- [example_nemabiome_results.txt](downloads/example_nemabiome_results.txt)
 
 ## Files necessary for all analysis
 

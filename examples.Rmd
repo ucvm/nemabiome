@@ -19,5 +19,5 @@ Follow analysis protocol as described in the [Analysis Protocols](analysis.html)
 
 ## Example output
 
-You can download the file [example_nemabiome_results.summary](downloads/example_nemabiome_results.summary) file. This is what your output file should look like if you have completed the analysis correctly. You can copy this text into an Excel workbook to better visualize the information. 
+You can download the file [example_nemabiome_results.txt](downloads/example_nemabiome_results.txt) file. This is what your output file should look like if you have completed the analysis correctly. You can copy this text into an Excel workbook to better visualize the information. 
 

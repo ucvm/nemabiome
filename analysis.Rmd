@@ -1,10 +1,10 @@
 ---
-title: Analysis Protocols
+title: "Analysis Protocols"
 output:
   html_document:
-    toc: true
-    toc_float: true
-    number_sections: true
+    number_sections: yes
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
