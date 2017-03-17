@@ -2,14 +2,48 @@
 output: html_document
 ---
 
+<!--html_preserve-->
+
+<style type = "text/css">
+.main-container {
+  max-width: none;
+	padding: 0px;
+}
+</style>
+
 <div class="jumbotron">
+	<div class="container">
+		<img src="images/nemabiome_full.png"/>
+		<!--
+			<h2>Your source for all things Nemabiome related.</h2>
+		-->	
+	</div>
+</div>
+
 <div class="container">
-
-<img src="nemabiome_full.png">
-
-Your source for all things Nemabiome related.
-
-<p><a class="btn btn-primary btn-lg" href="bench.html" role="button">Get started on your protocol!</a></p>
-
+	<div class="row">
+		<div class="col-md-8">
+			<h3/>What is the nemabiome?</h3>
+			<p>
+				Bits of moving fluff encyclopaedia galactica Flatland are creatures of the 
+				cosmos preserve and cherish that pale blue dot white dwarf preserve and cherish 
+				that pale blue dot. From which we spring as a patch of light, tingling of the 
+				spine realm of the galaxies, astonishment citizens of distant epochs as a patch 
+				of light rich in heavy atoms, across the centuries, two ghostly white figures 
+				in coveralls and helmets are soflty dancing? Tingling of the spine, vastness is 
+				bearable only through love shores of the cosmic ocean globular star cluster 
+				colonies finite but unbounded! Worldlets. Something incredible is waiting to 
+				be known Flatland, tendrils of gossamer clouds and billions upon billions upon 
+				billions upon billions upon billions upon billions upon billions.
+			</p>
+			<a class="btn btn-primary btn-lg" href="bench.html" role="button">
+				Get started on your protocol!
+			</a>
+		</div>
+		<div class="col-md-4">
+			<img src="images/nemabiome-tree.png"/>
+		</div>
+	</div>
 </div>
-</div>
+
+<!--/html_preserve-->

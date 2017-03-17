@@ -1,0 +1,89 @@
+---
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Denanuration 
+
+## Reagents required
+
+* Mol. grade water
+* 1.5ml eppendorf tubes
+* ice
+* 5M NaOH
+* vortex
+* bench-top centrifuge
+* 10mM Tris-Cl, pH 8.5 with 0.1% Tween-20
+* Hybridization buffer (HT1, thawed and kept on ice)
+* PhiX control v3 (Illumina, FC-110-3001)
+
+## Protocol 
+
+1. Dilute library to 4nM with water
+2. Prepare 1ml fresh 0.2M NaOH from 5M NaOH stock solution
+3. Denature 4nM library:  
+      i) add 5$\mu$l 4nM library with 5$\mu$l 0.2M NaOH in new 1.5ml tube
+      ii) vortex briefly and centrifuge @ 300g for 1min
+      iii) incubate at room temp. for 5min
+      iv) add 990$\mu$l hybridization buffer (chilled) to produce 20pm library
+      v) place on ice
+4. Dilute 20pm library to 15pmol: 
+      i) add 900$\mu$l 20pmol library to new 1.5ml tube
+      ii) add 300$\mu$l hybridization buffer (chilled)
+      iii) invert several times and place on ice
+5. Prepare 4nM PhiX library:
+      i) add 2$\mu$l 10nM PhiX library to new 1.5ml tube
+      ii) add 3$\mu$l 10mM Tris-Cl, pH 8.5 with 0.1% Tween-20
+6. Denature 4nM PhiX library:
+      i) add 5$\mu$l 4nM PhiX library with 5$\mu$l 0.2M NaOH to new 1.5ml tube
+      ii) vortex briefly and centrifuge @ 300g for 1min
+      iii) incubate at room temp. for 5min
+      iv) add 990$\mu$l hybridization buffer (chilled) to produce 20pM PhiX library
+      v) place on ice  
+*This denatured 20pM PhiX library can be stored at -20 for upto 3 weeks*
+7. Dilute 20pM PhiX library to 15pM:  
+      i) add 225$\mu$l 20pM Phix Library to new 1.5ml tube
+      ii) add 75$\mu$l hybridization buffer (chilled)
+      iii) invert several times and place on ice
+8. Combine 15pM libraries (80% sample library: 20% PhiX library):
+      i) add 800$\mu$l 15pM sample library to new 1.5ml tube
+      ii) add 200$\mu$l 15pM PhiX library
+      iii) invert several times and place on ice until ready for loading into cartridge
+      
+-----
+
+# Loading combined libraries 
+
+## Reagents required
+
+* Illumina Miseq v2 Reagent Kit, 500 cycles (MS-102-2003, contains 2 boxes)  
+*Box 1, contains Reagent cartridge and hybridization buffer (HT1)- store at -20*  
+*Box 2, contains Flow cell and Incorporation buffer (RP2) - store at 4*
+* water bath
+* tweezers
+* mol grade water in sequeezy bottle
+* kim wipes
+* ethanol wipes
+
+## Protocol 
+
+1. Thaw cartridge in water bath at room temp. for 1hour
+2. Invert cartridge 10times to mix reagents and bang down on bench to eliminate any visible air bubbles. 
+3. Wipe foil covering of position 17 before piercing with a 1ml pipette tip.
+4. Load 600$\mu$l of the "combined library" into the cartridge (position 17)
+5. Start software and delete previous run to ensure >25% memory space on machine
+6. Prepare and load flow cell
+      i) use tweezers to remove flow cell from salt solution. 
+      ii) wash-off salt with mol. grade water in a squeeze bottle, focusing on the nooks and crannies
+      iii) dry thoroughly with kim wipe
+      iv) use ethanol wipe to gently remove dust and grease stains from the flow cell
+      v) remove old flow cell from machine and place new one into position
+7. Load incorporation buffer and empty waste bottle into position and lower sippers
+8. Load cartridge and csv sample sheet file

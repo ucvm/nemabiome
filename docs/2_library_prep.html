@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -164,6 +167,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
@@ -281,105 +379,12 @@ $(document).ready(function () {
 </div>
 
 
-<div id="sequencing-protocols" class="section level1 tabset tabset-pills tabset-fade">
-<h1>Sequencing Protocols</h1>
-<div id="template-preparation" class="section level2">
-<h2>Template preparation</h2>
+<div id="library-preparation" class="section level1">
+<h1><span class="header-section-number">1</span> Library preparation</h1>
+<div id="amplication-of-its-2-region" class="section level2">
+<h2><span class="header-section-number">1.1</span> Amplication of ITS-2 region</h2>
 <div id="reagents-required" class="section level3">
-<h3>Reagents required</h3>
-<ul>
-<li>lysis buffer (Made in-house, see recipe below)</li>
-<li>proteinase K (20mg/ml)</li>
-<li>thermomixer</li>
-<li>1.5ml eppendorf tubes</li>
-</ul>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-   
-**Lysis buffer (Total vol 50ml)**  
-
-</p>
-</div>
-<div class="panel-body&gt; |volume ($\mu$l)|stock Reagent|conccentration in lysis buffer| |:----:|:----:|:----| |2500 |1M KCl|50mM KCl| |500 |1M Tris (pH 8.3)|10mM Tris (pH 8.3)| |125 |1M MgCl~2~|2.5mM MgCl~2~| |225 |Nonidet p-40|0.45% Nonidet p-40| |225 |Tween-20|0.45% Tween-20| |250 |2% gelatin|0.01% gelatin| &lt;/div&gt; &lt;div class=" panel-footer"="">
-<table>
-<thead>
-<tr class="header">
-<th align="center">volume (<span class="math inline">\(\mu\)</span>l)</th>
-<th align="center">stock Reagent</th>
-<th align="left">conccentration in lysis buffer</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">2500</td>
-<td align="center">1M KCl</td>
-<td align="left">50mM KCl</td>
-</tr>
-<tr class="even">
-<td align="center">500</td>
-<td align="center">1M Tris (pH 8.3)</td>
-<td align="left">10mM Tris (pH 8.3)</td>
-</tr>
-<tr class="odd">
-<td align="center">125</td>
-<td align="center">1M MgCl<sub>2</sub></td>
-<td align="left">2.5mM MgCl<sub>2</sub></td>
-</tr>
-<tr class="even">
-<td align="center">225</td>
-<td align="center">Nonidet p-40</td>
-<td align="left">0.45% Nonidet p-40</td>
-</tr>
-<tr class="odd">
-<td align="center">225</td>
-<td align="center">Tween-20</td>
-<td align="left">0.45% Tween-20</td>
-</tr>
-<tr class="even">
-<td align="center">250</td>
-<td align="center">2% gelatin</td>
-<td align="left">0.01% gelatin</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="panel-footer">
-<p>Make-up to 50ml with mol grade water. Autoclave, aliquot and store at -20</p>
-</div>
-</div>
-</div>
-<div id="protocol" class="section level3">
-<h3>Protocol</h3>
-<ol style="list-style-type: decimal">
-<li>UV plastic ware and mol grade water for 15min</li>
-<li>Transfer 1000 ethanol-fixed L3s (or L1s or eggs) to 1.5ml tube</li>
-<li>Add lysis buffer to achieve a vol 1.4ml and incubate at room temp for 5min</li>
-<li>Centrifuge at 13000g for 4min to pellet parasite material</li>
-<li>Remove and discard majority of supernatent (do not touch pellet)</li>
-<li>Add 1ml lysis buffer and re-suspend pellet with pipet</li>
-<li>Repeat steps 4-6 twice more</li>
-<li>Centrifugeat 13000g for 4min to pellet parasite material</li>
-<li>Remove and discard supernatent to leave approx 100<span class="math inline">\(\mu\)</span>l</li>
-<li><p>Re-suspend pellet and add another 50<span class="math inline">\(\mu\)</span>l of lysis buffer</p></li>
-<li><p>If lysing L3s place on thermomixer for 15min at 95 with shaking (1000RPM)<br />
-<em>This helps with the break down of the L3s tough outer sheath</em></p></li>
-<li>Place at -80 for a min of 1hour to allow ice crystals to help with the degradation process</li>
-<li>Allow to de-frost on ice</li>
-<li>Add 6<span class="math inline">\(\mu\)</span>l Proteniase K (20mg/ml) to each sample to achieve a final conc of 0.8mg/ml in 150<span class="math inline">\(\mu\)</span>l</li>
-<li>Place on thermomixer at 55 for 120min with shaking at 800RPM followed by 20min at 95 to denature the proteinase K</li>
-<li>Place directly on ice and make a 1:10 lysate dilution (with mol grade water) in a new tube for using as template for PCR</li>
-<li><p>Store both lysate and lysate dilution at -80<br />
-<em>Storage at -80 is critical due to the crude nature of the DNA preparation as quality of template will degrade over time at -20</em></p></li>
-</ol>
-</div>
-</div>
-<div id="library-preparation" class="section level2">
-<h2>Library preparation</h2>
-<div id="amplication-of-its-2-region" class="section level3">
-<h3>Amplication of ITS-2 region</h3>
-<div id="reagents-required-1" class="section level4">
-<h4>Reagents required</h4>
+<h3><span class="header-section-number">1.1.1</span> Reagents required</h3>
 <ul>
 <li>Kapa HiFi Hotstart PCR kit with dNTPs (Kapa Biosystems, KK2502)</li>
 <li>0.2ml 96-well plates, clear, half-skirted (VWR, 83007-374)</li>
@@ -391,8 +396,8 @@ $(document).ready(function () {
 <li>thermocycler</li>
 </ul>
 </div>
-<div id="forward-primers" class="section level4">
-<h4>Forward Primers</h4>
+<div id="forward-primers" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> Forward Primers</h3>
 <table style="width:19%;">
 <colgroup>
 <col width="9%" />
@@ -424,8 +429,8 @@ $(document).ready(function () {
 </tbody>
 </table>
 </div>
-<div id="reverse-primers" class="section level4">
-<h4>Reverse primers</h4>
+<div id="reverse-primers" class="section level3">
+<h3><span class="header-section-number">1.1.3</span> Reverse primers</h3>
 <table style="width:19%;">
 <colgroup>
 <col width="9%" />
@@ -457,8 +462,8 @@ $(document).ready(function () {
 </tbody>
 </table>
 </div>
-<div id="protocol-1" class="section level4">
-<h4>Protocol</h4>
+<div id="protocol" class="section level3">
+<h3><span class="header-section-number">1.1.4</span> Protocol</h3>
 <ol style="list-style-type: decimal">
 <li>UV pasticware and mol grade water for 15min prior to PCR set-up</li>
 <li>Combine 2.5<span class="math inline">\(\mu\)</span>l of each of the forward primers at stock concentration (100nM) to 90<span class="math inline">\(\mu\)</span>l of mol grade water to achieve forward primer mix at 10nM working concentrationOn. Do the same for the reverse primers.</li>
@@ -531,10 +536,10 @@ $(document).ready(function () {
 </div>
 </div>
 </div>
-<div id="magnetic-bead-purification" class="section level3">
-<h3>Magnetic bead purification</h3>
-<div id="reagents-required-2" class="section level4">
-<h4>Reagents required</h4>
+<div id="magnetic-bead-purification" class="section level2">
+<h2><span class="header-section-number">1.2</span> Magnetic bead purification</h2>
+<div id="reagents-required-1" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Reagents required</h3>
 <ul>
 <li>AMPure XP beads (Beckman Coulter, A63881) - Aliquot and store at 4degrees</li>
 <li>96-well Magnetic-Ring stand (Applied biosystems, AM10050)</li>
@@ -553,8 +558,8 @@ $(document).ready(function () {
 </div>
 </div>
 </div>
-<div id="protocol-2" class="section level4">
-<h4>Protocol</h4>
+<div id="protocol-1" class="section level3">
+<h3><span class="header-section-number">1.2.2</span> Protocol</h3>
 <ol style="list-style-type: decimal">
 <li>Bring an aliquot of AMPure beads to room temp<br />
 </li>
@@ -599,10 +604,10 @@ $(document).ready(function () {
 </ol>
 </div>
 </div>
-<div id="addition-of-illumina-barcodes" class="section level3">
-<h3>Addition of Illumina barcodes</h3>
-<div id="reagents-required-3" class="section level4">
-<h4>Reagents required:</h4>
+<div id="addition-of-illumina-barcodes" class="section level2">
+<h2><span class="header-section-number">1.3</span> Addition of Illumina barcodes</h2>
+<div id="reagents-required-2" class="section level3">
+<h3><span class="header-section-number">1.3.1</span> Reagents required:</h3>
 <ul>
 <li>Kapa HiFi Hotstart PCR kit with dNTPs (Kapa Biosystems, KK2502)</li>
 <li>0.2ml 96-well plates, clear, half-skirted (VWR, 83007-374)</li>
@@ -614,8 +619,8 @@ $(document).ready(function () {
 <li>thermocycler</li>
 </ul>
 </div>
-<div id="forward-primers-1" class="section level4">
-<h4>Forward primers</h4>
+<div id="forward-primers-1" class="section level3">
+<h3><span class="header-section-number">1.3.2</span> Forward primers</h3>
 <table>
 <thead>
 <tr class="header">
@@ -668,8 +673,8 @@ $(document).ready(function () {
 </tbody>
 </table>
 </div>
-<div id="reverse-primers-1" class="section level4">
-<h4>Reverse primers</h4>
+<div id="reverse-primers-1" class="section level3">
+<h3><span class="header-section-number">1.3.3</span> Reverse primers</h3>
 <table>
 <thead>
 <tr class="header">
@@ -742,8 +747,8 @@ $(document).ready(function () {
 </tbody>
 </table>
 </div>
-<div id="protocol-3" class="section level4">
-<h4>Protocol</h4>
+<div id="protocol-2" class="section level3">
+<h3><span class="header-section-number">1.3.4</span> Protocol</h3>
 <ol style="list-style-type: decimal">
 <li>UV pasticware and mol grade water for 15min prior to PCR set-up</li>
 <li>On ice make-up Mastermix of water, buffer and dNTPs only (No polymerase or primers yet).</li>
@@ -814,155 +819,12 @@ $(document).ready(function () {
 <p>Cycles kept low to limit potential bias</p>
 </div>
 </div>
-<div id="individual-sample-quantification-and-pooling" class="section level4">
-<h4>Individual sample quantification and pooling</h4>
+<div id="individual-sample-quantification-and-pooling" class="section level3">
+<h3><span class="header-section-number">1.3.5</span> Individual sample quantification and pooling</h3>
 <ol style="list-style-type: decimal">
 <li>Nanodrop quantification of cleaned-up products resulting from second round of PCR</li>
 <li>Make Normalized library by combining samples into a single tube to ensure all samples are present in equal concentrations (typically combine 50ng per sample).This should ensure uniform coverage of reads for all samples in the library.</li>
 <li>Nanodrop library and dilute with mol grade water to achieve approx 5ng/<span class="math inline">\(\mu\)</span>l</li>
-</ol>
-</div>
-</div>
-</div>
-<div id="library-quantification" class="section level2">
-<h2>Library Quantification</h2>
-<div id="reagents-required-4" class="section level3">
-<h3>Reagents required:</h3>
-<ul>
-<li>Illumina library Quantification Kit, Universal qPCR Mix (Kapa Biosystems, KK4824)</li>
-<li>qPCR machine</li>
-<li>Mol grade water</li>
-<li>10mM Tris-Hcl, pH 8 with 0.05% Tween-20</li>
-<li>Multiplate PCR plate, low profile, clear, unskirted, (Biorad, MLL9601)</li>
-<li>Microseal “B” seal (Biorad, MSB1001)</li>
-</ul>
-<div class="panel panel-info">
-<div class="panel-heading">
-<p>Note</div> <div class="panel-body"></p>
-<p><em>When setting-up qPCR reactions always take care when pipetting small volumes and use filter aerosol pipette tips. Work on ice and use foil to prevent UV degradation of sybr green in master mix</em></p>
-</div>
-</div>
-</div>
-<div id="protocol-4" class="section level3">
-<h3>Protocol</h3>
-<ol style="list-style-type: decimal">
-<li>Dilute library (1:1000) with 10mM Tris-Hcl, pH 8 with 0.05% Tween-20 in triplicate</li>
-<li>Using these 1:1000 dilutions set-up 1:2 serial dilutions to achieve 1:2000, 1:4000 and 1:8000 (keep in fridge until needed)</li>
-<li>Before using the Illumina library Quantification kit for the first time add 1ml of primer premix (x10) to the 5ml bottle of Sybr fast qPCR Master mix (x2) and mix well</li>
-<li>UV all plasticware and water for 15min</li>
-<li>Prepare qPCR plate by adding:
-<ul>
-<li>12<span class="math inline">\(\mu\)</span>l Sybr fast qPCR mastermix (with primers added)<br />
-</li>
-<li>4<span class="math inline">\(\mu\)</span>l mol grade water<br />
-</li>
-<li>and either 4<span class="math inline">\(\mu\)</span>l diluted library, one of supplied standards (Standard 1-6) or another 4<span class="math inline">\(\mu\)</span>l of mol grade water to act as a negative control</li>
-</ul></li>
-<li>Place Microseal “B” seal over raections</li>
-<li>Run on qPCR machine with the following cycling conditions: 95 for 5min then 35 cycles of 95 for 30 sec and 60 for 45 sec</li>
-<li>Look at data to confirm 90-110% reaction efficiency for samples and for standards</li>
-<li>Calculate library quantification using absolute quantification against the 425bp DNA standard</li>
-</ol>
-<hr />
-</div>
-</div>
-<div id="denanuration" class="section level2">
-<h2>Denanuration</h2>
-<div id="reagents-required-5" class="section level3">
-<h3>Reagents required</h3>
-<ul>
-<li>Mol. grade water</li>
-<li>1.5ml eppendorf tubes</li>
-<li>ice</li>
-<li>5M NaOH</li>
-<li>vortex</li>
-<li>bench-top centrifuge</li>
-<li>10mM Tris-Cl, pH 8.5 with 0.1% Tween-20</li>
-<li>Hybridization buffer (HT1, thawed and kept on ice)</li>
-<li>PhiX control v3 (Illumina, FC-110-3001)</li>
-</ul>
-</div>
-<div id="protocol-5" class="section level3">
-<h3>Protocol</h3>
-<ol style="list-style-type: decimal">
-<li>Dilute library to 4nM with water</li>
-<li>Prepare 1ml fresh 0.2M NaOH from 5M NaOH stock solution</li>
-<li>Denature 4nM library:
-<ol style="list-style-type: lower-roman">
-<li>add 5<span class="math inline">\(\mu\)</span>l 4nM library with 5<span class="math inline">\(\mu\)</span>l 0.2M NaOH in new 1.5ml tube</li>
-<li>vortex briefly and centrifuge @ 300g for 1min</li>
-<li>incubate at room temp. for 5min</li>
-<li>add 990<span class="math inline">\(\mu\)</span>l hybridization buffer (chilled) to produce 20pm library</li>
-<li>place on ice</li>
-</ol></li>
-<li>Dilute 20pm library to 15pmol:
-<ol style="list-style-type: lower-roman">
-<li>add 900<span class="math inline">\(\mu\)</span>l 20pmol library to new 1.5ml tube</li>
-<li>add 300<span class="math inline">\(\mu\)</span>l hybridization buffer (chilled)</li>
-<li>invert several times and place on ice</li>
-</ol></li>
-<li>Prepare 4nM PhiX library:
-<ol style="list-style-type: lower-roman">
-<li>add 2<span class="math inline">\(\mu\)</span>l 10nM PhiX library to new 1.5ml tube</li>
-<li>add 3<span class="math inline">\(\mu\)</span>l 10mM Tris-Cl, pH 8.5 with 0.1% Tween-20</li>
-</ol></li>
-<li>Denature 4nM PhiX library:
-<ol style="list-style-type: lower-roman">
-<li>add 5<span class="math inline">\(\mu\)</span>l 4nM PhiX library with 5<span class="math inline">\(\mu\)</span>l 0.2M NaOH to new 1.5ml tube</li>
-<li>vortex briefly and centrifuge @ 300g for 1min</li>
-<li>incubate at room temp. for 5min</li>
-<li>add 990<span class="math inline">\(\mu\)</span>l hybridization buffer (chilled) to produce 20pM PhiX library</li>
-<li>place on ice<br />
-<em>This denatured 20pM PhiX library can be stored at -20 for upto 3 weeks</em></li>
-</ol></li>
-<li>Dilute 20pM PhiX library to 15pM:
-<ol style="list-style-type: lower-roman">
-<li>add 225<span class="math inline">\(\mu\)</span>l 20pM Phix Library to new 1.5ml tube</li>
-<li>add 75<span class="math inline">\(\mu\)</span>l hybridization buffer (chilled)</li>
-<li>invert several times and place on ice</li>
-</ol></li>
-<li>Combine 15pM libraries (80% sample library: 20% PhiX library):
-<ol style="list-style-type: lower-roman">
-<li>add 800<span class="math inline">\(\mu\)</span>l 15pM sample library to new 1.5ml tube</li>
-<li>add 200<span class="math inline">\(\mu\)</span>l 15pM PhiX library</li>
-<li>invert several times and place on ice until ready for loading into cartridge</li>
-</ol></li>
-</ol>
-</div>
-</div>
-<div id="loading-combined-libraries" class="section level2">
-<h2>Loading combined libraries</h2>
-<div id="reagents-required-6" class="section level3">
-<h3>Reagents required</h3>
-<ul>
-<li>Illumina Miseq v2 Reagent Kit, 500 cycles (MS-102-2003, contains 2 boxes)<br />
-<em>Box 1, contains Reagent cartridge and hybridization buffer (HT1)- store at -20</em><br />
-<em>Box 2, contains Flow cell and Incorporation buffer (RP2) - store at 4</em></li>
-<li>water bath</li>
-<li>tweezers</li>
-<li>mol grade water in sequeezy bottle</li>
-<li>kim wipes</li>
-<li>ethanol wipes</li>
-</ul>
-</div>
-<div id="protocol-6" class="section level3">
-<h3>Protocol</h3>
-<ol style="list-style-type: decimal">
-<li>Thaw cartridge in water bath at room temp. for 1hour</li>
-<li>Invert cartridge 10times to mix reagents and bang down on bench to eliminate any visible air bubbles.</li>
-<li>Wipe foil covering of position 17 before piercing with a 1ml pipette tip.</li>
-<li>Load 600<span class="math inline">\(\mu\)</span>l of the “combined library” into the cartridge (position 17)</li>
-<li>Start software and delete previous run to ensure &gt;25% memory space on machine</li>
-<li>Prepare and load flow cell
-<ol style="list-style-type: lower-roman">
-<li>use tweezers to remove flow cell from salt solution.</li>
-<li>wash-off salt with mol. grade water in a squeeze bottle, focusing on the nooks and crannies</li>
-<li>dry thoroughly with kim wipe</li>
-<li>use ethanol wipe to gently remove dust and grease stains from the flow cell</li>
-<li>remove old flow cell from machine and place new one into position</li>
-</ol></li>
-<li>Load incorporation buffer and empty waste bottle into position and lower sippers</li>
-<li>Load cartridge and csv sample sheet file</li>
 </ol>
 </div>
 </div>
@@ -981,6 +843,8 @@ $(document).ready(function () {
 </footer>
 
 
+</div>
+</div>
 
 </div>
 

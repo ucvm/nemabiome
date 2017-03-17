@@ -1,0 +1,42 @@
+body {
+	font-family: 'Nunito Sans', sans-serif;
+	margin-bottom: 60px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Roboto', sans-serif;
+}
+
+.jumbotron {
+	background-image: url(images/sheep-lake-bw.jpg);
+	background-size: cover;
+}
+
+.jumbotron h2 {
+	color: #FFF;
+	text-shadow: 0 2px #3e3e41;
+}
+
+.jumbotron btn {
+	color: #800000;
+}
+
+.nav a {
+	font-size: 1.5rem;
+}
+
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+

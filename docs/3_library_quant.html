@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -164,6 +167,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
@@ -281,20 +379,46 @@ $(document).ready(function () {
 </div>
 
 
-<div id="about-these-protocols" class="section level2">
-<h2>About these protocols</h2>
-<p>Some more text describing how incredible and amazing this website is and how it will change forever the face of parasite research.</p>
-</div>
-<div id="authors" class="section level2">
-<h2>Authors</h2>
+<div id="library-quantification" class="section level1">
+<h1><span class="header-section-number">1</span> Library Quantification</h1>
+<div id="reagents-required" class="section level2">
+<h2><span class="header-section-number">1.1</span> Reagents required:</h2>
 <ul>
-<li>The nemabiome concept and development of tools to study the nemabiome is done in the lab of John Gilleard</li>
-<li>Bench protocols written by Elizabeth Redman</li>
-<li>Analysis protocols written by Russell Avramenko</li>
-<li>ITS2 database and taxonomy constructed by Russell Avramenko</li>
-<li>Website built by Matthew Workentine</li>
+<li>Illumina library Quantification Kit, Universal qPCR Mix (Kapa Biosystems, KK4824)</li>
+<li>qPCR machine</li>
+<li>Mol grade water</li>
+<li>10mM Tris-Hcl, pH 8 with 0.05% Tween-20</li>
+<li>Multiplate PCR plate, low profile, clear, unskirted, (Biorad, MLL9601)</li>
+<li>Microseal “B” seal (Biorad, MSB1001)</li>
 </ul>
-<p><em>This website is hosted on github.com, code available <a href="https://github.com/ucvm/nemabiome">here</a></em></p>
+<div class="panel panel-info">
+<div class="panel-heading">
+<p>Note</div> <div class="panel-body"></p>
+<p><em>When setting-up qPCR reactions always take care when pipetting small volumes and use filter aerosol pipette tips. Work on ice and use foil to prevent UV degradation of sybr green in master mix</em></p>
+</div>
+</div>
+</div>
+<div id="protocol" class="section level2">
+<h2><span class="header-section-number">1.2</span> Protocol</h2>
+<ol style="list-style-type: decimal">
+<li>Dilute library (1:1000) with 10mM Tris-Hcl, pH 8 with 0.05% Tween-20 in triplicate</li>
+<li>Using these 1:1000 dilutions set-up 1:2 serial dilutions to achieve 1:2000, 1:4000 and 1:8000 (keep in fridge until needed)</li>
+<li>Before using the Illumina library Quantification kit for the first time add 1ml of primer premix (x10) to the 5ml bottle of Sybr fast qPCR Master mix (x2) and mix well</li>
+<li>UV all plasticware and water for 15min</li>
+<li>Prepare qPCR plate by adding:
+<ul>
+<li>12<span class="math inline">\(\mu\)</span>l Sybr fast qPCR mastermix (with primers added)<br />
+</li>
+<li>4<span class="math inline">\(\mu\)</span>l mol grade water<br />
+</li>
+<li>and either 4<span class="math inline">\(\mu\)</span>l diluted library, one of supplied standards (Standard 1-6) or another 4<span class="math inline">\(\mu\)</span>l of mol grade water to act as a negative control</li>
+</ul></li>
+<li>Place Microseal “B” seal over raections</li>
+<li>Run on qPCR machine with the following cycling conditions: 95 for 5min then 35 cycles of 95 for 30 sec and 60 for 45 sec</li>
+<li>Look at data to confirm 90-110% reaction efficiency for samples and for standards</li>
+<li>Calculate library quantification using absolute quantification against the 425bp DNA standard</li>
+</ol>
+</div>
 </div>
 
    </div> <!-- articleBandContent -->
@@ -310,6 +434,8 @@ $(document).ready(function () {
 </footer>
 
 
+</div>
+</div>
 
 </div>
 
