@@ -18,4 +18,4 @@ Some more text describing how incredible and amazing this website is and how it 
 * Website built by Matthew Workentine
 
 
-*This website is hosted on github.com, code available [here](https://github.com/ucvm/nemabiome)*
+*This website is hosted on github.com, code available <a target="_blank" href="https://github.com/ucvm/nemabiome">here</a>

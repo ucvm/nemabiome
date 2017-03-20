@@ -183,24 +183,11 @@ $(document).ready(function () {
 				
 				<li>
 					<a href="overview.html">
-						<span class="ion ion-bug"></span>
+						<span class="ion ion-map"></span>
     				Overview
 					</a>
 				</li>
-<!--				
-				<li class="dropdown">
-  				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    					<span class="ion ion-bug"></span>
-    					Parasite
-     					<span class="caret"></span>
-     			</a>
-  				<ul class="dropdown-menu" role="menu">
-    				<li><a href="#">Cattle</a></li>
-    				<li><a href="#">Sheep</a></li>
-    				<li><a href="#">Horse</a></li>
-  				</ul>
-				</li>
--->		
+	
 				<li class="dropdown">
   				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     				<span class="ion ion-erlenmeyer-flask"></span>
@@ -208,59 +195,29 @@ $(document).ready(function () {
      				<span class="caret"></span>
      			</a>
   				<ul class="dropdown-menu" role="menu">
-  					<li class="dropdown-header">Parasite</li>
-      			<li><a href="#">Cattle</a></li>
-    				<li><a href="#">Sheep</a></li>
-    				<li><a href="#">Horse</a></li>
-    				<li role="separator" class="divider"></li>
-            <li class="dropdown-header">Sequencing</li>
-   					<li><a href="1_template.html">Template preparation</a></li>
-    				<li><a href="2_library_prep.html">Library preparation</a></li>
-    				<li><a href="3_library_quant.html">Library Quantification</a></li>
-    				<li><a href="4_denaturation_loading.html">Denanuration and Loading</a></li>
-    				<li role="separator" class="divider"></li>
-            <li class="dropdown-header">Analysis</li>
-            <li><a href="#">Overview</a></li>
-    				<li><a href="#">Template</a></li>
-    				<li><a href="#">Downloads</a></li>
+      			<li><a href="parasite.html">Parasite</a></li>
+   					<li><a href="bench.html">Sequencing</a></li>
+            <li><a href="analysis.html">Analysis</a></li>
   				</ul>
 				</li>
-<!--				
-				<li class="dropdown">
-  				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    					<span class="ion ion-pie-graph"></span>
-    					Analysis
-     					<span class="caret"></span>
-     			</a>
-  				<ul class="dropdown-menu" role="menu">
-    				<li><a href="#">Overview</a></li>
-    				<li><a href="#">Template</a></li>
-    				<li><a href="#">Downloads</a></li>
-  				</ul>
-				</li>			
--->				
+			
 				<li>
 					<a href="examples.html">
-						<span class="ion ion-ios-pie-outline"></span>
+						<span class="ion ion-pie-graph"></span>
 						Worked Example
 					</a>
 				<li>
-		<!--
-					<a href="downloads.html">
-						<span class="ion ion-ios-download-outline"></span>
-						Downloads
-					</a>
-		-->
+
 				</li>
 				<li>
   				<a href="citation.html">
-						<span class="ion ion-ios-book-outline"></span>
+						<span class="ion ion-document-text"></span>
     		    Citation
   				</a>
 				</li>
 				<li>
   				<a href="about.html">
-    				<span class="ion ion-ios-information-outline"></span>
+    				<span class="ion ion-information-circled"></span>
     		    About
   				</a>
 				</li>
@@ -284,7 +241,7 @@ $(document).ready(function () {
 <div id="citation" class="section level2">
 <h2>Citation</h2>
 <p>If you use any of the described protocols in your work we kindly ask that you cite the following journal article:</p>
-<p>Avramenko RW, Redman EM, Lewis R, Yazwinski TA, Wasmuth JD, Gilleard JS. <em>Exploring the Gastrointestinal “Nemabiome”: Deep Amplicon Sequencing to Quantify the Species Composition of Parasitic Nematode Communities.</em> PLoS ONE. <strong>2015;10:</strong> e0143559. doi: 10.1371/journal.pone.0143559 <a href="journal.pone.0143559.PDF">PDF</a></p>
+<p>Avramenko RW, Redman EM, Lewis R, Yazwinski TA, Wasmuth JD, Gilleard JS. <em>Exploring the Gastrointestinal “Nemabiome”: Deep Amplicon Sequencing to Quantify the Species Composition of Parasitic Nematode Communities.</em> PLoS ONE. <strong>2015;10:</strong> e0143559. doi: 10.1371/journal.pone.0143559 <a target="_blank" href=downloads/journal.pone.0143559.PDF>PDF</a></p>
 </div>
 <div id="other-relevant-references" class="section level2 unnumbered">
 <h2>Other relevant references</h2>
@@ -300,11 +257,16 @@ $(document).ready(function () {
  
 
 <footer class="footer">
-  <div class="container">
-  	<div class="row">
-    	<p class="col-md-4 text-muted">Copyright &copy; Gilleard Lab</p>
-  	</div>
-  </div>
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container">
+	    <div class="col-sm-12 text-center navbar-text">
+	        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+    				<img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    		</a>
+    		This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+	    </div>
+	  </div>
+	</nav>
 </footer>
 
 

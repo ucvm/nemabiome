@@ -6,5 +6,5 @@ output:
       in_header: header.html
       after_body: footer.html
     css: styles.css
-    md_extensions: -markdown_in_html_blocks
+    md_extensions: +markdown_in_html_blocks
 output_dir: "docs"

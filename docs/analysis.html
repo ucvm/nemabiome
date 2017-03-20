@@ -11,7 +11,7 @@
 
 
 
-<title>Analysis Protocols</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,9 +19,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -167,101 +164,6 @@ $(document).ready(function () {
 
 
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
@@ -281,24 +183,11 @@ div.tocify {
 				
 				<li>
 					<a href="overview.html">
-						<span class="ion ion-bug"></span>
+						<span class="ion ion-map"></span>
     				Overview
 					</a>
 				</li>
-<!--				
-				<li class="dropdown">
-  				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    					<span class="ion ion-bug"></span>
-    					Parasite
-     					<span class="caret"></span>
-     			</a>
-  				<ul class="dropdown-menu" role="menu">
-    				<li><a href="#">Cattle</a></li>
-    				<li><a href="#">Sheep</a></li>
-    				<li><a href="#">Horse</a></li>
-  				</ul>
-				</li>
--->		
+	
 				<li class="dropdown">
   				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     				<span class="ion ion-erlenmeyer-flask"></span>
@@ -306,59 +195,29 @@ div.tocify {
      				<span class="caret"></span>
      			</a>
   				<ul class="dropdown-menu" role="menu">
-  					<li class="dropdown-header">Parasite</li>
-      			<li><a href="#">Cattle</a></li>
-    				<li><a href="#">Sheep</a></li>
-    				<li><a href="#">Horse</a></li>
-    				<li role="separator" class="divider"></li>
-            <li class="dropdown-header">Sequencing</li>
-   					<li><a href="1_template.html">Template preparation</a></li>
-    				<li><a href="2_library_prep.html">Library preparation</a></li>
-    				<li><a href="3_library_quant.html">Library Quantification</a></li>
-    				<li><a href="4_denaturation_loading.html">Denanuration and Loading</a></li>
-    				<li role="separator" class="divider"></li>
-            <li class="dropdown-header">Analysis</li>
-            <li><a href="#">Overview</a></li>
-    				<li><a href="#">Template</a></li>
-    				<li><a href="#">Downloads</a></li>
+      			<li><a href="parasite.html">Parasite</a></li>
+   					<li><a href="bench.html">Sequencing</a></li>
+            <li><a href="analysis.html">Analysis</a></li>
   				</ul>
 				</li>
-<!--				
-				<li class="dropdown">
-  				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    					<span class="ion ion-pie-graph"></span>
-    					Analysis
-     					<span class="caret"></span>
-     			</a>
-  				<ul class="dropdown-menu" role="menu">
-    				<li><a href="#">Overview</a></li>
-    				<li><a href="#">Template</a></li>
-    				<li><a href="#">Downloads</a></li>
-  				</ul>
-				</li>			
--->				
+			
 				<li>
 					<a href="examples.html">
-						<span class="ion ion-ios-pie-outline"></span>
+						<span class="ion ion-pie-graph"></span>
 						Worked Example
 					</a>
 				<li>
-		<!--
-					<a href="downloads.html">
-						<span class="ion ion-ios-download-outline"></span>
-						Downloads
-					</a>
-		-->
+
 				</li>
 				<li>
   				<a href="citation.html">
-						<span class="ion ion-ios-book-outline"></span>
+						<span class="ion ion-document-text"></span>
     		    Citation
   				</a>
 				</li>
 				<li>
   				<a href="about.html">
-    				<span class="ion ion-ios-information-outline"></span>
+    				<span class="ion ion-information-circled"></span>
     		    About
   				</a>
 				</li>
@@ -375,40 +234,45 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Analysis Protocols</h1>
 
 </div>
 
 
+<div id="analysis-protocols" class="section level1 tabset tabset-pills tabset-fade">
+<h1>Analysis Protocols</h1>
 <p>Once you have generated the data from the MiSeq you must complete the following steps in order to analyze the data.</p>
-<div id="downloading-analysis-software" class="section level1">
-<h1><span class="header-section-number">1</span> Downloading analysis software</h1>
+<div id="software-requirements" class="section level2">
+<h2>Software Requirements</h2>
 <p>The primary software used for analysis is Mothur. This program is command line based, and will require you to type simple commands into either Terminal (Mac) or Command Prompt (Windows).</p>
 <p>To download Mothur go to <a href="https://www.mothur.org/">www.mothur.org</a>, click “Download” and download the latest version. This will download a single folder. You must move this folder to your home directory (your C: Drive on a PC, or your ‘User’ folder on a Mac)</p>
 <div class="panel panel-info">
 <div class="panel-heading">
-<p>Tip</div> <div class="panel-body"></p>
+Tip
+</div>
+<div class="panel-body">
 <p>To check that you have placed the folder in the correct location, open up either Terminal (Mac) or Command Prompt (PC). Type <code>~/mothur/mothur</code> (Mac) or <code>C:\mothur\mothur.exe</code> (PC). If your screen looks similar to this:</p>
 <p>You have done it correctly.</p>
 </div>
 </div>
 </div>
-<div id="preparing-files-for-analysis" class="section level1">
-<h1><span class="header-section-number">2</span> Preparing files for analysis</h1>
-<div id="downloading-sequencing-data-files-from-basespace" class="section level2">
-<h2><span class="header-section-number">2.1</span> Downloading sequencing data files from BaseSpace</h2>
+<div id="preparing-files-for-analysis" class="section level2">
+<h2>Preparing files for analysis</h2>
+<div id="downloading-sequencing-data-files-from-basespace" class="section level3">
+<h3>Downloading sequencing data files from BaseSpace</h3>
 <p>To download the sequencing fields from BaseSpace. Go to <a href="https://basespace.illumina.com/home/index" class="uri">https://basespace.illumina.com/home/index</a>, log-in, and navigate to your sequencing run. Click “Download” and select “All FASTQ files for this run”. Then click “Download your files”. BaseSpace uses the “BaseSpace Downloader” to download your files. If you have not previously downloaded this program, you must download it at this time. Select the location to download your files.</p>
 <p>Once your files have downloaded, navigate to the folder where the files were downloaded. There will be one folder that corresponds to each sample that was sequenced. In each of these folders there will be two files, one that corresponds to the forward reads, and one that corresponds to the reverse reads. The forward and reverse read files for all samples will need to be moved to a single folder for analysis to conduct the analysis.</p>
 <div class="panel panel-success">
 <div class="panel-heading">
-<p>Recommendation</div> <div class="panel-body"></p>
+Recommendation
+</div>
+<div class="panel-body">
 <p>Create a folder on your home directory with the name of your sequencing run (for the rest of this example it will be called “MiSeq_Run”). Move all of your files into this folder.</p>
 </div>
 </div>
 <p>Once the files have been moved, the files must be unzipped/uncompressed. This can be done with the Archive Utility on a Mac and any file compression software, such as WinZip, on a PC. Make sure you unzip your files into the folder that you have created (i.e. “Miseq_Run”)</p>
 </div>
-<div id="create-sample-list" class="section level2">
-<h2><span class="header-section-number">2.2</span> Create sample list</h2>
+<div id="create-sample-list" class="section level3">
+<h3>Create sample list</h3>
 <p>You will need to create a file that contains the name of your sample, and specifies which files correspond to this sample. This will tell the program which files to analyze for each particular sample. You can download the file “stability.files” in the Downloads section for an example of what this file must look like. Each line in this file represents a single sample that must be analyzed. The first column is the sample name, the second column is the file name for the forward read file, and the third column is the name of the reverse read file. Each column is separated by a single tab. An example is also listed below.</p>
 <p>Example:</p>
 <pre><code>sample1 sample1_S1_L001_R1_001.fastq     sample1_S1_L001_R2_001.fastq
@@ -417,14 +281,14 @@ sample3 sample3_S3_L001_R1_001.fastq     sample3_S3_L001_R2_001.fastq
 ...</code></pre>
 <p>Sample names may vary between different Illumina platforms, so please check the names of your downloaded files, to ensure the file names are correct. Please name this file as “stability.files”, with the “.files” file extension. Place this file in your folder that you created for analysis. This is the only file that you will need to create from scratch for this analysis, if you use the provided files.</p>
 </div>
-</div>
-<div id="download-analysis-files" class="section level1">
-<h1><span class="header-section-number">3</span> Download analysis files</h1>
-<p>Download the analysis files <code>nematode_ITS2_database_version1.fasta</code>, <code>nematode_taxonomy.tax</code> and <code>batchfile.txt</code> from the <a href="examples.html#Dowloads">downloads</a> section. Place these files in the folder that contains your sequencing data (i.e. ‘MiSeq_Run’)</p>
+<div id="download-analysis-files" class="section level3">
+<h3>Download analysis files</h3>
+<p>Download the analysis files <a href="downloads/nematode_ITS2_database_version1.fasta">ITS2 database version 1</a>, <a href="downloads/nematode_taxonomy.tax">nematode taxonomy file</a> and <a href="downloads/batchfile.txt">mothur batchfile</a>. Place these files in the folder that contains your sequencing data (i.e. ‘MiSeq_Run’)</p>
 <p>For a standard application do not make any changes to these files. If you are aware of the number of processors that your computer has, open up the <code>batchfile.txt</code> file, go to the first line and change the parameter “processors” from “processors=2” to the number of processors in your computer.</p>
 </div>
-<div id="running-analysis" class="section level1">
-<h1><span class="header-section-number">4</span> Running analysis</h1>
+</div>
+<div id="running-analysis" class="section level2">
+<h2>Running analysis</h2>
 <p>Once all files have been downloaded, open up Terminal or Command Prompt. You will then need to navigate to the folder you created, which can be done using the “cd” command. If you created your analysis folder in your home directory type:</p>
 <pre><code>cd MiSeq_Run</code></pre>
 <p>This will change to this folder.</p>
@@ -435,10 +299,38 @@ sample3 sample3_S3_L001_R1_001.fastq     sample3_S3_L001_R2_001.fastq
 <pre><code>C:\mothur\mothur.exe C:\MiSeq_Run\batchfile.txt</code></pre>
 <p>(On a PC)</p>
 <p>This will launch Mothur, and begin to complete the commands that are contained within the batchfile. You will need to leave your computer open and running while the analysis completes. The amount of time that it will take to run will vary with your computer, and the number of samples/reads that you will be analyzing. General run times will probably be around ~4 hours, on a standard computer, 96 samples with an average read depth of ~50,000 reads.</p>
-</div>
-<div id="data-analysis" class="section level1">
-<h1><span class="header-section-number">5</span> Data analysis</h1>
 <p>Once the analysis has completed, you will have a file called <code>nemabiome_results.summary</code>. You can open this file up and copy the contents into an Excel workbook to properly view the data.</p>
+</div>
+<div id="downloads" class="section level2">
+<h2>Download list</h2>
+<div id="example-files" class="section level3">
+<h3>Example files:</h3>
+<ul>
+<li>Example MiSeq data files - download and unzip all three files
+<ul>
+<li><a href="downloads/Fastq_files_set1.zip" download>Set 1</a></li>
+<li><a href="downloads/Fastq_files_set2.zip" download>Set 2</a></li>
+<li><a href="downloads/Fastq_files_set3.zip" download>Set 3</a></li>
+</ul></li>
+<li>Sample list
+<ul>
+<li><a href = "downloads/nemabiome.files" download>nemabiome.files</a></li>
+</ul></li>
+<li>Example of results
+<ul>
+<li><a href = "downloads/example_nemabiome_results.txt" download>example_nemabiome_results.txt</a></li>
+</ul></li>
+</ul>
+</div>
+<div id="files-necessary-for-all-analysis" class="section level3">
+<h3>Files necessary for all analysis</h3>
+<ul>
+<li><a href="downloads/batchfile.txt" download>Mothur batch file</a></li>
+<li><a href="downloads/nematode_taxonomy.tax" download>Nematode taxonomy file</a></li>
+<li><a href="downloads/nematode_ITS2_database_version1.fasta" download>Nematode ITS2 database version 1</a></li>
+</ul>
+</div>
+</div>
 </div>
 
    </div> <!-- articleBandContent -->
@@ -446,16 +338,19 @@ sample3 sample3_S3_L001_R1_001.fastq     sample3_S3_L001_R2_001.fastq
  
 
 <footer class="footer">
-  <div class="container">
-  	<div class="row">
-    	<p class="col-md-4 text-muted">Copyright &copy; Gilleard Lab</p>
-  	</div>
-  </div>
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container">
+	    <div class="col-sm-12 text-center navbar-text">
+	        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+    				<img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    		</a>
+    		This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+	    </div>
+	  </div>
+	</nav>
 </footer>
 
 
-</div>
-</div>
 
 </div>
 

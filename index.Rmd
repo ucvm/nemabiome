@@ -36,8 +36,8 @@ output: html_document
 				be known Flatland, tendrils of gossamer clouds and billions upon billions upon 
 				billions upon billions upon billions upon billions upon billions.
 			</p>
-			<a class="btn btn-primary btn-lg" href="bench.html" role="button">
-				Get started on your protocol!
+			<a class="btn btn-primary btn-lg" href="overview.html" role="button">
+				Read more!
 			</a>
 		</div>
 		<div class="col-md-4">

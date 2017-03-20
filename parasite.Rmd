@@ -1,0 +1,23 @@
+---
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+library(dplyr)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+options(knitr.table.format = "html") 
+```
+
+# Parasite Protocols {.tabset .tabset-pills .tabset-fade}
+
+## Overview
+
+
+## Cattle
+
+
+## Sheep
+
+
+## Horse

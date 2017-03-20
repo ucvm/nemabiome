@@ -1,22 +1,16 @@
 ---
-title: "Analysis Protocols"
-output:
-  html_document:
-    number_sections: yes
-    toc: yes
-    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-
+# Analysis Protocols {.tabset .tabset-pills .tabset-fade}
 
 Once you have generated the data from the MiSeq you must complete the following steps in order to analyze the data.
 
 
-# Downloading analysis software
+## Software Requirements
 
 The primary software used for analysis is Mothur. This program is command line based, and will require you to type simple commands into either Terminal (Mac) or Command Prompt (Windows).
 
@@ -34,9 +28,9 @@ You have done it correctly.
 </div>
 </div>
 
-# Preparing files for analysis
+## Preparing files for analysis
 
-## Downloading sequencing data files from BaseSpace
+### Downloading sequencing data files from BaseSpace
 
 To download the sequencing fields from BaseSpace. Go to https://basespace.illumina.com/home/index, log-in, and navigate to your sequencing run. Click “Download” and select “All FASTQ files for this run”. Then click “Download your files”. BaseSpace uses the “BaseSpace Downloader” to download your files. If you have not previously downloaded this program, you must download it at this time. Select the location to download your files.
 
@@ -53,7 +47,7 @@ Create a folder on your home directory with the name of your sequencing run (for
 
 Once the files have been moved, the files must be unzipped/uncompressed. This can be done with the Archive Utility on a Mac and any file compression software, such as WinZip, on a PC. Make sure you unzip your files into the folder that you have created (i.e. “Miseq_Run”)
 
-## Create sample list
+### Create sample list
 
 You will need to create a file that contains the name of your sample, and specifies which files correspond to this sample. This will tell the program which files to analyze for each particular sample. You can download the file “stability.files” in the Downloads section for an example of what this file must look like. Each line in this file represents a single sample that must be analyzed. The first column is the sample name, the second column is the file name for the forward read file, and the third column is the name of the reverse read file. Each column is separated by a single tab.   An example is also listed below.
 
@@ -68,13 +62,13 @@ sample3	sample3_S3_L001_R1_001.fastq	 sample3_S3_L001_R2_001.fastq
 
 Sample names may vary between different Illumina platforms, so please check the names of your downloaded files, to ensure the file names are correct. Please name this file as “stability.files”, with the “.files” file extension. Place this file in your folder that you created for analysis. This is the only file that you will need to create from scratch for this analysis, if you use the provided files.
 
-# Download analysis files
+### Download analysis files
 
-Download the analysis files `nematode_ITS2_database_version1.fasta`,  `nematode_taxonomy.tax` and `batchfile.txt` from the [downloads](examples.html#Dowloads) section. Place these files in the folder that contains your sequencing data (i.e. 'MiSeq_Run')
+Download the analysis files [ITS2 database version 1](downloads/nematode_ITS2_database_version1.fasta),  [nematode taxonomy file](downloads/nematode_taxonomy.tax) and [mothur batchfile](downloads/batchfile.txt). Place these files in the folder that contains your sequencing data (i.e. 'MiSeq_Run')
 
 For a standard application do not make any changes to these files. If you are aware of the number of processors that your computer has, open up the `batchfile.txt` file, go to the first line and change the parameter “processors” from “processors=2” to the number of processors in your computer. 
 
-# Running analysis
+## Running analysis
 
 Once all files have been downloaded, open up Terminal or Command Prompt. You will then need to navigate to the folder you created, which can be done using the “cd” command. If you created your analysis folder in your home directory type:
 
@@ -100,5 +94,27 @@ C:\mothur\mothur.exe C:\MiSeq_Run\batchfile.txt
 
 This will launch Mothur, and begin to complete the commands that are contained within the batchfile. You will need to leave your computer open and running while the analysis completes. The amount of time that it will take to run will vary with your computer, and the number of samples/reads that you will be analyzing. General run times will probably be around ~4 hours, on a standard computer, 96 samples with an average read depth of ~50,000 reads.
 
-# Data analysis
+
 Once the analysis has completed, you will have a file called `nemabiome_results.summary`. You can open this file up and copy the contents into an Excel workbook to properly view the data. 
+
+
+## Download list {#downloads}
+
+### Example files:
+
+* Example MiSeq data files - download and unzip all three files
+	- <a href="downloads/Fastq_files_set1.zip" download>Set 1</a>
+	- <a href="downloads/Fastq_files_set2.zip" download>Set 2</a>
+	- <a href="downloads/Fastq_files_set3.zip" download>Set 3</a>
+
+* Sample list
+	- <a href = "downloads/nemabiome.files" download>nemabiome.files</a>
+
+* Example of results
+	- <a href = "downloads/example_nemabiome_results.txt" download>example_nemabiome_results.txt</a>
+
+### Files necessary for all analysis
+
+* <a href="downloads/batchfile.txt" download>Mothur batch file</a>
+* <a href="downloads/nematode_taxonomy.tax" download>Nematode taxonomy file</a>
+* <a href="downloads/nematode_ITS2_database_version1.fasta" download>Nematode ITS2 database version 1</a>

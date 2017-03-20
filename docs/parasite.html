@@ -183,24 +183,11 @@ $(document).ready(function () {
 				
 				<li>
 					<a href="overview.html">
-						<span class="ion ion-bug"></span>
+						<span class="ion ion-map"></span>
     				Overview
 					</a>
 				</li>
-<!--				
-				<li class="dropdown">
-  				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    					<span class="ion ion-bug"></span>
-    					Parasite
-     					<span class="caret"></span>
-     			</a>
-  				<ul class="dropdown-menu" role="menu">
-    				<li><a href="#">Cattle</a></li>
-    				<li><a href="#">Sheep</a></li>
-    				<li><a href="#">Horse</a></li>
-  				</ul>
-				</li>
--->		
+	
 				<li class="dropdown">
   				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     				<span class="ion ion-erlenmeyer-flask"></span>
@@ -208,59 +195,29 @@ $(document).ready(function () {
      				<span class="caret"></span>
      			</a>
   				<ul class="dropdown-menu" role="menu">
-  					<li class="dropdown-header">Parasite</li>
-      			<li><a href="#">Cattle</a></li>
-    				<li><a href="#">Sheep</a></li>
-    				<li><a href="#">Horse</a></li>
-    				<li role="separator" class="divider"></li>
-            <li class="dropdown-header">Sequencing</li>
-   					<li><a href="1_template.html">Template preparation</a></li>
-    				<li><a href="2_library_prep.html">Library preparation</a></li>
-    				<li><a href="3_library_quant.html">Library Quantification</a></li>
-    				<li><a href="4_denaturation_loading.html">Denanuration and Loading</a></li>
-    				<li role="separator" class="divider"></li>
-            <li class="dropdown-header">Analysis</li>
-            <li><a href="#">Overview</a></li>
-    				<li><a href="#">Template</a></li>
-    				<li><a href="#">Downloads</a></li>
+      			<li><a href="parasite.html">Parasite</a></li>
+   					<li><a href="bench.html">Sequencing</a></li>
+            <li><a href="analysis.html">Analysis</a></li>
   				</ul>
 				</li>
-<!--				
-				<li class="dropdown">
-  				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    					<span class="ion ion-pie-graph"></span>
-    					Analysis
-     					<span class="caret"></span>
-     			</a>
-  				<ul class="dropdown-menu" role="menu">
-    				<li><a href="#">Overview</a></li>
-    				<li><a href="#">Template</a></li>
-    				<li><a href="#">Downloads</a></li>
-  				</ul>
-				</li>			
--->				
+			
 				<li>
 					<a href="examples.html">
-						<span class="ion ion-ios-pie-outline"></span>
+						<span class="ion ion-pie-graph"></span>
 						Worked Example
 					</a>
 				<li>
-		<!--
-					<a href="downloads.html">
-						<span class="ion ion-ios-download-outline"></span>
-						Downloads
-					</a>
-		-->
+
 				</li>
 				<li>
   				<a href="citation.html">
-						<span class="ion ion-ios-book-outline"></span>
+						<span class="ion ion-document-text"></span>
     		    Citation
   				</a>
 				</li>
 				<li>
   				<a href="about.html">
-    				<span class="ion ion-ios-information-outline"></span>
+    				<span class="ion ion-information-circled"></span>
     		    About
   				</a>
 				</li>
@@ -281,32 +238,20 @@ $(document).ready(function () {
 </div>
 
 
-<div id="example-files" class="section level2">
-<h2>Example files:</h2>
-<ul>
-<li>Example MiSeq data files - download and unzip all three files
-<ul>
-<li><a href="downloads/Fastq_files_set1.zip">Set1</a></li>
-<li><a href="downloads/Fastq_files_set2.zip">Set2</a></li>
-<li><a href="downloads/Fastq_files_set3.zip">Set3</a></li>
-</ul></li>
-<li>Sample list
-<ul>
-<li><a href="downloads/nemabiome.files">nemabiome.files</a></li>
-</ul></li>
-<li>Example of results
-<ul>
-<li><a href="downloads/example_nemabiome_results.txt">example_nemabiome_results.txt</a></li>
-</ul></li>
-</ul>
+<div id="parasite-protocols" class="section level1 tabset tabset-pills tabset-fade">
+<h1>Parasite Protocols</h1>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
 </div>
-<div id="files-necessary-for-all-analysis" class="section level2">
-<h2>Files necessary for all analysis</h2>
-<ul>
-<li><a href="downloads/batchfile.txt">Mothur batch file</a></li>
-<li><a href="downloads/nematode_taxonomy.tax">Nematode taxonomy file</a></li>
-<li><a href="downloads/nematode_ITS2_database_version1.fasta">Nematode ITS2 database version 1</a></li>
-</ul>
+<div id="cattle" class="section level2">
+<h2>Cattle</h2>
+</div>
+<div id="sheep" class="section level2">
+<h2>Sheep</h2>
+</div>
+<div id="horse" class="section level2">
+<h2>Horse</h2>
+</div>
 </div>
 
    </div> <!-- articleBandContent -->
@@ -314,11 +259,16 @@ $(document).ready(function () {
  
 
 <footer class="footer">
-  <div class="container">
-  	<div class="row">
-    	<p class="col-md-4 text-muted">Copyright &copy; Gilleard Lab</p>
-  	</div>
-  </div>
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container">
+	    <div class="col-sm-12 text-center navbar-text">
+	        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+    				<img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    		</a>
+    		This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+	    </div>
+	  </div>
+	</nav>
 </footer>
 
 
