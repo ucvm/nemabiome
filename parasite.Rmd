@@ -11,13 +11,92 @@ options(knitr.table.format = "html")
 
 # Parasite Protocols {.tabset .tabset-pills .tabset-fade}
 
-## Overview
+## Cattle and Horse
 
+### Copra culture of L3 worms
 
-## Cattle
+#### Reagents required:
+* fresh fecal samples
+* Horticultural vermiculite
+* wooden tongue depressors
+* drinking glasses (7 oz, straight-sided glass with smooth rim)
+* incubator
+* plastic petri-dishes (60mm and 90mm diameter petri dishes)
+* suction pump
+* tap water
+* spray bottle
+* paper towel
+* 1.5 ml screw-top tubes
+* Mol. grade ethanol (95-100%)
 
+#### Set-up 
+
+1.	Label side of drinking glass with date of set-up and sample ID number. Also write the same ID number on the bottom of the glass.
+2.	Weigh-out 50 g of faecal sample and place in labelled glass using spatula or wooden tongue depressor.  
+
+*The quantity of fecal sample per glass can be varied depending on whats available (10-80g) as long as this is noted down and is consistent between samples to be compared*  
+
+3.	Add approximately equal amounts of vermiculite onto of sample and spray with enough tap water to bind.
+4.	Use tongue depressor to mix faecal sample with vermiculite and spray with more water until correct consistency obtained. 
+
+*It should not be too runny or too dry!*
+
+5.	Push mixture down to bottom of glass and make a hole in the middle of mixture with tongue depressor, pressing mixture to sides of glass.
+6.	Wipe around top of glass with paper towel to remove fecal material from the rim of the glass.
+7.	Roll-up and twist small strips of paper towel and place one over rim of glass. This will allow ventilation when a plastic petri dish (90 mm diameter) is placed over the top of glass.
+8.	Place glasses on tray and note down the date they are due to be harvested. This will be 21 days from the day of set-up if placed in incubator at $25\,^{\circ}{\rm C}$.
+9.	Every 3-4 days spray samples with tap water to keep them moist.
+
+#### Harvest 
+
+10.	Add warm tap water to the very top of each glass. Wait for air bubbles to subside.
+11.	Place plastic petri dish (90 mm diameter) on top and carefully invert. It is best to avoid big pockets of air.
+12.	Add warm water to inverted petri dish and leave for a  minimum of 4 hours (or overnight) for L3s to swim out of mixture in glass and into the clean water of the petri-dish.
+13.	Use plastic Pasteur pipette to collect water (hopefully containing the L3s!) from the petri dish and place into a smaller petir dish (60 mm diameter) to allow examination under an inverted microscope.
+14.	Count or estimate number of L3s present. 
+15.	Transfer water containing L3s to a 15 ml falcon tube and allow to settle at $4\,^{\circ}{\rm C}$ for 1 hour.
+16.	Set the centrifuge to $0\,^{\circ}{\rm C}$ and spin L3s at 4500 G for 5 min.
+17.	Remove/discard supernatant down to 1.5 ml with suction pump.
+18.	Transfer to 1.5 ml screww-top microtube and Spin at 13000 G for 3 min to pellet worms.
+19. Remove supernatent with pipette down to 300 $\mu$l.
+20. Add 700 $\mu$l of 95-100% mol grade ethanol to fix the L3s.
+21. Label tube and store at $4\,^{\circ}{\rm C}$ until needed.
 
 ## Sheep
 
+### Culture of L1 worms
 
-## Horse
+#### Reagents required:
+* 50 ml falcon tubes
+* 1.5 ml screw-top tubes
+* 13% NaCl (w/v, sp gravity 1.06)
+* Beaker
+* Kitchen sieve
+* Wooden tongue depressors
+* Mol Grade ethanol (95-100%)
+* 20 $\mu$l mesh testing sieve
+
+
+#### Method 
+
+1.	Take 24 g of fecal sample, place in beaker and add 100 ml 13% NaCl. Homogenise with tongue depressor. 
+2. Pour suspension over coarse kitchen sieve, collect egg-containing flow-through and aliquot to 4 separate 50 ml falcon tubes (so there is 25 ml in each).
+
+*If egg counts are low the amount of sample used and the number of tubes can be increased. We have found that we are getting approx. 30-40% of eggs back using this procedure. So with a FEC of 50 epg we use 72 g fecal sample, 300 ml 13% NaCl and 12 tubes to guarantee 1000 eggs.*
+
+3.	Centrifuge at 3600 G at room temp for 5 min. The eggs will float. Pour egg-containing supernatant into another 50 ml tube. 
+4.	Add equal-volume of tap water.
+5.	Mix and spin again at same speed for 5 min. The eggs should pellet. Remove/discard supernatant. 
+6.	Add 25 ml 13% NaCl to each tube to re-suspend pellet. Repeat steps 3-5.
+7.	Re-suspend pellet in 25 ml of water per tube and pour through the pre-wetted 20 $\mu$m sieve into the sink. Eggs will be trapped in the sieve.  Wash the eggs vigorously with water to remove remaining salt solution.
+*(They don't like salt!).*
+8.	Flush the eggs to one corner of the 20 $\mu$m sieve, and use the wash bottle with tap water to rinse them into a fresh 90 mm diameter petri dish (with lid).  
+
+*Wash the sieve well between samples to avoid cross-contamination between samples.*
+
+9.	Place eggs in incubator for L1s to hatch at $24\,^{\circ}{\rm C}$ for 24-48 hours. Estimate egg hatch rate by counting the number of eggs and L1s in an aliquot or a field of vision down a microscope.   
+
+*Check egg hatch-rate after 24 hours but can be left for 48 hours to achieve maximum egg hatch. Top-up water if evaporation is a big problem.*
+
+10.	Spin suspension of L1s in 15 ml falcon tube, remove supernatant down to 300 $\mu$l. Add 700 $\mu$l of 95-100% mol grade ethanol to fix L1s and transfer to 1.5 ml screwtop tube. Write details on tube and store at $4\,^{\circ}{\rm C}$ until needed.
+
