@@ -72,6 +72,12 @@ data_frame("volume ($\\mu$l)" = c("2500", "500", "125", "225", "225", "250"),
 
 ### Amplication of ITS-2 region 
 
+<figure>
+<img class="img-responsive" alt="primer image" src="images/primers.png" width="600">
+<figcaption>Diagram of primer hybridization</figcaption>
+</figure>
+<br>
+
 #### Reagents required
 
 * Kapa HiFi Hotstart PCR kit with dNTPs (Kapa Biosystems, KK2502)

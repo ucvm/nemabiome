@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Citation
 
-If you use any of the described protocols in your work we kindly ask that you cite the following journal article:
+If you use any of the described protocols in your work we kindly ask that you credit this website as well as cite the following journal article:
 
 Avramenko RW, Redman EM, Lewis R, Yazwinski TA, Wasmuth JD, Gilleard JS. *Exploring the Gastrointestinal “Nemabiome”: Deep Amplicon Sequencing to Quantify the Species Composition of Parasitic Nematode Communities.* PLoS ONE. **2015;10:** e0143559. doi: 10.1371/journal.pone.0143559 <a target="_blank" href=downloads/journal.pone.0143559.PDF>PDF</a>
 
