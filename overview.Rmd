@@ -8,68 +8,13 @@ output: html_document
 
 <p>Orion's sword hearts of the stars prime number, dream of the mind's eye the ash of stellar alchemy descended from astronomers brain is the seed of intelligence consectetur adipisicing elit birth venture the only home we've ever known astonishment birth consectetur adipisicing elit emerged into consciousness, a mote of dust suspended in a sunbeam. Tunguska event hundreds of thousands quasar a mote of dust suspended in a sunbeam? Light years tingling of the spine! Laws of physics emerged into consciousness made in the interiors of collapsing stars consectetur adipisicing elit and billions upon billions upon billions upon billions upon billions upon billions upon billions!</p>
 
-<img class="img-responsive center-block" alt="overview image" src="images/overview.png"/>
+<img class="img-responsive center-block" alt="overview image" src="images/overview.png" usemap="#image-map"/>
 
-<div class="row">
-
-	<div class="col-md-4">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<a href ="parasite.html">
-					<h3 class="panel-title">Parasite</h3>
-				</a>
-			</div>
-			<div class="panel-body">
-				<p>
-					Donskoy ragdoll siamese but british shorthair but munchkin for donskoy. 
-					Russian blue puma but grimalkin so cheetah tom. Tomcat munchkin. Savannah. 
-					Havana brown leopard havana brown yet lion but bengal panther.
-				</p>
-			</div>
-		</div>
-	</div>
-	
-	<div class="col-md-4">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<a href="bench.html">
-					<h3 class="panel-title">Sequencing</h3>
-				</a>
-			</div>
-			<div class="panel-body">
-				<p>
-					Ancient alien mystery cover up contend Easter island Vymaanika-Shaastra, 
-					Nazca lines Machu Picchu contend gods mainstream archaelogy, star gates 
-					SETI ancient alien theorists ancient alien theorists. Mayan golden disk ancient god, 
-					cover up star gates burmuta triangle, sightings. The answer is a resounding YES... 
-					Choral castle, space travel technology Mayan.
-					</p>
-			</div>
-		</div>
-	</div>	
-	
-	<div class="col-md-4">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<a href="analysis.html">
-					<h3 class="panel-title">Analysis</h3>
-				</a>
-			</div>
-			<div class="panel-body">
-				<p>
-					Single origin espresso beans kopi-luwak latte frappuccino cream aged. 
-					Rich eu roast foam, cream roast seasonal dripper café au lait. 
-					Turkish cultivar, decaffeinated at, spoon bar robusta white to go black 
-					body grinder. Doppio ristretto variety crema, strong and cultivar 
-					acerbic cinnamon.
-				</p>
-			</div>
-		</div>
-	</div>	
-	
-</div>
-
-
-
+<map name="image-map">
+    <area target="" alt="Parasite material preparation" title="Parasite material preparation" href="parasite.html" coords="30,65,155,104" shape="rect">
+    <area target="" alt="Library preparation" title="Library preparation" href="bench.html" coords="162,66,322,102" shape="rect">
+    <area target="" alt="Bioinformatic analysis" title="Bioinformatic analysis" href="analysis.html" coords="327,63,490,101" shape="rect">
+    <area target="" alt="Initial Interpretation" title="Initial Interpretation" href="#" coords="497,65,660,102" shape="rect">
+</map>
 
 <!--/html_preserve-->
