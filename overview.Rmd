@@ -6,15 +6,69 @@ output: html_document
 
 <h1>Overview</h1>
 
-<p>Orion's sword hearts of the stars prime number, dream of the mind's eye the ash of stellar alchemy descended from astronomers brain is the seed of intelligence consectetur adipisicing elit birth venture the only home we've ever known astonishment birth consectetur adipisicing elit emerged into consciousness, a mote of dust suspended in a sunbeam. Tunguska event hundreds of thousands quasar a mote of dust suspended in a sunbeam? Light years tingling of the spine! Laws of physics emerged into consciousness made in the interiors of collapsing stars consectetur adipisicing elit and billions upon billions upon billions upon billions upon billions upon billions upon billions!</p>
+<p>Orion's sword hearts of the stars prime number, dream of the mind's eye the ash of stellar alchemy descended from astronomers brain is the seed of intelligence consectetur adipisicing elit birth venture the only home we've ever known astonishment birth consectetur adipisicing elit emerged into consciousness, a mote of dust suspended in a sunbeam. Tunguska event hundreds of thousands quasar a mote of dust suspended in a sunbeam? Light years tingling of the spine! Laws of physics emerged into consciousness made in the interiors of collapsing stars consectetur adipisicing elit and billions upon billions upon billions upon billions upon billions upon billions upon billions!</h6>
 
-<img class="img-responsive center-block" alt="overview image" src="images/overview.png" usemap="#image-map"/>
-
-<map name="image-map">
-    <area target="" alt="Parasite material preparation" title="Parasite material preparation" href="parasite.html" coords="30,65,155,104" shape="rect">
-    <area target="" alt="Library preparation" title="Library preparation" href="bench.html" coords="162,66,322,102" shape="rect">
-    <area target="" alt="Bioinformatic analysis" title="Bioinformatic analysis" href="analysis.html" coords="327,63,490,101" shape="rect">
-    <area target="" alt="Initial Interpretation" title="Initial Interpretation" href="#" coords="497,65,660,102" shape="rect">
-</map>
+<div class="row">
+	<div class="col-sm-3">
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <a class="panel-title" href="parasite.html">Parasite preparation</a>
+		  </div>
+		  <div class="panel-body">
+		  	<ul class="list-unstyled">
+		  		<li><h6 class="text-left">Culture parasite material</h6></li>
+		  		<li><h6 class="text-left">Prepare DNA lysates</h6></li>
+		  	</ul>
+		  </div>
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <a class="panel-title" href="bench.html">Library preparation</a>
+		  </div>
+		  <div class="panel-body">
+		  	<ul class="list-unstyled">
+		  		<li><h6 class="text-left">Amplify ITS-2 region and add adaptors</h6></li>
+		  		<li><h6 class="text-left">Add Illumina barcodes</h6></li>
+		  		<li><h6 class="text-left">Make normalized library and quantify</h6></li>
+		  		<li><h6 class="text-left">Prepare and denature library</h6></li>
+		  		<li><h6 class="text-left">Load library onto MiSeq instrument</h6></li>
+		  	</ul>
+		  </div>
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <a class="panel-title" href="analysis.html">Bioinformatic Analysis</a>
+		  </div>
+		  <div class="panel-body">
+		  	<ul class="list-unstyled">
+			  	<li><h6 class="text-left">Download software and analysis files</h6></li>
+			  	<li><h6 class="text-left">Download sequence data from Basespace</h6></li>
+			  	<li><h6 class="text-left">Create sample list</li>
+			  	<li><h6 class="text-left">Run analysis</li>
+			  </ul>
+		  </div>
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <a class="panel-title" href="#">Interpretation of results</a>
+		  </div>
+		  <div class="panel-body">
+		  	<ul class="list-unstyled">
+			  	<li><h6 class="text-left">Visualize raw read count data in spreadsheet</h6></li>
+			  	<li><h6 class="text-left">Quality control of raw read count data</h6></li>
+			  	<li><h6 class="text-left">Correction for PCR bias</h6></li>
+			  	<li><h6 class="text-left">Calculate the percentagage of each species</h6></li>
+			  	<li><h6 class="text-left">Graphical visualization of species proportion data</h6></li>
+		  	</ul>
+		  </div>
+		</div>
+	</div>
+</div>
 
 <!--/html_preserve-->
