@@ -12,7 +12,10 @@ output: html_document
 	<div class="col-sm-3">
 		<div class="panel panel-primary">
 		  <div class="panel-heading">
-		    <a class="panel-title" href="parasite.html">Parasite preparation</a>
+		    <a class="panel-title" href="parasite.html">
+    			<span class="ion ion-bug"></span>
+		    	Parasite preparation
+		    </a>
 		  </div>
 		  <div class="panel-body">
 		  	<ul class="list-unstyled">
@@ -25,7 +28,10 @@ output: html_document
 	<div class="col-sm-3">
 		<div class="panel panel-primary">
 		  <div class="panel-heading">
-		    <a class="panel-title" href="bench.html">Library preparation</a>
+		    <a class="panel-title" href="bench.html">
+    			<span class="ion ion-erlenmeyer-flask"></span>
+		    	Library preparation
+		    </a>
 		  </div>
 		  <div class="panel-body">
 		  	<ul class="list-unstyled">
@@ -41,7 +47,10 @@ output: html_document
 	<div class="col-sm-3">
 		<div class="panel panel-primary">
 		  <div class="panel-heading">
-		    <a class="panel-title" href="analysis.html">Bioinformatic Analysis</a>
+		    <a class="panel-title" href="analysis.html">
+		    	<span class="ion ion-monitor"></span>
+		    	Bioinformatic Analysis
+		    </a>
 		  </div>
 		  <div class="panel-body">
 		  	<ul class="list-unstyled">
@@ -56,7 +65,10 @@ output: html_document
 	<div class="col-sm-3">
 		<div class="panel panel-primary">
 		  <div class="panel-heading">
-		    <a class="panel-title" href="#">Interpretation of results</a>
+		    <a class="panel-title" href="interpretation.html">
+    			<span class="ion ion-stats-bars"></span>
+		    	Interpretation of results
+		    </a>
 		  </div>
 		  <div class="panel-body">
 		  	<ul class="list-unstyled">

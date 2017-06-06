@@ -433,3 +433,22 @@ Cycles kept low to limit potential bias
       v) remove old flow cell from machine and place new one into position
 7. Load incorporation buffer and empty waste bottle into position and lower sippers
 8. Load cartridge and csv sample sheet file
+
+
+
+<!--html_preserve-->
+<script type="text/javascript">
+	$(function() {
+  	// Javascript to enable link to tab
+    var hash = document.location.hash;
+    if (hash) {
+      console.log(hash);
+      $('.nav-tabs a[href="'+hash+'"]').tab('show');
+    }
+    // Change hash for page-reload
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+      window.location.hash = e.target.hash;
+  	});
+	});
+</script>
+<!--/html_preserve-->
