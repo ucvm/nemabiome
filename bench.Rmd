@@ -13,61 +13,6 @@ options(knitr.table.format = "html")
 
 Download a pdf of all the protocols for printing <a href="downloads/sequencing_protocols.pdf">here</a>
 
-## Template preparation
-
-### Reagents required
-
-* lysis buffer (Made in-house, see recipe below)
-* proteinase K (20 mg/ml)
-* thermomixer
-* 1.5 ml eppendorf tubes   
-
-
-```{r}
-
-data_frame("volume ($\\mu$l)" = c("2500", "500", "125", "225", "225", "250"),
-					 "stock Reagent" = c( "1M KCl", "1M Tris (pH 8.3)", 
-					 			"1M MgCl$_2$", "Nonidet p-40", "Tween-20", "2\\% gelatin"),
-					 "concentration in lysis buffer" = c( "50mM KCl", "10mM Tris (pH 8.3)", 
-					 	"2.5mM MgCl$_2$", "0.45\\% Nonidet p-40", "0.45\\% Tween-20", "0.01\\% gelatin")
-) %>% 
-	kable(booktabs = TRUE, escape = FALSE, caption = "Lysis buffer (Total vol 50ml)") %>% 
-	kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-								latex_options = c("striped" ),
-								full_width = FALSE, position = "left") %>% 
-	add_footnote(c("Make-up to 50 ml with mol grade water. Autoclave, aliquot and store at -20"),
-							 notation = "symbol")
-```
-
-
-
-
-### Protocol 
-
-1. UV treat plasticware and mol grade water for 15 min
-2. Transfer 1000 ethanol-fixed L3s (or L1s or eggs) to 1.5 ml tube
-3. Add lysis buffer to achieve a vol 1.4 ml and incubate at room temp for 5 min
-4. Centrifuge at 13000 G for 4 min to pellet parasite material
-5. Remove and discard majority of supernatent (do not touch pellet)
-6. Add 1 ml lysis buffer and re-suspend pellet with pipet
-7. Repeat steps 4-6 twice more
-8. Centrifuge at 13000 G for 4min to pellet parasite material
-9. Remove and discard supernatant to leave approx 100 $\mu$l
-10. Re-suspend pellet and add another 50 $\mu$l of lysis buffer
-
-11. If lysing L3s place on thermomixer for 15 min at 95 with shaking (1000 RPM)  
-*This helps with the break down of the L3s tough outer sheath*
-
-12. Place at $-80\,^{\circ}{\rm C}$ for a min of 1hour to allow ice crystals to help with the degradation process
-13. Allow to de-frost on ice
-14. Add 6 $\mu$l Proteniase K (20 mg/ml) to each sample to achieve a final conc of 0.8 mg/ml in 150 $\mu$l
-15. Place on thermomixer at 55 for 120 min with shaking at 800 RPM followed by 20 min at 95 to denature the proteinase K
-16. Place directly on ice and make a 1:10 lysate dilution (with mol grade water) in a new tube for using as template for PCR 
-17. Store both lysate and lysate dilution at $-80\,^{\circ}{\rm C}$  
-*Storage at $-80\,^{\circ}{\rm C}$ is critical due to the crude nature of the DNA preparation as quality of template will degrade over time at $-10\,^{\circ}{\rm C}$*
-
-
-
 ## Library preparation
 
 ### Amplication of ITS-2 region 
@@ -81,7 +26,7 @@ data_frame("volume ($\\mu$l)" = c("2500", "500", "125", "225", "225", "250"),
 #### Reagents required
 
 * Kapa HiFi Hotstart PCR kit with dNTPs (Kapa Biosystems, KK2502)
-* 0. 2ml 96-well plates, clear, half-skirted (VWR, 83007-374)
+* 0.2ml 96-well plates, clear, half-skirted (VWR, 83007-374)
 * Microseal "A" film (Biorad, MSA-5001)
 * 1.5 ml tubes
 * 8-channel pipettor
@@ -124,7 +69,7 @@ data_frame(
 #### Protocol
 
 1. UV treat plasticware and mol grade water for 15 min prior to PCR set-up
-2. Combine 2.5 $\mu$l of each of the forward primers at stock concentration (100 nM) to 90 $\mu$l of mol grade water to achieve forward primer mix at 10nM working concentrationOn. Do the same for the reverse primers.
+2. Combine 2.5 $\mu$l of each of the forward primers at stock concentration (100 nM) to 90 $\mu$l of mol grade water to achieve forward primer mix at 10nM working concentration. Do the same for the reverse primers.
 3. On ice make-up Mastermix using forward and reverse primer mixes and the recipe below.
 4. Aliquot mastermix (21 $\mu$l) to each well of 96-well plate
 5. Add 4 $\mu$l template (lysate dilution) to wells using multi-channel pipettor
