@@ -1,4 +1,6 @@
 ---
+params:
+  table_format: html
 ---
 
 ```{r setup, include=FALSE}
@@ -6,10 +8,13 @@ library(knitr)
 library(kableExtra)
 library(dplyr)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE)
-options(knitr.table.format = "html") 
+options(knitr.table.format = params$table_format) 
 ```
 
 # Parasite Protocols {.tabset .tabset-pills .tabset-fade}
+
+
+Download a pdf of all the protocols for printing <a href="downloads/parasite.pdf">here</a>
 
 ## Cattle and Horse
 

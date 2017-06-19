@@ -28,7 +28,7 @@ output: html_document
 	<div class="col-sm-3">
 		<div class="panel panel-primary">
 		  <div class="panel-heading">
-		    <a class="panel-title" href="bench.html">
+		    <a class="panel-title" href="sequencing.html">
     			<span class="ion ion-erlenmeyer-flask"></span>
 		    	Library preparation
 		    </a>
