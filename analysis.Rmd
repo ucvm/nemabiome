@@ -22,6 +22,7 @@ To download Mothur go to [www.mothur.org](https://www.mothur.org/), click “Dow
 
 To check that you have placed the folder in the correct location, open up either Terminal (Mac) or Command Prompt (PC). Type `~/mothur/mothur` (Mac) or `C:\mothur\mothur.exe` (PC). If your screen looks similar to this:
 
+![](images/mothur_screenshot.png)
 
 You have done it correctly.
 
