@@ -160,3 +160,6 @@ data_frame("volume ($\\mu$l)" = c("2500", "500", "125", "225", "225", "250"),
 17. Store both lysate and lysate dilution at $-80\,^{\circ}{\rm C}$  
 *Storage at $-80\,^{\circ}{\rm C}$ is critical due to the crude nature of the DNA preparation as quality of template will degrade over time at $-20\,^{\circ}{\rm C}$*
 
+## Controls
+
+
