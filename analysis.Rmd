@@ -101,6 +101,6 @@ Once the analysis has completed, you will have a file called `nemabiome_results.
 
 ## Download list {#downloads}
 
-* <a href="downloads/batchfile.txt" download>Mothur batch file</a>
+* <a href="downloads/batchfile.txt" download="downloads/batchfile.txt">Mothur batch file</a>
 * <a href="downloads/nematode_taxonomy_1_3.tax" download>Nematode taxonomy file (version 1.3)</a>
 * <a href="downloads/nematode_ITS2_database_version1_3.fasta" download>Nematode ITS2 database version 1.3</a>
