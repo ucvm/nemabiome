@@ -15,9 +15,9 @@ This dataset contains 26 pooled strongyle worm samples collected from Brazilian 
 
 
 ### Example Miseq data files
-- <a href="downloads/Fastq_files_set1.zip" download>Set 1</a>
-- <a href="downloads/Fastq_files_set2.zip" download>Set 2</a>
-- <a href="downloads/Fastq_files_set3.zip" download>Set 3</a>
+- <a href="https://www.dropbox.com/s/xtwosyzfv9a6zrb/Fastq_files_set1.zip?dl=1">Set 1</a>
+- <a href="https://www.dropbox.com/s/ligdhzjtuc2597y/Fastq_files_set2.zip?dl=1">Set 2</a>
+- <a href="https://www.dropbox.com/s/sny2r4e2q4c59fl/Fastq_files_set3.zip?dl=1">Set 3</a>
 
 Also download the example file <a href = "downloads/nemabiome.files" download>nemabiome.files</a>. This file contains a list of the samples that we are analyzing, and specifies which files belong to each sample. From this you can generate your stability.files that should look like this.
 

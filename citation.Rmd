@@ -13,12 +13,13 @@ knitr::opts_chunk$set(echo = FALSE)
 
 Some more text describing how incredible and amazing this website is and how it will change forever the face of parasite research.
 
-## Authors
+## Contributors
 
 * The nemabiome concept and development of tools to study the nemabiome is done in the lab of John Gilleard
 * Bench protocols written by Elizabeth Redman
 * Analysis protocols written by Russell Avramenko
 * ITS2 database and taxonomy constructed by Russell Avramenko
+* Nemabiome logo design by Matilde Tonelli
 * Website built by Matthew Workentine
 
 
@@ -28,9 +29,7 @@ Some more text describing how incredible and amazing this website is and how it 
 
 If you use any of the described protocols in your work we kindly ask that you credit this website as well as cite the following journal article:
 
-Avramenko RW, Redman EM, Lewis R, Yazwinski TA, Wasmuth JD, Gilleard JS. *Exploring the Gastrointestinal “Nemabiome”: Deep Amplicon Sequencing to Quantify the Species Composition of Parasitic Nematode Communities.* PLoS ONE. **2015;10:** e0143559. doi: 10.1371/journal.pone.0143559 <a target="_blank" href=downloads/journal.pone.0143559.PDF>PDF</a>
-
+Avramenko RW, Redman EM, Lewis R, Yazwinski TA, Wasmuth JD, Gilleard JS. *Exploring the Gastrointestinal “Nemabiome”: Deep Amplicon Sequencing to Quantify the Species Composition of Parasitic Nematode Communities.* PLoS ONE. **2015;10:** e0143559. https://doi.org/10.1371/journal.pone.0143559
 
 ## Other relevant references
-
 
