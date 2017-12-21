@@ -37,22 +37,22 @@ A youtube video outlines the main steps involved with the initial manipulation o
 
 ### 1. Visualize raw read counts in excel spreadsheet
 
-The first step is to copy and paste the raw read counts into an excel spreadsheet. The fisrt three columns (rankID, taxon, daughterlevel) indicate the level of taxonomic classification. The fourth column (total) is the total number of reads assigned to that taxonomic level. The individual read counts for each sample begins in the 5th column and the sample name is given in the top row. To desplay reads soley assigned at the species level, delete all rows other than "taxlevel 12".
+The first step is to copy and paste the raw read counts into an excel spreadsheet. The first three columns (rankID, taxon, daughterlevel) indicate the level of taxonomic classification. The fourth column (total) is the total number of reads assigned to that taxonomic level. The individual read counts for each sample begins in the 5th column and the sample name is given in the top row. To display reads solely assigned at the species level, delete all rows other than “taxlevel 12”.
 
 ### 2. Filter raw read count data
 
-Delete rows that have very few total reads. These are very likely the result of background contamination. It is good standard practice to run blank sequencing controls alongside your experimental samples that can be used to assess the level of backgound  contamination. 
-In addition, rows that are "unclassied" at the species level also need to looked at critically. If the total read count for these unclassified species are high levels they may represent a species that is not present in the database. if the total read count is lower then the reads are probably the result of PCR/sequencing error and therefore needs removing from the dataset.
+Delete rows that have very few total reads. These are very likely the result of background contamination. The number of reads chosen as a minimum threshold will vary between laboratories and specific applications. It is advisable to run blank sequencing controls alongside your experimental samples that can be used to assess the level of background contamination. 
+In addition, rows that are “unclassified” at the species level also need to examined critically. If the total read count for these unclassified species are high then they may represent a species that is not present in the database. if the total read count is low (below the threshold that has been set), then the reads are probably the result of PCR/sequencing error and therefore need to be removed from the dataset.
 
 ### 3. Correction for PCR bias
 
-Not all species of worms amplify at the rate even though they may be present in the same proportions (see Avramenko et al., 2015 for a more comprehensive discussion of the issues involved). Thus correction factors have been estimated that can be used to correct for this amplification bias. Simply multiply the raw read count by the correction factor for each individual species.
+The efficiency of ITS-2 rDNA PCR amplification varies between species for a variety of different reasons (see Avramenko et al., 2015 for a more comprehensive discussion of the issues involved). Consequently, correction factors have been estimated that can be used to correct for this amplification bias. The correction factor that we have empirically determined for the major cattle and sheep species are provided below (from Avramenko et al 2017 and Redman et al, unpublished data). Simply multiply the raw read count by the correction factor for each individual species.
 
 #### Correction factors
 
 ##### **Cattle** 
 
-|Parsite species|Correction factor|
+|Parasite species|Correction factor|
 |:---|:---|
 |*Cooperia punctata*|2.7087|
 |*Cooperia oncophora*|1.1545|
@@ -62,7 +62,7 @@ Not all species of worms amplify at the rate even though they may be present in 
 
 ##### **Sheep**
 
-|Parsite species|Correction factor|
+|Parasite species|Correction factor|
 |:---|:---|
 |*Cooperia curticei*|1.6107|
 |*Teladorsagia circumcincta*|1.1885|

@@ -31,7 +31,7 @@ Download a pdf of all the protocols for printing <a href="downloads/sequencing.p
 * 0.2ml 96-well plates, clear, half-skirted (VWR, 83007-374)
 * Microseal "A" film (Biorad, MSA-5001)
 * 1.5 ml tubes
-* 8-channel pipettor
+* 8-channel pipetter
 * filter aerosol tips
 * mol grade water
 * thermocycler
@@ -74,7 +74,7 @@ data_frame(
 2. Combine 2.5 $\mu$l of each of the forward primers at stock concentration (100 nM) to 90 $\mu$l of mol grade water to achieve forward primer mix at 10nM working concentration. Do the same for the reverse primers.
 3. On ice make-up Mastermix using forward and reverse primer mixes and the recipe below.
 4. Aliquot mastermix (21 $\mu$l) to each well of 96-well plate
-5. Add 4 $\mu$l template (lysate dilution) to wells using multi-channel pipettor
+5. Add 4 $\mu$l template (lysate dilution) to wells using multi-channel pipetter
 6. Place microseal "A" film over completed plate and place on thermocycler (with pre-heated lid) and run the program below.  
 
 
@@ -119,16 +119,16 @@ data_frame("volume ($\\mu$l)" = c("5", "0.75", "0.75", "0.75", "0.5", "13.25", "
 * 96-well Magnetic-Ring stand (Applied biosystems, AM10050)
 * 0.8 ml 96-well storage plates (Thermo-Scientific, AB-0859)
 * 0.2 ml 96-well plate, clear, half-skirted (VWR, 83007-374)
-* 8-channel pipettors
+* 8-channel pipetters
 * Reagent reservoirs
-* abosolte ethanol (mol grade)  
-* mol grade water  
+* absolute ethanol (mol grade)  
+* mol. grade water  
 
 <div class="panel panel-info">
 <div class="panel-heading">Note</div>
 <div class="panel-body">
 
-*Filter aerosol pipette tipss and 8-channel pipettor used for majority of steps in this protocol. Also all quantities quoted are for clean-up of a full plate (96 samples)*  
+*Filter aerosol pipette tips and 8-channel pipetter used for majority of steps in this protocol. Also all quantities quoted are for clean-up of a full plate (96 samples)*  
 
 </div>
 </div>
@@ -137,21 +137,21 @@ data_frame("volume ($\\mu$l)" = c("5", "0.75", "0.75", "0.75", "0.5", "13.25", "
 1. Bring an aliquot of AMPure beads to room temp  
 2. Prepare fresh 80% ethanol from mol grade absolute ethanol (50 ml)   
 3. Centrifuge amplification plate to collect condensation (300 G for 2 min)  
-4. Remove seal from plate in bio-safety cabinet (if possible)  
+4. Remove seal from plate in biosafety cabinet (if possible)  
 5. Transfer the 25 $\mu$l reactions into 0.8 ml 96-well storage plates using multi-channel pipettor  
 6. Voretx beads for 30 sec to ensure even disperal before placing in reagent reservoir  
 7. Transfer 25 $\mu$l of beads to each well of the storage plate and gently pipet up and down 10 times to ensure the beads are well-mixed with the PCR sample  
 8. Incubate at room temp for 5 min  
 9. Place plate on magnetic stand for 2 min (or until supernatent has cleared)
 10. Once clear use multi-channel pipettor to remove and discard supernatent from the wells  
-11. With the plate still on the magnetic stand, wash beads with 80% ethanol by adding 200 $\mu$l to each well (using a multi-channel pipettor and a reagent reservoir). Do not re-suspend the beads at this point  
+11. With the plate still on the magnetic stand, wash beads with 80% ethanol by adding 200 $\mu$l to each well (using a multi-channel pipetter and a reagent reservoir). Do not resuspend the beads at this point  
 12. Incubate for 30 sec (or until clear) and then remove and discard supernatent  
 13. Wash again with another 200 $\mu$l of 80% ethanol. Incubate for 30 sec and then as before remove and discard supernatant.  
 14. Use a small volume single-channel pipettor (P20, with fine tips) to remove excess ethanol from each well  
 15. Allow beads to air-dry for 15 min  
 16. Remove plate from magnetic stand  
 17. Add 40 $\mu$l of mol grade water to each well with multi-channel pipettor and gently pipet up and down 10 times to re-suspend the beads  
-18. Incubate at room temp for 2 kmin  
+18. Incubate at room temp for 2 min  
 19. Place the plate back on the magnetic stand for 2 min (or until cleared)  
 20. Transfer approx 34 $\mu$l of the supernatent to a new 0.2 ml 96-well plate without touching the beads  
 21. A microseal "A" is placed over cleaned-up samples to allow temporary storage at $-20\,^{\circ}{\rm C}$  
@@ -221,18 +221,18 @@ data_frame(`Primer name` = c("N701_i7", "N702_i7", "N703_i7", "N704_i7", "N705_i
 
 #### Protocol
 1. UV pasticware and mol grade water for 15 min prior to PCR set-up
-2. On ice make-up Mastermix of water, buffer and dNTPs only (No polymerase or primers yet).
+2. On ice make-up Mastermix of water, buffer and dNTPs only (no polymerase or primers yet).
 3. Aliquot mastermix (19 $\mu$l) to each well of 96-well plate
 4. Add 1.25 $\mu$l forward primer to each well of the designated row (A-H, see table above).
 5. Add 1.25 $\mu$l reverse primer to each well of the designated column (1-12, see table above).
-5. Add 0.5 $\mu$l polyermase to each well
+5. Add 0.5 $\mu$l polymerase to each well
 6. Add 3 $\mu$l template (amplicons from the 1st round of PCR) to wells using multi-channel pipettor
 7. Place microseal "A" film over completed plate and place on thermocycler (with pre-heated lid) and run the program below.
 8. The resulting PCR products are cleaned-up using the magnetic bead purification protocol similiar to the 1st round of PCR (see section 3.2 above).
 
 
 ```{r}
-data_frame("volume ($\\mu$l)" = c("5", "1.25", "1.25", "0.75", "0.5", "13.25", "3"),
+data_frame("Volume ($\\mu$l)" = c("5", "1.25", "1.25", "0.75", "0.5", "13.25", "3"),
 					 Reagent = c("KAPA HiFi Buffer (x5)", "Forward primer, N501-508 (10mM)", 
 					 						"Reverse primer, N701-712 (10mM)", "dNTPs (10mM)", 
 					 						"KAPA HiFi Polymerase (0.5U)", "mol grade water", 
@@ -271,7 +271,7 @@ Cycles kept low to limit potential bias
 ### Reagents required: 
 * Illumina library Quantification Kit, Universal qPCR Mix (Kapa Biosystems, KK4824)
 * qPCR machine
-* Mol grade water
+* mol. grade water
 * 10 mM Tris-Hcl, pH 8 with 0.05% Tween-20
 * Multiplate PCR plate, low profile, clear, unskirted, (Biorad, MLL9601)
 * Microseal "B" seal (Biorad, MSB1001)
@@ -289,25 +289,25 @@ Cycles kept low to limit potential bias
 
 1. Dilute library (1:1000) with 10 mM Tris-Hcl, pH 8 with 0.05% Tween-20 in triplicate
 2. Using these 1:1000 dilutions set-up 1:2 serial dilutions to achieve 1:2000, 1:4000 and 1:8000 (keep in fridge until needed)
-3. Before using the Illumina library Quantification kit for the first time add 1ml of primer premix (x10) to the 5ml bottle of Sybr fast qPCR Master mix (x2) and mix well
+3. Before using the Illumina library quantification kit for the first time add 1ml of primer premix (x10) to the 5ml bottle of Sybr fast qPCR Master mix (x2) and mix well
 4. UV all plasticware and water for 15 min
 5. Prepare qPCR plate by adding:
      * 12 $\mu$l Sybr fast qPCR mastermix (with primers added)  
      * 4 $\mu$l mol grade water  
      * and either 4 $\mu$l diluted library, one of supplied standards (Standard 1-6) or another 4 $\mu$l of mol grade water to act as a negative control
 6. Place Microseal "B" seal over reactions
-6. Run on qPCR machine with the following cycling conditions:
-      95 for 5 min then 35 cycles of 95 for 30 sec and 60 for 45 sec
-7. Look at data to confirm 90-100% reaction efficiency for samples and for standards
-8. Calculate library quantification using absolute quantification against the 425 bp DNA standard
+7. Run on qPCR machine with the following cycling conditions:
+      $-95\,^{\circ}{\rm C}$ for 5 min then 35 cycles of $95\,^{\circ}{\rm C}$ for 30 sec and $60\,^{\circ}{\rm C}$ for 45 sec
+8. Look at data to confirm 90-100% reaction efficiency for samples and for standards
+9. Calculate library quantification using absolute quantification against the 425 bp DNA standard
 
 
 
-## Denanuration
+## Denaturation
 
 ### Reagents required
 
-* Mol. grade water
+* mol. grade water
 * 1.5 ml eppendorf tubes
 * Ice
 * 5 M NaOH
@@ -361,7 +361,7 @@ Cycles kept low to limit potential bias
 *Box 2, contains Flow cell and Incorporation buffer (RP2) - store at $4\,^{\circ}{\rm C}$*
 * water bath
 * tweezers
-* mol grade water in sequeezy bottle
+* mol grade water in squeezy bottle
 * kim wipes
 * ethanol wipes
 

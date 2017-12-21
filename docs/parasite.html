@@ -20,8 +20,8 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Roboto|Lobster" rel="stylesheet">
 
@@ -32,10 +32,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -253,12 +255,12 @@ $(document).ready(function () {
 <h2>Cattle and Horse</h2>
 <div id="coproculture-of-l3-worms" class="section level3">
 <h3>Coproculture of L3 worms</h3>
-<p>The Nemabiome assay generates proportional data for the presence of each species in a single sample. To ensure these proportions are accurate it is vital that all the worms in the sample reach the same stage of development and thus we prefer to work with either first (L1s) or third (L3s) stage larvae. The need to coproculture worms to the L3 stage is far from ideal as different species tend to develop in culture at different speeds depending on various environmental conditions e.g. the temperature, moisture content and can theoretically introduce bias into the species proportions. However, when we carried-out the experiment making the direct comparison between data produced from L1s compared to L3s very little difference was observed. Thus for sheep samples that typically have higher fecal egg count for individuals we prefer to work with L1s and for cattle and horses that typically have much lower fecal egg counts culturing of larvae to the third stage is preferable.</p>
+<p>The Nemabiome assay generates proportional data for the presence of each species in a single sample. To ensure these proportions are accurate it is vital that all the worms in the sample reach the same stage of development and thus we prefer to work with either first (L1s) or third (L3s) stage larvae. The need to coproculture worms to the L3 stage is far from ideal as different species tend to develop in culture at different speeds depending on various environmental conditions e.g. the temperature, moisture content and can theoretically introduce bias into the species proportions. However, when we carried-out the experiment making the direct comparison between data produced from L1s compared to L3s very little difference was observed. Thus for sheep samples that typically have higher faecal egg count for individuals we prefer to work with L1s and for cattle and horses that typically have much lower faecal egg counts culturing of larvae to the third stage is preferable.</p>
 <div id="reagents-required" class="section level4">
 <h4>Reagents required:</h4>
 <ul>
-<li>fresh fecal samples</li>
-<li>Horticultural vermiculite</li>
+<li>fresh faecal samples</li>
+<li>horticultural vermiculite</li>
 <li>wooden tongue depressors</li>
 <li>drinking glasses (7 oz, straight-sided glass with smooth rim)</li>
 <li>incubator</li>
@@ -268,7 +270,7 @@ $(document).ready(function () {
 <li>spray bottle</li>
 <li>paper towel</li>
 <li>1.5 ml screw-top tubes</li>
-<li>Molecular grade ethanol (100%, RNase/DNase free)</li>
+<li>molecular grade ethanol (100%, RNase/DNase free)</li>
 </ul>
 </div>
 <div id="set-up" class="section level4">
@@ -277,15 +279,15 @@ $(document).ready(function () {
 <li>Label side of drinking glass with date of set-up and sample ID number. Also write the same ID number on the bottom of the glass.</li>
 <li>Weigh-out 50 g of faecal sample and place in labelled glass using spatula or wooden tongue depressor.</li>
 </ol>
-<p><em>The quantity of fecal sample per glass can be varied depending on whats available (10-80g) as long as this is noted down and is consistent between samples to be compared</em></p>
+<p><em>The quantity of faecal sample per glass can be varied depending on whats available (10-80g) as long as this is noted down and is consistent between samples to be compared</em></p>
 <ol start="3" style="list-style-type: decimal">
-<li>Add approximately equal amounts of vermiculite onto of sample and spray with enough tap water to bind.</li>
+<li>Add approximately equal amounts of vermiculite onto sample and spray with enough tap water to bind.</li>
 <li>Use tongue depressor to mix faecal sample with vermiculite and spray with more water until correct consistency obtained.</li>
 </ol>
 <p><em>It should not be too runny or too dry!</em></p>
 <ol start="5" style="list-style-type: decimal">
 <li>Push mixture down to bottom of glass and make a hole in the middle of mixture with tongue depressor, pressing mixture to sides of glass.</li>
-<li>Wipe around top of glass with paper towel to remove fecal material from the rim of the glass.</li>
+<li>Wipe around top of glass with paper towel to remove faecal material from the rim of the glass.</li>
 <li>Roll-up and twist small strips of paper towel and place one over rim of glass. This will allow ventilation when a plastic petri dish (90 mm diameter) is placed over the top of glass.</li>
 <li>Place glasses on tray and note down the date they are due to be harvested. This will be 21 days from the day of set-up if placed in incubator at <span class="math inline">\(25\,^{\circ}{\rm C}\)</span>.</li>
 <li>Every 3-4 days spray samples with tap water to keep them moist.</li>
@@ -297,12 +299,12 @@ $(document).ready(function () {
 <li>Add warm tap water to the very top of each glass. Wait for air bubbles to subside.</li>
 <li>Place plastic petri dish (90 mm diameter) on top and carefully invert. It is best to avoid big pockets of air.</li>
 <li>Add warm water to inverted petri dish and leave for a minimum of 4 hours (or overnight) for L3s to swim out of mixture in glass and into the clean water of the petri-dish.</li>
-<li>Use plastic Pasteur pipette to collect water (hopefully containing the L3s!) from the petri dish and place into a smaller petir dish (60 mm diameter) to allow examination under an a dissecting or inverted microscope.</li>
+<li>Use a plastic pasteur pipette to collect water (hopefully containing the L3s!) from the petri dish and place into a smaller petir dish (60 mm diameter) to allow examination under an a dissecting or inverted microscope.</li>
 <li>Count or estimate number of L3s present.</li>
 <li>Transfer water containing L3s to a 15 ml falcon tube and allow to settle at <span class="math inline">\(4\,^{\circ}{\rm C}\)</span> for 1 hour.</li>
 <li>Set the centrifuge to <span class="math inline">\(0\,^{\circ}{\rm C}\)</span> and spin L3s at 4500 G for 5 min.</li>
-<li>Remove/discard supernatant down to 1.5 ml with suction pump.</li>
-<li>Transfer to 1.5 ml screw-top microtube and Spin at 13000 G for 3 min to pellet worms.</li>
+<li>Remove and discard supernatant down to 1.5 ml with suction pump.</li>
+<li>Transfer to 1.5 ml screw-top microtube and spin at 13000 G for 3 min to pellet worms.</li>
 <li>Remove supernatent with pipette down to 300 <span class="math inline">\(\mu\)</span>l.</li>
 <li>Add 700 <span class="math inline">\(\mu\)</span>l of 100% molecular grade ethanol to fix the L3s.</li>
 <li>Label tube and store at <span class="math inline">\(4\,^{\circ}{\rm C}\)</span> until needed.</li>
@@ -320,26 +322,26 @@ $(document).ready(function () {
 <li>50 ml falcon tubes</li>
 <li>1.5 ml screw-top tubes</li>
 <li>13% NaCl (w/v, sp gravity 1.06)</li>
-<li>Beaker</li>
-<li>Kitchen sieve</li>
-<li>Wooden tongue depressors</li>
-<li>Molecular Grade ethanol (100%, RNase/DNase free)</li>
+<li>beaker</li>
+<li>kitchen sieve</li>
+<li>wooden tongue depressors</li>
+<li>molecular grade ethanol (100%, RNase/DNase free)</li>
 <li>20 <span class="math inline">\(\mu\)</span>l mesh testing sieve</li>
 </ul>
 </div>
 <div id="method" class="section level4">
 <h4>Method</h4>
 <ol style="list-style-type: decimal">
-<li>Take 24 g of fecal sample, place in beaker and add 100 ml 13% NaCl. Homogenise with tongue depressor.</li>
+<li>Take 24 g of faecal sample, place in beaker and add 100 ml 13% NaCl. Homogenise with tongue depressor.</li>
 <li>Pour suspension over coarse kitchen sieve, collect egg-containing flow-through and aliquot to 4 separate 50 ml falcon tubes (so there is 25 ml in each).</li>
 </ol>
-<p><em>If egg counts are low the amount of sample used and the number of tubes can be increased. We have found that we are getting approx. 30-40% of eggs back using this procedure. So with a FEC of 50 epg we use 72 g fecal sample, 300 ml 13% NaCl and 12 tubes to guarantee 1000 eggs.</em></p>
+<p><em>If egg counts are low the amount of sample used and the number of tubes can be increased. We have found that we are getting approx. 30-40% of eggs back using this procedure. So with a FEC of 50 epg we use 72 g faecal sample, 300 ml 13% NaCl and 12 tubes to guarantee 1000 eggs.</em></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Centrifuge at 3600 G at room temp for 5 min. The eggs will float. Pour egg-containing supernatant into another 50 ml tube.</li>
-<li>Add equal-volume of tap water.</li>
-<li>Mix and spin again at same speed for 5 min. The eggs should pellet. Remove/discard supernatant.</li>
+<li>Add equal volume of tap water.</li>
+<li>Mix and spin again at same speed for 5 min. The eggs should pellet. Remove and discard supernatant.</li>
 <li>Add 25 ml 13% NaCl to each tube to re-suspend pellet. Repeat steps 3-5.</li>
-<li>Re-suspend pellet in 25 ml of water per tube and pour through the pre-wetted 20 <span class="math inline">\(\mu\)</span>m sieve into the sink. Eggs will be trapped in the sieve. Wash the eggs vigorously with water to remove remaining salt solution. <em>(They don’t like salt!).</em></li>
+<li>Resuspend pellet in 25 ml of water per tube and pour through the pre-wetted 20 <span class="math inline">\(\mu\)</span>m sieve into the sink. Eggs will be trapped in the sieve. Wash the eggs vigorously with water to remove remaining salt solution. <em>(They don’t like salt!).</em></li>
 <li>Flush the eggs to one corner of the 20 <span class="math inline">\(\mu\)</span>m sieve, and use the wash bottle with tap water to rinse them into a fresh 90 mm diameter petri dish (with lid).</li>
 </ol>
 <p><em>Wash the sieve well between samples to avoid cross-contamination between samples.</em></p>
@@ -363,8 +365,7 @@ $(document).ready(function () {
 <li>thermomixer</li>
 <li>1.5 ml eppendorf tubes</li>
 </ul>
-<?xml version="1.0" encoding="UTF-8"?>
-<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; text-align: right;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; ">
 <caption>
 Lysis buffer (Total vol 50ml)
 </caption>
@@ -374,7 +375,7 @@ Lysis buffer (Total vol 50ml)
 volume (<span class="math inline">\(\mu\)</span>l)
 </th>
 <th style="text-align:left;">
-stock Reagent
+Stock reagent
 </th>
 <th style="text-align:left;">
 concentration in lysis buffer
@@ -461,25 +462,24 @@ Tween-20
 <div id="protocol" class="section level3">
 <h3>Protocol</h3>
 <ol style="list-style-type: decimal">
-<li>UV treat plasticware and mol grade water for 15 min</li>
+<li>UV treat plasticware and mol. grade water for 15 min</li>
 <li>Transfer 1000 ethanol-fixed L3s (or L1s or eggs) to 1.5 ml tube</li>
-<li>Add lysis buffer to achieve a vol 1.4 ml and incubate at room temp for 5 min</li>
+<li>Add lysis buffer to achieve a vol. 1.4 ml and incubate at room temp for 5 min</li>
 <li>Centrifuge at 13000 G for 4 min to pellet parasite material</li>
 <li>Remove and discard majority of supernatent (do not touch pellet)</li>
-<li>Add 1 ml lysis buffer and re-suspend pellet with pipet</li>
+<li>Add 1 ml lysis buffer and resuspend pellet with pipette</li>
 <li>Repeat steps 4-6 twice more</li>
 <li>Centrifuge at 13000 G for 4min to pellet parasite material</li>
 <li>Remove and discard supernatant to leave approx 100 <span class="math inline">\(\mu\)</span>l</li>
-<li><p>Re-suspend pellet and add another 50 <span class="math inline">\(\mu\)</span>l of lysis buffer</p></li>
-<li><p>If lysing L3s place on thermomixer for 15 min at 95 with shaking (1000 RPM)<br />
-<em>This helps with the break down of the L3s tough outer sheath</em></p></li>
+<li>Re-suspend pellet and add another 50 <span class="math inline">\(\mu\)</span>l of lysis buffer</li>
+<li>If lysing L3s place on thermomixer for 15 min at <span class="math inline">\(95\,^{\circ}{\rm C}\)</span> with shaking (1000 RPM) <em>This helps with the break down of the L3s tough outer sheath</em></li>
 <li>Place at <span class="math inline">\(-80\,^{\circ}{\rm C}\)</span> for a min of 1hour to allow ice crystals to help with the degradation process</li>
 <li>Allow to de-frost on ice</li>
-<li>Add 6 <span class="math inline">\(\mu\)</span>l Proteniase K (20 mg/ml) to each sample to achieve a final conc of 0.8 mg/ml in 150 <span class="math inline">\(\mu\)</span>l</li>
-<li>Place on thermomixer at 55 for 120 min with shaking at 800 RPM followed by 20 min at 95 to denature the proteinase K</li>
+<li>Add 6 <span class="math inline">\(\mu\)</span>l Proteinase K (20 mg/ml) to each sample to achieve a final conc of 0.8 mg/ml in 150 <span class="math inline">\(\mu\)</span>l</li>
+<li>Place on thermomixer at <span class="math inline">\(55\,^{\circ}{\rm C}\)</span> for 120 min with shaking at 800 RPM followed by 20 min at <span class="math inline">\(95\,^{\circ}{\rm C}\)</span> to denature the Proteinase K</li>
 <li>Place directly on ice and make a 1:10 lysate dilution (with mol grade water) in a new tube for using as template for PCR</li>
-<li><p>Store both lysate and lysate dilution at <span class="math inline">\(-80\,^{\circ}{\rm C}\)</span><br />
-<em>Storage at <span class="math inline">\(-80\,^{\circ}{\rm C}\)</span> is critical due to the crude nature of the DNA preparation as quality of template will degrade over time at <span class="math inline">\(-20\,^{\circ}{\rm C}\)</span></em></p></li>
+<li>Store both lysate and lysate dilution at <span class="math inline">\(-80\,^{\circ}{\rm C}\)</span><br />
+<em>Storage at <span class="math inline">\(-80\,^{\circ}{\rm C}\)</span> is critical due to the crude nature of the DNA preparation as quality of template will degrade over time at <span class="math inline">\(-20\,^{\circ}{\rm C}\)</span></em></li>
 </ol>
 </div>
 </div>

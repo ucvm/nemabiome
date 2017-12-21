@@ -20,8 +20,8 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Roboto|Lobster" rel="stylesheet">
 
@@ -32,10 +32,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -267,13 +269,12 @@ Diagram of primer hybridization
 <li>0.2ml 96-well plates, clear, half-skirted (VWR, 83007-374)</li>
 <li>Microseal “A” film (Biorad, MSA-5001)</li>
 <li>1.5 ml tubes</li>
-<li>8-channel pipettor</li>
+<li>8-channel pipetter</li>
 <li>filter aerosol tips</li>
 <li>mol grade water</li>
 <li>thermocycler</li>
 </ul>
-<?xml version="1.0" encoding="UTF-8"?>
-<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; text-align: right;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; ">
 <caption>
 Forward Primers
 </caption>
@@ -322,8 +323,7 @@ TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNNNACGTCTGGTTCAGGGTTGTT
 </tr>
 </tbody>
 </table>
-<?xml version="1.0" encoding="UTF-8"?>
-<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; text-align: right;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; ">
 <caption>
 Reverse primers
 </caption>
@@ -380,11 +380,10 @@ GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGNNNTTAGTTTCTTTTCCTCCGCT
 <li>Combine 2.5 <span class="math inline">\(\mu\)</span>l of each of the forward primers at stock concentration (100 nM) to 90 <span class="math inline">\(\mu\)</span>l of mol grade water to achieve forward primer mix at 10nM working concentration. Do the same for the reverse primers.</li>
 <li>On ice make-up Mastermix using forward and reverse primer mixes and the recipe below.</li>
 <li>Aliquot mastermix (21 <span class="math inline">\(\mu\)</span>l) to each well of 96-well plate</li>
-<li>Add 4 <span class="math inline">\(\mu\)</span>l template (lysate dilution) to wells using multi-channel pipettor</li>
+<li>Add 4 <span class="math inline">\(\mu\)</span>l template (lysate dilution) to wells using multi-channel pipetter</li>
 <li>Place microseal “A” film over completed plate and place on thermocycler (with pre-heated lid) and run the program below.</li>
 </ol>
-<?xml version="1.0" encoding="UTF-8"?>
-<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; text-align: right;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; ">
 <caption>
 Mastermix (25<span class="math inline">\(\mu\)</span>l)
 </caption>
@@ -489,18 +488,18 @@ Caution
 <li>96-well Magnetic-Ring stand (Applied biosystems, AM10050)</li>
 <li>0.8 ml 96-well storage plates (Thermo-Scientific, AB-0859)</li>
 <li>0.2 ml 96-well plate, clear, half-skirted (VWR, 83007-374)</li>
-<li>8-channel pipettors</li>
+<li>8-channel pipetters</li>
 <li>Reagent reservoirs</li>
-<li>abosolte ethanol (mol grade)<br />
+<li>absolute ethanol (mol grade)<br />
 </li>
-<li>mol grade water</li>
+<li>mol. grade water</li>
 </ul>
 <div class="panel panel-info">
 <div class="panel-heading">
 Note
 </div>
 <div class="panel-body">
-<p><em>Filter aerosol pipette tipss and 8-channel pipettor used for majority of steps in this protocol. Also all quantities quoted are for clean-up of a full plate (96 samples)</em></p>
+<p><em>Filter aerosol pipette tips and 8-channel pipetter used for majority of steps in this protocol. Also all quantities quoted are for clean-up of a full plate (96 samples)</em></p>
 </div>
 </div>
 </div>
@@ -513,7 +512,7 @@ Note
 </li>
 <li>Centrifuge amplification plate to collect condensation (300 G for 2 min)<br />
 </li>
-<li>Remove seal from plate in bio-safety cabinet (if possible)<br />
+<li>Remove seal from plate in biosafety cabinet (if possible)<br />
 </li>
 <li>Transfer the 25 <span class="math inline">\(\mu\)</span>l reactions into 0.8 ml 96-well storage plates using multi-channel pipettor<br />
 </li>
@@ -526,7 +525,7 @@ Note
 <li>Place plate on magnetic stand for 2 min (or until supernatent has cleared)</li>
 <li>Once clear use multi-channel pipettor to remove and discard supernatent from the wells<br />
 </li>
-<li>With the plate still on the magnetic stand, wash beads with 80% ethanol by adding 200 <span class="math inline">\(\mu\)</span>l to each well (using a multi-channel pipettor and a reagent reservoir). Do not re-suspend the beads at this point<br />
+<li>With the plate still on the magnetic stand, wash beads with 80% ethanol by adding 200 <span class="math inline">\(\mu\)</span>l to each well (using a multi-channel pipetter and a reagent reservoir). Do not resuspend the beads at this point<br />
 </li>
 <li>Incubate for 30 sec (or until clear) and then remove and discard supernatent<br />
 </li>
@@ -540,7 +539,7 @@ Note
 </li>
 <li>Add 40 <span class="math inline">\(\mu\)</span>l of mol grade water to each well with multi-channel pipettor and gently pipet up and down 10 times to re-suspend the beads<br />
 </li>
-<li>Incubate at room temp for 2 kmin<br />
+<li>Incubate at room temp for 2 min<br />
 </li>
 <li>Place the plate back on the magnetic stand for 2 min (or until cleared)<br />
 </li>
@@ -564,8 +563,7 @@ Note
 <li>mol grade water</li>
 <li>thermocycler</li>
 </ul>
-<?xml version="1.0" encoding="UTF-8"?>
-<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; text-align: right;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; ">
 <caption>
 Forward primers
 </caption>
@@ -673,8 +671,7 @@ H
 </tr>
 </tbody>
 </table>
-<?xml version="1.0" encoding="UTF-8"?>
-<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; text-align: right;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; ">
 <caption>
 Reverse primers
 </caption>
@@ -831,24 +828,23 @@ CAAGCAGAAGACGGCATACGAGATTCCTCTACGTCTCGTGGGCTCGG
 <h4>Protocol</h4>
 <ol style="list-style-type: decimal">
 <li>UV pasticware and mol grade water for 15 min prior to PCR set-up</li>
-<li>On ice make-up Mastermix of water, buffer and dNTPs only (No polymerase or primers yet).</li>
+<li>On ice make-up Mastermix of water, buffer and dNTPs only (no polymerase or primers yet).</li>
 <li>Aliquot mastermix (19 <span class="math inline">\(\mu\)</span>l) to each well of 96-well plate</li>
 <li>Add 1.25 <span class="math inline">\(\mu\)</span>l forward primer to each well of the designated row (A-H, see table above).</li>
 <li>Add 1.25 <span class="math inline">\(\mu\)</span>l reverse primer to each well of the designated column (1-12, see table above).</li>
-<li>Add 0.5 <span class="math inline">\(\mu\)</span>l polyermase to each well</li>
+<li>Add 0.5 <span class="math inline">\(\mu\)</span>l polymerase to each well</li>
 <li>Add 3 <span class="math inline">\(\mu\)</span>l template (amplicons from the 1st round of PCR) to wells using multi-channel pipettor</li>
 <li>Place microseal “A” film over completed plate and place on thermocycler (with pre-heated lid) and run the program below.</li>
 <li>The resulting PCR products are cleaned-up using the magnetic bead purification protocol similiar to the 1st round of PCR (see section 3.2 above).</li>
 </ol>
-<?xml version="1.0" encoding="UTF-8"?>
-<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; text-align: right;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; ">
 <caption>
 Mastermix (25<span class="math inline">\(\mu\)</span>l)
 </caption>
 <thead>
 <tr>
 <th style="text-align:left;">
-volume (<span class="math inline">\(\mu\)</span>l)
+Volume (<span class="math inline">\(\mu\)</span>l)
 </th>
 <th style="text-align:left;">
 Reagent
@@ -947,7 +943,7 @@ mol grade water
 <ul>
 <li>Illumina library Quantification Kit, Universal qPCR Mix (Kapa Biosystems, KK4824)</li>
 <li>qPCR machine</li>
-<li>Mol grade water</li>
+<li>mol. grade water</li>
 <li>10 mM Tris-Hcl, pH 8 with 0.05% Tween-20</li>
 <li>Multiplate PCR plate, low profile, clear, unskirted, (Biorad, MLL9601)</li>
 <li>Microseal “B” seal (Biorad, MSB1001)</li>
@@ -966,7 +962,7 @@ Note
 <ol style="list-style-type: decimal">
 <li>Dilute library (1:1000) with 10 mM Tris-Hcl, pH 8 with 0.05% Tween-20 in triplicate</li>
 <li>Using these 1:1000 dilutions set-up 1:2 serial dilutions to achieve 1:2000, 1:4000 and 1:8000 (keep in fridge until needed)</li>
-<li>Before using the Illumina library Quantification kit for the first time add 1ml of primer premix (x10) to the 5ml bottle of Sybr fast qPCR Master mix (x2) and mix well</li>
+<li>Before using the Illumina library quantification kit for the first time add 1ml of primer premix (x10) to the 5ml bottle of Sybr fast qPCR Master mix (x2) and mix well</li>
 <li>UV all plasticware and water for 15 min</li>
 <li>Prepare qPCR plate by adding:
 <ul>
@@ -977,18 +973,18 @@ Note
 <li>and either 4 <span class="math inline">\(\mu\)</span>l diluted library, one of supplied standards (Standard 1-6) or another 4 <span class="math inline">\(\mu\)</span>l of mol grade water to act as a negative control</li>
 </ul></li>
 <li>Place Microseal “B” seal over reactions</li>
-<li>Run on qPCR machine with the following cycling conditions: 95 for 5 min then 35 cycles of 95 for 30 sec and 60 for 45 sec</li>
+<li>Run on qPCR machine with the following cycling conditions: <span class="math inline">\(-95\,^{\circ}{\rm C}\)</span> for 5 min then 35 cycles of <span class="math inline">\(95\,^{\circ}{\rm C}\)</span> for 30 sec and <span class="math inline">\(60\,^{\circ}{\rm C}\)</span> for 45 sec</li>
 <li>Look at data to confirm 90-100% reaction efficiency for samples and for standards</li>
 <li>Calculate library quantification using absolute quantification against the 425 bp DNA standard</li>
 </ol>
 </div>
 </div>
-<div id="denanuration" class="section level2">
-<h2>Denanuration</h2>
+<div id="denaturation" class="section level2">
+<h2>Denaturation</h2>
 <div id="reagents-required-4" class="section level3">
 <h3>Reagents required</h3>
 <ul>
-<li>Mol. grade water</li>
+<li>mol. grade water</li>
 <li>1.5 ml eppendorf tubes</li>
 <li>Ice</li>
 <li>5 M NaOH</li>
@@ -1057,7 +1053,7 @@ Note
 <em>Box 2, contains Flow cell and Incorporation buffer (RP2) - store at <span class="math inline">\(4\,^{\circ}{\rm C}\)</span></em></li>
 <li>water bath</li>
 <li>tweezers</li>
-<li>mol grade water in sequeezy bottle</li>
+<li>mol grade water in squeezy bottle</li>
 <li>kim wipes</li>
 <li>ethanol wipes</li>
 </ul>

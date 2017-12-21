@@ -14,7 +14,7 @@ Once you have generated the data from the MiSeq you must complete the following 
 
 The primary software used for analysis is Mothur. This program is command line based, and will require you to type simple commands into either Terminal (Mac) or Command Prompt (Windows).
 
-To download Mothur go to [www.mothur.org](https://www.mothur.org/), click “Download” and download the latest version. This will download a single folder. You must move this folder to your home directory (your C: Drive on a PC, or your ‘User’ folder on a Mac)
+To download Mothur go to the Mothur github [downloads](https://github.com/mothur/mothur/releases/latest) page and download the latest version for your operating system. Unzip then move this folder to your home directory (your C: Drive on a PC, or your ‘User’ folder on a Mac).
 
 <div class="panel panel-info">
 <div class="panel-heading">Tip</div>
@@ -50,7 +50,7 @@ Once the files have been moved, the files must be unzipped/uncompressed. This ca
 
 ### Create sample list
 
-You will need to create a file that contains the name of your sample, and specifies which files correspond to this sample. This will tell the program which files to analyze for each particular sample. You can download the file “stability.files” in the Downloads section for an example of what this file must look like. Each line in this file represents a single sample that must be analyzed. The first column is the sample name, the second column is the file name for the forward read file, and the third column is the name of the reverse read file. Each column is separated by a single tab.   An example is also listed below.
+You will need to create a file that contains the name of your sample, and specifies which files correspond to this sample. This will tell the program which files to analyze for each particular sample. You can download the file “nemabiome.files” in the [Examples](interpretation.html) section for an example of what this file must look like. Each line in this file represents a single sample that must be analyzed. The first column is the sample name, the second column is the file name for the forward read file, and the third column is the name of the reverse read file. Each column is separated by a single tab.   An example is also listed below.
 
 Example:
 

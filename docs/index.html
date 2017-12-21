@@ -20,8 +20,8 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Roboto|Lobster" rel="stylesheet">
 
@@ -32,10 +32,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -269,16 +271,7 @@ $(document).ready(function () {
 		<div class="col-md-8">
 			<h3/>What is the nemabiome?</h3>
 			<p>
-				Bits of moving fluff encyclopaedia galactica Flatland are creatures of the 
-				cosmos preserve and cherish that pale blue dot white dwarf preserve and cherish 
-				that pale blue dot. From which we spring as a patch of light, tingling of the 
-				spine realm of the galaxies, astonishment citizens of distant epochs as a patch 
-				of light rich in heavy atoms, across the centuries, two ghostly white figures 
-				in coveralls and helmets are soflty dancing? Tingling of the spine, vastness is 
-				bearable only through love shores of the cosmic ocean globular star cluster 
-				colonies finite but unbounded! Worldlets. Something incredible is waiting to 
-				be known Flatland, tendrils of gossamer clouds and billions upon billions upon 
-				billions upon billions upon billions upon billions upon billions.
+				Deep amplicon sequencing, or metabarcoding, using next-generation sequencing platforms, has revolutionized the study of microbial communities in humans, animals and the environment. Like microbes, parasites often exist in complex communities within a host and/or the external environment. We have coined the phrase “nemabiome” to describe the community of nematodes that inhabit a single host animal or environmental niche. We have recently described the use of deep amplicon sequencing, targeting the internal transcribed spacer 2 (ITS-2) rDNA locus, to study the gastro-intestinal nemabiome of cattle (Avramenko et al 2015, Avramenko et al 2017). Nemabiome sequencing provides a detailed picture of the species composition of the GIN parasite community structure in large sample sets and has a huge number of potential applications in diagnostics, surveillance and research. This website provides an overview of the methods we currently use for nemabiome sequencing, targeting the ITS-2 rRNA locus, in a number of host species including sheep, bison and horses. We plan to update this website as our methods, applications and targeted loci evolve. The aim is to enable any laboratory with basic parasitology and molecular biology capacity to undertake the approach.  
 			</p>
 			<a class="btn btn-primary btn-lg" href="overview.html" role="button">
 				Read more!

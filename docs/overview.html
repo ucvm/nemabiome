@@ -20,8 +20,8 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Roboto|Lobster" rel="stylesheet">
 
@@ -32,10 +32,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -250,7 +252,7 @@ $(document).ready(function () {
 
 <h1>Overview</h1>
 
-<p>Orion's sword hearts of the stars prime number, dream of the mind's eye the ash of stellar alchemy descended from astronomers brain is the seed of intelligence consectetur adipisicing elit birth venture the only home we've ever known astonishment birth consectetur adipisicing elit emerged into consciousness, a mote of dust suspended in a sunbeam. Tunguska event hundreds of thousands quasar a mote of dust suspended in a sunbeam? Light years tingling of the spine! Laws of physics emerged into consciousness made in the interiors of collapsing stars consectetur adipisicing elit and billions upon billions upon billions upon billions upon billions upon billions upon billions!</h6>
+<p>The information and protocols on this website are arranged under four broad sections which are accessible by clicking on the links on the top menu bar or on the titles of the boxes below. We aim to update this site as the development of the approach progresses and the number of applications increase. The aim is to enable any laboratory with basic parasitology and molecular biology capacity to undertake the approach.</p>
 
 <div class="row">
 	<div class="col-sm-3">
@@ -258,7 +260,7 @@ $(document).ready(function () {
 		  <div class="panel-heading">
 		    <a class="panel-title" href="parasite.html">
     			<span class="ion ion-bug"></span>
-		    	Parasite preparation
+		    	Parasite Prep
 		    </a>
 		  </div>
 		  <div class="panel-body">
@@ -274,7 +276,7 @@ $(document).ready(function () {
 		  <div class="panel-heading">
 		    <a class="panel-title" href="sequencing.html">
     			<span class="ion ion-erlenmeyer-flask"></span>
-		    	Library preparation
+		    	Sequencing
 		    </a>
 		  </div>
 		  <div class="panel-body">
@@ -293,7 +295,7 @@ $(document).ready(function () {
 		  <div class="panel-heading">
 		    <a class="panel-title" href="analysis.html">
 		    	<span class="ion ion-monitor"></span>
-		    	Bioinformatic Analysis
+		    	Analysis
 		    </a>
 		  </div>
 		  <div class="panel-body">
@@ -311,7 +313,7 @@ $(document).ready(function () {
 		  <div class="panel-heading">
 		    <a class="panel-title" href="interpretation.html">
     			<span class="ion ion-stats-bars"></span>
-		    	Interpretation of results
+		    	Interpretation 
 		    </a>
 		  </div>
 		  <div class="panel-body">
