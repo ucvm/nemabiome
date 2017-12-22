@@ -1,6 +1,7 @@
 ---
 bibliography: references.bib
 nocite: |
+  [@Avramenko:2017fn]
   [@Schloss:2009do]
 csl: plos-one.csl
 ---
