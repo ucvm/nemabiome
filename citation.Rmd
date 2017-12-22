@@ -15,7 +15,7 @@ Some more text describing how incredible and amazing this website is and how it 
 
 ## Contributors
 
-* The nemabiome concept and development of tools to study the nemabiome is done in the lab of John Gilleard
+* The nemabiome concept and development of tools to study the nemabiome is done in the lab of [John Gilleard](http://www.ucalgary.ca/jsgilleard/)
 * Bench protocols written by Elizabeth Redman
 * Analysis protocols written by Russell Avramenko
 * ITS2 database and taxonomy constructed by Russell Avramenko
@@ -23,7 +23,7 @@ Some more text describing how incredible and amazing this website is and how it 
 * Website built by Matthew Workentine
 
 
-*This website is hosted on github.com, code available <a target="_blank" href="https://github.com/ucvm/nemabiome">here</a>
+This website is hosted on Netlify, code available on <a target="_blank" href="https://github.com/ucvm/nemabiome">Github</a>
 
 ## Citation
 
