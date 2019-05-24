@@ -72,9 +72,7 @@ h6 {
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -93,8 +91,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -110,7 +114,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -130,6 +133,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -151,19 +191,85 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
 });
 </script>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -314,6 +420,150 @@ sample3 sample3_S3_L001_R1_001.fastq     sample3_S3_L001_R2_001.fastq
 <p>(On a PC)</p>
 <p>This will launch Mothur, and begin to complete the commands that are contained within the batchfile. You will need to leave your computer open and running while the analysis completes. The amount of time that it will take to run will vary with your computer, and the number of samples/reads that you will be analyzing. General run times will probably be around ~4 hours, on a standard computer, 96 samples with an average read depth of ~50,000 reads.</p>
 <p>Once the analysis has completed, you will have a file called <code>nemabiome_results.summary</code>. You can open this file up and copy the contents into an Excel workbook to properly view the data.</p>
+</div>
+<div id="dada2-example-workflow" class="section level2">
+<h2>DADA2 Example Workflow</h2>
+<p>The following is a sample analysis using the DADA2 pipeline (<a href="https://benjjneb.github.io/dada2/tutorial.html" class="uri">https://benjjneb.github.io/dada2/tutorial.html</a>). This is meant to be an example and not a definitive workflow. First we load packages and set a seed for reproducibility.</p>
+<pre><code>library(DECIPHER)
+packageVersion(&quot;DECIPHER&quot;)
+
+library(dada2)
+packageVersion(&quot;dada2&quot;) 
+
+library(ShortRead)
+packageVersion(&quot;ShortRead&quot;) 
+
+library(Biostrings)
+packageVersion(&quot;Biostrings&quot;)
+
+set.seed(106)</code></pre>
+<p>To use the DADA2 pipeline, primers must be removed from amplicons. This can be done in R using cutadapt. Here we specify the path of sequences to be processed (using “/Miseq_Run” from previous examples) and the path of Cutadapt on your machine (we used “/home/gilleardlab/anaconda3/bin/cutadapt”). You will also need to specify the primers you used as the “FWD” and “REV” variables. We start off by creating all possible orientations of the forward and reverse sequences.</p>
+<pre><code>path&lt;- &quot;Miseq_Run&quot;
+list.files(path)
+
+fnFs&lt;-sort(list.files(path, pattern = &quot;_R1.fastq.gz&quot;, full.names = TRUE)) 
+fnRs &lt;-sort(list.files(path, pattern = &quot;_R2.fastq.gz&quot;, full.names = TRUE))
+
+
+#identifying the primers
+FWD&lt;-&quot;ACGTCTGGTTCAGGGTTGTT&quot;
+REV &lt;- &quot;TTAGTTTCTTTTCCTCCGCT&quot;
+
+allOrients&lt;-function(primer) {   #creates all orientations of the primer sequence)
+  require(Biostrings)
+  dna&lt;-DNAString(primer) #biostring works w dnastring objects
+  orients&lt;-c(Forward=dna, Complement=complement(dna), Reverse=reverse(dna),
+             RevComp=reverseComplement(dna))
+  return(sapply(orients, toString)) #now converting back into character vector
+}
+FWD.orients&lt;-allOrients(FWD)
+REV.orients&lt;-allOrients(REV)
+
+FWD.orients</code></pre>
+<p>Next we will remove all sequences containing ambiguous bases, and count the number of times our primers are observed in the remaining sequences.</p>
+<pre><code>#fltering the sequences
+fnFs.filtN &lt;- file.path(path, &quot;filtN&quot;, basename(fnFs)) 
+fnRs.filtN &lt;- file.path(path, &quot;filtN&quot;, basename(fnRs))
+filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = TRUE)
+
+#counting number of primers 
+primerHits &lt;- function(primer, fn) {
+  # Counts number of reads in which the primer is found
+  nhits &lt;- vcountPattern(primer, sread(readFastq(fn)), fixed = FALSE)
+  return(sum(nhits &gt; 0))
+}
+rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.filtN[[1]]), 
+      FWD.ReverseReads = sapply(FWD.orients, primerHits, fn = fnRs.filtN[[1]]), 
+      REV.ForwardReads = sapply(REV.orients, primerHits, fn = fnFs.filtN[[1]]), 
+      REV.ReverseReads = sapply(REV.orients, primerHits, fn = fnRs.filtN[[1]]))</code></pre>
+<p>Now we can use cutadapt to remove primers, and check that they have been successfully removed.</p>
+<pre><code>cutadapt &lt;- &quot;/home/gilleardlab/anaconda3/bin/cutadapt&quot; # CHANGE ME to the cutadapt path on your machine
+system2(cutadapt, args = &quot;--version&quot;) # Run shell commands from R
+
+#now creating output filenames for cutadapted files, and define parameters to give cutadapt command
+#critical parameters are the primers and they need to be in the right orientation
+
+path.cut &lt;- file.path(path, &quot;cutadapt&quot;)
+if(!dir.exists(path.cut)) dir.create(path.cut)
+fnFs.cut &lt;- file.path(path.cut, basename(fnFs))
+fnRs.cut &lt;- file.path(path.cut, basename(fnRs))  #cutadapt not working -&gt; due to files not gz?
+
+FWD.RC &lt;- dada2:::rc(FWD)
+REV.RC &lt;- dada2:::rc(REV)
+# Trim FWD and the reverse-complement of REV off of R1 (forward reads)
+R1.flags &lt;- paste(&quot;-g&quot;, FWD, &quot;-a&quot;, REV.RC) 
+# Trim REV and the reverse-complement of FWD off of R2 (reverse reads)
+R2.flags &lt;- paste(&quot;-G&quot;, REV, &quot;-A&quot;, FWD.RC) 
+# Run Cutadapt
+for(i in seq_along(fnFs)) {
+  system2(cutadapt, args = c(R1.flags, R2.flags, &quot;-n&quot;, 2, # -n 2 required to remove FWD and REV from reads
+                             &quot;-o&quot;, fnFs.cut[i], &quot;-p&quot;, fnRs.cut[i], # output files
+                             fnFs.filtN[i], fnRs.filtN[i])) # input files
+}
+
+# remember to check things - can check presence of primers in the first cutadapted sample 
+rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.cut[[1]]), 
+      FWD.ReverseReads = sapply(FWD.orients, primerHits, fn = fnRs.cut[[1]]), 
+      REV.ForwardReads = sapply(REV.orients, primerHits, fn = fnFs.cut[[1]]), 
+      REV.ReverseReads = sapply(REV.orients, primerHits, fn = fnRs.cut[[1]]))
+</code></pre>
+<p>Now that primers are removed, we can begin the DADA2 pipeline. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters.</p>
+<pre><code>cutFs &lt;- sort(list.files(path.cut, pattern = &quot;_R1.fastq.gz&quot;, full.names = TRUE)) #remember to match file names 
+cutRs &lt;- sort(list.files(path.cut, pattern = &quot;_R2.fastq.gz&quot;, full.names = TRUE))
+
+# Extract sample names, assuming filenames have same format, may need to alter!!!
+get.sample.name &lt;- function(fname) strsplit(basename(fname), &quot;_R&quot;)[[1]][1]
+sample.names &lt;- unname(sapply(cutFs, get.sample.name))
+sample.names
+
+#plotQualityProfile(cutFs[1:2])+ggtitle(&quot;Forward&quot;)
+#plotQualityProfile(cutRs[1:2])+ggtitle(&quot;Reverse&quot;)</code></pre>
+<p>For the purposes of our analysis, we chose to conduct quality filtering with maximum expected errors of 2 for the forward sequence, 5 for the reverse, to truncate after a quality score of 2 or lower, and to filter out amplicons with lengths shorter than 50 base pairs. Again, filters for your own pipeline may differ. After quality filtering, we can run our sequences through learnErrors to create an error model, and then dereplicate our sequences.</p>
+<pre><code>#filtering reads 
+filtFs&lt;-file.path(path.cut, &quot;filtered&quot;, basename(cutFs))
+filtRs&lt;-file.path(path.cut, &quot;filtered&quot;, basename(cutRs))
+
+out &lt;- filterAndTrim(cutFs, filtFs, cutRs, filtRs, maxN = 0, maxEE = c(2, 5), 
+                     truncQ = 2, minLen = 50, rm.phix = TRUE, compress = TRUE, multithread = TRUE)  
+head(out)
+out
+
+#learning errors
+errF&lt;-learnErrors(filtFs, multithread=TRUE)
+errR&lt;-learnErrors(filtRs, multithread=TRUE)
+
+#visualize the error rates w code below so you can see
+# plotErrors(errF, nominalQ=TRUE)
+
+# denoising data 
+derepFs&lt;-derepFastq(filtFs, verbose = TRUE)
+derepRs&lt;-derepFastq(filtRs, verbose=TRUE)</code></pre>
+<p>After dereplication, we can denoise our sequences using the DADA algorithm. We will also merge our paired-end sequences, allowing for up to 1 mismatch in the overlap region and returning all sequences whether they merged or not.</p>
+<pre><code>dadaFs&lt;-dada(derepFs, err=errF, multithread = TRUE)
+dadaRs&lt;-dada(derepRs, err=errR, multithread=TRUE)
+
+mergers&lt;-mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose=TRUE, maxMismatch = 1, returnRejects = TRUE)</code></pre>
+<p>Before we can assign taxonomy, we can construct a sequence table, remove chimeras using the removeBimeraDenovo command and then create a table of how many sequences were retained after each processing step.</p>
+<pre><code>seqtab&lt;-makeSequenceTable(mergers)
+dim(seqtab) 
+
+#Remove chimeras 
+seqtab.nochim&lt;-removeBimeraDenovo(seqtab, method=&quot;consensus&quot;, multithread=TRUE, verbose=TRUE)
+#inspect distribution sequence lengths
+table(nchar(getSequences(seqtab.nochim)))
+
+#track reads through the pipeline - inspect the number of reads that made it through each step in the pipeline -- IMPORTANT
+
+getN &lt;- function(x) sum(getUniques(x))
+track &lt;- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, 
+                                                                       getN), rowSums(seqtab.nochim))
+
+# If processing a single sample, remove the sapply calls: e.g. replace
+# sapply(dadaFs, getN) with getN(dadaFs)
+colnames(track) &lt;- c(&quot;input&quot;, &quot;filtered&quot;, &quot;denoisedF&quot;, &quot;denoisedR&quot;, &quot;merged&quot;, 
+                     &quot;nonchim&quot;)
+rownames(track) &lt;- sample.names     #what&#39;s considered to be an overlarge drop?? - reads seem fine
+head(track)</code></pre>
 </div>
 <div id="downloads" class="section level2">
 <h2>Download list</h2>
