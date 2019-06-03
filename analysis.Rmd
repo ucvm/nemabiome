@@ -100,9 +100,35 @@ Once the analysis has completed, you will have a file called `nemabiome_results.
 
 ## DADA2 Example Workflow
 
-The following is a sample analysis using the DADA2 pipeline (https://benjjneb.github.io/dada2/tutorial.html). This is meant to be an example and not a definitive workflow. First we load packages and set a seed for reproducibility.
+Preamble:
+The [DADA2 pipeline](https://benjjneb.github.io/dada2/tutorial.html) is used as a method to correct errors that are introduced into sequencing data during amplicon sequencing. The output of this pipeline is a table of amplicon sequence variants (ASVs), as opposed to the traditional OTUs seen in other amplicon sequencing workflows that cluster similar sequences into a single OTU. DADA2 is capable of resolving biological differences of 1 or 2 nucleotides, producing ASVs from amplicon data that are of higher resolution than OTUs.
 
-```{r libraries}
+Requirements:
+DADA2 is an open-source [R package](https://github.com/benjjneb/dada2) that will allow you to run through the entire pipeline, including steps to filter, dereplicate, identify chimeras, and merge paired-end reads.
+
+To use DADA2, you must download and install R for your operating system. This can be done [here](https://cloud.r-project.org/). You should use the latest version of R/
+
+If you would like, download and install RStudio, which is an integrated development environment (IDE) for R programming. This can be done through [this link](https://www.rstudio.com/download).
+
+Since DADA2 is available as part of the Bioconductor Project Package Repository, install Bioconductor in R.
+
+```
+install.packages("BiocManager")
+```
+
+To install the latest version of the DADA2 package, type the following:
+
+```
+BiocManager::install("dada2", version = "3.9")
+```
+
+*Note that if you previously had R and Bioconductor installed, you may need to update them to the most recent versions.*
+
+DADA2 Workflow:
+Once you have installed the above, you are ready to start using the DADA2 pipeline. The following is a sample analysis using the DADA2 pipeline (https://benjjneb.github.io/dada2/tutorial.html). This is meant to be an example and not a definitive workflow. First, we load packages and set a seed for reproducibility.
+
+```{r libraries, echo=T, message = FALSE}
+
 library(DECIPHER)
 packageVersion("DECIPHER")
 
