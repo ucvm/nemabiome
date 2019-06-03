@@ -424,60 +424,135 @@ sample3 sample3_S3_L001_R1_001.fastq     sample3_S3_L001_R2_001.fastq
 <div id="dada2-example-workflow" class="section level2">
 <h2>DADA2 Example Workflow</h2>
 <p>The following is a sample analysis using the DADA2 pipeline (<a href="https://benjjneb.github.io/dada2/tutorial.html" class="uri">https://benjjneb.github.io/dada2/tutorial.html</a>). This is meant to be an example and not a definitive workflow. First we load packages and set a seed for reproducibility.</p>
-<pre><code>library(DECIPHER)
-packageVersion(&quot;DECIPHER&quot;)
+<pre class="r"><code>library(DECIPHER)</code></pre>
+<pre><code>## Loading required package: Biostrings</code></pre>
+<pre><code>## Loading required package: BiocGenerics</code></pre>
+<pre><code>## Loading required package: parallel</code></pre>
+<pre><code>## 
+## Attaching package: &#39;BiocGenerics&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:parallel&#39;:
+## 
+##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+##     clusterExport, clusterMap, parApply, parCapply, parLapply,
+##     parLapplyLB, parRapply, parSapply, parSapplyLB</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     IQR, mad, sd, var, xtabs</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     anyDuplicated, append, as.data.frame, basename, cbind,
+##     colnames, dirname, do.call, duplicated, eval, evalq, Filter,
+##     Find, get, grep, grepl, intersect, is.unsorted, lapply, Map,
+##     mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+##     pmin.int, Position, rank, rbind, Reduce, rownames, sapply,
+##     setdiff, sort, table, tapply, union, unique, unsplit, which,
+##     which.max, which.min</code></pre>
+<pre><code>## Loading required package: S4Vectors</code></pre>
+<pre><code>## Loading required package: stats4</code></pre>
+<pre><code>## 
+## Attaching package: &#39;S4Vectors&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     expand.grid</code></pre>
+<pre><code>## Loading required package: IRanges</code></pre>
+<pre><code>## Loading required package: XVector</code></pre>
+<pre><code>## 
+## Attaching package: &#39;Biostrings&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     strsplit</code></pre>
+<pre><code>## Loading required package: RSQLite</code></pre>
+<pre class="r"><code>packageVersion(&quot;DECIPHER&quot;)
 
-library(dada2)
-packageVersion(&quot;dada2&quot;) 
+library(dada2)</code></pre>
+<pre><code>## Loading required package: Rcpp</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;ggplot2&#39;:
+##   method         from 
+##   [.quosures     rlang
+##   c.quosures     rlang
+##   print.quosures rlang</code></pre>
+<pre class="r"><code>packageVersion(&quot;dada2&quot;) 
 
-library(ShortRead)
-packageVersion(&quot;ShortRead&quot;) 
+library(ShortRead)</code></pre>
+<pre><code>## Loading required package: BiocParallel</code></pre>
+<pre><code>## Loading required package: Rsamtools</code></pre>
+<pre><code>## Loading required package: GenomeInfoDb</code></pre>
+<pre><code>## Loading required package: GenomicRanges</code></pre>
+<pre><code>## Loading required package: GenomicAlignments</code></pre>
+<pre><code>## Loading required package: SummarizedExperiment</code></pre>
+<pre><code>## Loading required package: Biobase</code></pre>
+<pre><code>## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     &#39;browseVignettes()&#39;. To cite Bioconductor, see
+##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
+<pre><code>## Loading required package: DelayedArray</code></pre>
+<pre><code>## Loading required package: matrixStats</code></pre>
+<pre><code>## 
+## Attaching package: &#39;matrixStats&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:Biobase&#39;:
+## 
+##     anyMissing, rowMedians</code></pre>
+<pre><code>## 
+## Attaching package: &#39;DelayedArray&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:matrixStats&#39;:
+## 
+##     colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</code></pre>
+<pre><code>## The following object is masked from &#39;package:Biostrings&#39;:
+## 
+##     type</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     aperm, apply, rowsum</code></pre>
+<pre class="r"><code>packageVersion(&quot;ShortRead&quot;) 
 
 library(Biostrings)
 packageVersion(&quot;Biostrings&quot;)
 
+library(ggplot2)
+packageVersion(&quot;ggplot2&quot;)
+
 set.seed(106)</code></pre>
 <p>To use the DADA2 pipeline, primers must be removed from amplicons. This can be done in R using cutadapt. Here we specify the path of sequences to be processed (using “/Miseq_Run” from previous examples) and the path of Cutadapt on your machine (we used “/home/gilleardlab/anaconda3/bin/cutadapt”). You will also need to specify the primers you used as the “FWD” and “REV” variables. We start off by creating all possible orientations of the forward and reverse sequences.</p>
-<pre><code>path&lt;- &quot;Miseq_Run&quot;
-list.files(path)
-
-fnFs&lt;-sort(list.files(path, pattern = &quot;_R1.fastq.gz&quot;, full.names = TRUE)) 
-fnRs &lt;-sort(list.files(path, pattern = &quot;_R2.fastq.gz&quot;, full.names = TRUE))
-
-
-#identifying the primers
-FWD&lt;-&quot;ACGTCTGGTTCAGGGTTGTT&quot;
-REV &lt;- &quot;TTAGTTTCTTTTCCTCCGCT&quot;
-
-allOrients&lt;-function(primer) {   #creates all orientations of the primer sequence)
-  require(Biostrings)
-  dna&lt;-DNAString(primer) #biostring works w dnastring objects
-  orients&lt;-c(Forward=dna, Complement=complement(dna), Reverse=reverse(dna),
-             RevComp=reverseComplement(dna))
-  return(sapply(orients, toString)) #now converting back into character vector
-}
-FWD.orients&lt;-allOrients(FWD)
-REV.orients&lt;-allOrients(REV)
-
-FWD.orients</code></pre>
+<pre><code>##  [1] &quot;cutadapt&quot;                     &quot;filtN&quot;                       
+##  [3] &quot;G1_S1_L001_R1_001.fastq.gz&quot;   &quot;G1_S1_L001_R2_001.fastq.gz&quot;  
+##  [5] &quot;G10_S10_L001_R1_001.fastq.gz&quot; &quot;G10_S10_L001_R2_001.fastq.gz&quot;
+##  [7] &quot;G11_S11_L001_R1_001.fastq.gz&quot; &quot;G11_S11_L001_R2_001.fastq.gz&quot;
+##  [9] &quot;G12_S12_L001_R1_001.fastq.gz&quot; &quot;G12_S12_L001_R2_001.fastq.gz&quot;
+## [11] &quot;G13_S13_L001_R1_001.fastq.gz&quot; &quot;G13_S13_L001_R2_001.fastq.gz&quot;
+## [13] &quot;G14_S14_L001_R1_001.fastq.gz&quot; &quot;G14_S14_L001_R2_001.fastq.gz&quot;
+## [15] &quot;G15_S15_L001_R1_001.fastq.gz&quot; &quot;G15_S15_L001_R2_001.fastq.gz&quot;
+## [17] &quot;G16_S16_L001_R1_001.fastq.gz&quot; &quot;G16_S16_L001_R2_001.fastq.gz&quot;
+## [19] &quot;G17_S17_L001_R1_001.fastq.gz&quot; &quot;G17_S17_L001_R2_001.fastq.gz&quot;
+## [21] &quot;G18_S18_L001_R1_001.fastq.gz&quot; &quot;G18_S18_L001_R2_001.fastq.gz&quot;
+## [23] &quot;G19_S19_L001_R1_001.fastq.gz&quot; &quot;G19_S19_L001_R2_001.fastq.gz&quot;
+## [25] &quot;G2_S2_L001_R1_001.fastq.gz&quot;   &quot;G2_S2_L001_R2_001.fastq.gz&quot;  
+## [27] &quot;G20_S20_L001_R1_001.fastq.gz&quot; &quot;G20_S20_L001_R2_001.fastq.gz&quot;
+## [29] &quot;G21_S21_L001_R1_001.fastq.gz&quot; &quot;G21_S21_L001_R2_001.fastq.gz&quot;
+## [31] &quot;G22_S22_L001_R1_001.fastq.gz&quot; &quot;G22_S22_L001_R2_001.fastq.gz&quot;
+## [33] &quot;G23_S23_L001_R1_001.fastq.gz&quot; &quot;G23_S23_L001_R2_001.fastq.gz&quot;
+## [35] &quot;G24_S24_L001_R1_001.fastq.gz&quot; &quot;G24_S24_L001_R2_001.fastq.gz&quot;
+## [37] &quot;G25_S25_L001_R1_001.fastq.gz&quot; &quot;G25_S25_L001_R2_001.fastq.gz&quot;
+## [39] &quot;G26_S26_L001_R1_001.fastq.gz&quot; &quot;G26_S26_L001_R2_001.fastq.gz&quot;
+## [41] &quot;G3_S3_L001_R1_001.fastq.gz&quot;   &quot;G3_S3_L001_R2_001.fastq.gz&quot;  
+## [43] &quot;G4_S4_L001_R1_001.fastq.gz&quot;   &quot;G4_S4_L001_R2_001.fastq.gz&quot;  
+## [45] &quot;G5_S5_L001_R1_001.fastq.gz&quot;   &quot;G5_S5_L001_R2_001.fastq.gz&quot;  
+## [47] &quot;G6_S6_L001_R1_001.fastq.gz&quot;   &quot;G6_S6_L001_R2_001.fastq.gz&quot;  
+## [49] &quot;G7_S7_L001_R1_001.fastq.gz&quot;   &quot;G7_S7_L001_R2_001.fastq.gz&quot;  
+## [51] &quot;G8_S8_L001_R1_001.fastq.gz&quot;   &quot;G8_S8_L001_R2_001.fastq.gz&quot;  
+## [53] &quot;G9_S9_L001_R1_001.fastq.gz&quot;   &quot;G9_S9_L001_R2_001.fastq.gz&quot;</code></pre>
+<pre><code>##                Forward             Complement                Reverse 
+## &quot;ACGTCTGGTTCAGGGTTGTT&quot; &quot;TGCAGACCAAGTCCCAACAA&quot; &quot;TTGTTGGGACTTGGTCTGCA&quot; 
+##                RevComp 
+## &quot;AACAACCCTGAACCAGACGT&quot;</code></pre>
 <p>Next we will remove all sequences containing ambiguous bases, and count the number of times our primers are observed in the remaining sequences.</p>
-<pre><code>#fltering the sequences
-fnFs.filtN &lt;- file.path(path, &quot;filtN&quot;, basename(fnFs)) 
-fnRs.filtN &lt;- file.path(path, &quot;filtN&quot;, basename(fnRs))
-filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = TRUE)
-
-#counting number of primers 
-primerHits &lt;- function(primer, fn) {
-  # Counts number of reads in which the primer is found
-  nhits &lt;- vcountPattern(primer, sread(readFastq(fn)), fixed = FALSE)
-  return(sum(nhits &gt; 0))
-}
-rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.filtN[[1]]), 
-      FWD.ReverseReads = sapply(FWD.orients, primerHits, fn = fnRs.filtN[[1]]), 
-      REV.ForwardReads = sapply(REV.orients, primerHits, fn = fnFs.filtN[[1]]), 
-      REV.ReverseReads = sapply(REV.orients, primerHits, fn = fnRs.filtN[[1]]))</code></pre>
+<pre><code>##                  Forward Complement Reverse RevComp
+## FWD.ForwardReads   25344          0       0       0
+## FWD.ReverseReads       0          0       0       0
+## REV.ForwardReads       0          0       0       0
+## REV.ReverseReads   21503          0       0       0</code></pre>
 <p>Now we can use cutadapt to remove primers, and check that they have been successfully removed.</p>
-<pre><code>cutadapt &lt;- &quot;/home/gilleardlab/anaconda3/bin/cutadapt&quot; # CHANGE ME to the cutadapt path on your machine
+<pre class="r"><code>cutadapt &lt;- &quot;/home/stefan/.local/bin/cutadapt&quot; # CHANGE ME to the cutadapt path on your machine
 system2(cutadapt, args = &quot;--version&quot;) # Run shell commands from R
 
 #now creating output filenames for cutadapted files, and define parameters to give cutadapt command
@@ -505,65 +580,282 @@ for(i in seq_along(fnFs)) {
 rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.cut[[1]]), 
       FWD.ReverseReads = sapply(FWD.orients, primerHits, fn = fnRs.cut[[1]]), 
       REV.ForwardReads = sapply(REV.orients, primerHits, fn = fnFs.cut[[1]]), 
-      REV.ReverseReads = sapply(REV.orients, primerHits, fn = fnRs.cut[[1]]))
-</code></pre>
+      REV.ReverseReads = sapply(REV.orients, primerHits, fn = fnRs.cut[[1]]))</code></pre>
 <p>Now that primers are removed, we can begin the DADA2 pipeline. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters.</p>
-<pre><code>cutFs &lt;- sort(list.files(path.cut, pattern = &quot;_R1.fastq.gz&quot;, full.names = TRUE)) #remember to match file names 
-cutRs &lt;- sort(list.files(path.cut, pattern = &quot;_R2.fastq.gz&quot;, full.names = TRUE))
-
-# Extract sample names, assuming filenames have same format, may need to alter!!!
-get.sample.name &lt;- function(fname) strsplit(basename(fname), &quot;_R&quot;)[[1]][1]
-sample.names &lt;- unname(sapply(cutFs, get.sample.name))
-sample.names
-
-#plotQualityProfile(cutFs[1:2])+ggtitle(&quot;Forward&quot;)
-#plotQualityProfile(cutRs[1:2])+ggtitle(&quot;Reverse&quot;)</code></pre>
+<pre><code>##  [1] &quot;G1_S1_L001&quot;   &quot;G10_S10_L001&quot; &quot;G11_S11_L001&quot; &quot;G12_S12_L001&quot;
+##  [5] &quot;G13_S13_L001&quot; &quot;G14_S14_L001&quot; &quot;G15_S15_L001&quot; &quot;G16_S16_L001&quot;
+##  [9] &quot;G17_S17_L001&quot; &quot;G18_S18_L001&quot; &quot;G19_S19_L001&quot; &quot;G2_S2_L001&quot;  
+## [13] &quot;G20_S20_L001&quot; &quot;G21_S21_L001&quot; &quot;G22_S22_L001&quot; &quot;G23_S23_L001&quot;
+## [17] &quot;G24_S24_L001&quot; &quot;G25_S25_L001&quot; &quot;G26_S26_L001&quot; &quot;G3_S3_L001&quot;  
+## [21] &quot;G4_S4_L001&quot;   &quot;G5_S5_L001&quot;   &quot;G6_S6_L001&quot;   &quot;G7_S7_L001&quot;  
+## [25] &quot;G8_S8_L001&quot;   &quot;G9_S9_L001&quot;</code></pre>
 <p>For the purposes of our analysis, we chose to conduct quality filtering with maximum expected errors of 2 for the forward sequence, 5 for the reverse, to truncate after a quality score of 2 or lower, and to filter out amplicons with lengths shorter than 50 base pairs. Again, filters for your own pipeline may differ. After quality filtering, we can run our sequences through learnErrors to create an error model, and then dereplicate our sequences.</p>
-<pre><code>#filtering reads 
-filtFs&lt;-file.path(path.cut, &quot;filtered&quot;, basename(cutFs))
-filtRs&lt;-file.path(path.cut, &quot;filtered&quot;, basename(cutRs))
+<pre><code>##                              reads.in reads.out
+## G1_S1_L001_R1_001.fastq.gz      28069     25002
+## G10_S10_L001_R1_001.fastq.gz    30391     27055
+## G11_S11_L001_R1_001.fastq.gz    26771     24258
+## G12_S12_L001_R1_001.fastq.gz    28793     25794
+## G13_S13_L001_R1_001.fastq.gz    28812     26158
+## G14_S14_L001_R1_001.fastq.gz    33590     31499</code></pre>
+<pre><code>##                              reads.in reads.out
+## G1_S1_L001_R1_001.fastq.gz      28069     25002
+## G10_S10_L001_R1_001.fastq.gz    30391     27055
+## G11_S11_L001_R1_001.fastq.gz    26771     24258
+## G12_S12_L001_R1_001.fastq.gz    28793     25794
+## G13_S13_L001_R1_001.fastq.gz    28812     26158
+## G14_S14_L001_R1_001.fastq.gz    33590     31499
+## G15_S15_L001_R1_001.fastq.gz    26882     25290
+## G16_S16_L001_R1_001.fastq.gz    28561     26653
+## G17_S17_L001_R1_001.fastq.gz    26693     24744
+## G18_S18_L001_R1_001.fastq.gz    27489     25525
+## G19_S19_L001_R1_001.fastq.gz    28710     25830
+## G2_S2_L001_R1_001.fastq.gz      28680     25407
+## G20_S20_L001_R1_001.fastq.gz    26774     24102
+## G21_S21_L001_R1_001.fastq.gz    28060     25687
+## G22_S22_L001_R1_001.fastq.gz    30512     28070
+## G23_S23_L001_R1_001.fastq.gz    26251     23650
+## G24_S24_L001_R1_001.fastq.gz    24075     22083
+## G25_S25_L001_R1_001.fastq.gz    30804     27836
+## G26_S26_L001_R1_001.fastq.gz    27777     21986
+## G3_S3_L001_R1_001.fastq.gz      30407     27917
+## G4_S4_L001_R1_001.fastq.gz      27779     25207
+## G5_S5_L001_R1_001.fastq.gz      35661     32700
+## G6_S6_L001_R1_001.fastq.gz      32204     29821
+## G7_S7_L001_R1_001.fastq.gz      30276     28046
+## G8_S8_L001_R1_001.fastq.gz      26885     24639
+## G9_S9_L001_R1_001.fastq.gz      22455     20541</code></pre>
+<pre><code>## 100272261 total bases in 436807 reads from 17 samples will be used for learning the error rates.</code></pre>
+<pre><code>## 100154673 total bases in 436807 reads from 17 samples will be used for learning the error rates.</code></pre>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis
 
-out &lt;- filterAndTrim(cutFs, filtFs, cutRs, filtRs, maxN = 0, maxEE = c(2, 5), 
-                     truncQ = 2, minLen = 50, rm.phix = TRUE, compress = TRUE, multithread = TRUE)  
-head(out)
-out
-
-#learning errors
-errF&lt;-learnErrors(filtFs, multithread=TRUE)
-errR&lt;-learnErrors(filtRs, multithread=TRUE)
-
-#visualize the error rates w code below so you can see
-# plotErrors(errF, nominalQ=TRUE)
-
-# denoising data 
-derepFs&lt;-derepFastq(filtFs, verbose = TRUE)
-derepRs&lt;-derepFastq(filtRs, verbose=TRUE)</code></pre>
+## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<p><img src="analysis_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G1_S1_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5232 unique sequences from 25002 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G10_S10_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 6326 unique sequences from 27055 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G11_S11_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 6039 unique sequences from 24258 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G12_S12_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 4602 unique sequences from 25794 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G13_S13_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5201 unique sequences from 26158 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G14_S14_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5727 unique sequences from 31499 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G15_S15_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5875 unique sequences from 25290 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G16_S16_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 7082 unique sequences from 26653 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G17_S17_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 6133 unique sequences from 24744 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G18_S18_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 6249 unique sequences from 25525 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G19_S19_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5496 unique sequences from 25830 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G2_S2_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5681 unique sequences from 25407 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G20_S20_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 6041 unique sequences from 24102 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G21_S21_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 6168 unique sequences from 25687 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G22_S22_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 4610 unique sequences from 28070 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G23_S23_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 6640 unique sequences from 23650 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G24_S24_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5175 unique sequences from 22083 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G25_S25_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 6443 unique sequences from 27836 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G26_S26_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5719 unique sequences from 21986 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G3_S3_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5780 unique sequences from 27917 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G4_S4_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5610 unique sequences from 25207 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G5_S5_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5650 unique sequences from 32700 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G6_S6_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 7026 unique sequences from 29821 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G7_S7_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5377 unique sequences from 28046 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G8_S8_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5675 unique sequences from 24639 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G9_S9_L001_R1_001.fastq.gz</code></pre>
+<pre><code>## Encountered 5228 unique sequences from 20541 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G1_S1_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 16218 unique sequences from 25002 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G10_S10_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 19693 unique sequences from 27055 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G11_S11_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 17647 unique sequences from 24258 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G12_S12_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 17386 unique sequences from 25794 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G13_S13_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 17229 unique sequences from 26158 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G14_S14_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 20973 unique sequences from 31499 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G15_S15_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 17507 unique sequences from 25290 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G16_S16_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 18676 unique sequences from 26653 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G17_S17_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 17774 unique sequences from 24744 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G18_S18_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 18617 unique sequences from 25525 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G19_S19_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 18784 unique sequences from 25830 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G2_S2_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 16294 unique sequences from 25407 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G20_S20_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 19700 unique sequences from 24102 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G21_S21_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 18500 unique sequences from 25687 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G22_S22_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 19470 unique sequences from 28070 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G23_S23_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 18173 unique sequences from 23650 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G24_S24_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 16476 unique sequences from 22083 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G25_S25_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 19593 unique sequences from 27836 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G26_S26_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 15743 unique sequences from 21986 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G3_S3_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 19543 unique sequences from 27917 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G4_S4_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 17698 unique sequences from 25207 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G5_S5_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 20321 unique sequences from 32700 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G6_S6_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 19925 unique sequences from 29821 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G7_S7_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 18122 unique sequences from 28046 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G8_S8_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 16517 unique sequences from 24639 total sequences read.</code></pre>
+<pre><code>## Dereplicating sequence entries in Fastq file: ~/MiSeq_Run//cutadapt/filtered/G9_S9_L001_R2_001.fastq.gz</code></pre>
+<pre><code>## Encountered 14416 unique sequences from 20541 total sequences read.</code></pre>
 <p>After dereplication, we can denoise our sequences using the DADA algorithm. We will also merge our paired-end sequences, allowing for up to 1 mismatch in the overlap region and returning all sequences whether they merged or not.</p>
-<pre><code>dadaFs&lt;-dada(derepFs, err=errF, multithread = TRUE)
+<pre class="r"><code>dadaFs&lt;-dada(derepFs, err=errF, multithread = TRUE)
 dadaRs&lt;-dada(derepRs, err=errR, multithread=TRUE)
 
 mergers&lt;-mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose=TRUE, maxMismatch = 1, returnRejects = TRUE)</code></pre>
+<pre><code>## 21476 paired-reads (in 39 unique pairings) successfully merged out of 21586 (in 57 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 21945 paired-reads (in 31 unique pairings) successfully merged out of 22414 (in 74 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 19465 paired-reads (in 41 unique pairings) successfully merged out of 20198 (in 122 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 21511 paired-reads (in 21 unique pairings) successfully merged out of 21700 (in 41 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 21967 paired-reads (in 42 unique pairings) successfully merged out of 22204 (in 69 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 26347 paired-reads (in 41 unique pairings) successfully merged out of 26549 (in 64 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 20624 paired-reads (in 34 unique pairings) successfully merged out of 21157 (in 95 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 21829 paired-reads (in 49 unique pairings) successfully merged out of 22523 (in 134 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 19821 paired-reads (in 33 unique pairings) successfully merged out of 20156 (in 71 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 20346 paired-reads (in 31 unique pairings) successfully merged out of 20826 (in 125 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 20683 paired-reads (in 61 unique pairings) successfully merged out of 21071 (in 96 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 21762 paired-reads (in 43 unique pairings) successfully merged out of 22044 (in 72 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 17938 paired-reads (in 28 unique pairings) successfully merged out of 18422 (in 54 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 20305 paired-reads (in 56 unique pairings) successfully merged out of 21119 (in 147 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 22812 paired-reads (in 17 unique pairings) successfully merged out of 22891 (in 31 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 18534 paired-reads (in 39 unique pairings) successfully merged out of 19183 (in 88 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 17335 paired-reads (in 37 unique pairings) successfully merged out of 17965 (in 70 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 22173 paired-reads (in 41 unique pairings) successfully merged out of 22490 (in 76 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 18065 paired-reads (in 39 unique pairings) successfully merged out of 18185 (in 59 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 22088 paired-reads (in 42 unique pairings) successfully merged out of 23486 (in 167 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 20751 paired-reads (in 40 unique pairings) successfully merged out of 21169 (in 85 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 27881 paired-reads (in 33 unique pairings) successfully merged out of 28071 (in 58 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 24592 paired-reads (in 68 unique pairings) successfully merged out of 25461 (in 208 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 23582 paired-reads (in 36 unique pairings) successfully merged out of 23839 (in 62 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 20804 paired-reads (in 39 unique pairings) successfully merged out of 21123 (in 85 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
+<pre><code>## 16965 paired-reads (in 34 unique pairings) successfully merged out of 17326 (in 74 pairings) input.</code></pre>
+<pre><code>## Duplicate sequences in merged output.</code></pre>
 <p>Before we can assign taxonomy, we can construct a sequence table, remove chimeras using the removeBimeraDenovo command and then create a table of how many sequences were retained after each processing step.</p>
-<pre><code>seqtab&lt;-makeSequenceTable(mergers)
-dim(seqtab) 
-
-#Remove chimeras 
-seqtab.nochim&lt;-removeBimeraDenovo(seqtab, method=&quot;consensus&quot;, multithread=TRUE, verbose=TRUE)
-#inspect distribution sequence lengths
-table(nchar(getSequences(seqtab.nochim)))
-
-#track reads through the pipeline - inspect the number of reads that made it through each step in the pipeline -- IMPORTANT
-
-getN &lt;- function(x) sum(getUniques(x))
-track &lt;- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, 
-                                                                       getN), rowSums(seqtab.nochim))
-
-# If processing a single sample, remove the sapply calls: e.g. replace
-# sapply(dadaFs, getN) with getN(dadaFs)
-colnames(track) &lt;- c(&quot;input&quot;, &quot;filtered&quot;, &quot;denoisedF&quot;, &quot;denoisedR&quot;, &quot;merged&quot;, 
-                     &quot;nonchim&quot;)
-rownames(track) &lt;- sample.names     #what&#39;s considered to be an overlarge drop?? - reads seem fine
-head(track)</code></pre>
+<pre><code>## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.</code></pre>
+<pre><code>## [1]  26 208</code></pre>
+<pre><code>## Identified 144 bimeras out of 208 input sequences.</code></pre>
+<pre><code>## 
+## 273 274 281 283 287 288 289 290 291 292 319 421 
+##   2   2  12   3   4   4   8   2  18   7   1   1</code></pre>
+<pre><code>## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.
+## Duplicate sequences detected and merged.</code></pre>
+<pre><code>##              input filtered denoisedF denoisedR merged nonchim
+## G1_S1_L001   28069    25002     24953     21629  21586   20483
+## G10_S10_L001 30391    27055     26921     22528  22414   20281
+## G11_S11_L001 26771    24258     24182     20259  20198   18804
+## G12_S12_L001 28793    25794     25738     21744  21700   21003
+## G13_S13_L001 28812    26158     26083     22264  22204   21187
+## G14_S14_L001 33590    31499     31439     26586  26549   24953</code></pre>
 </div>
 <div id="downloads" class="section level2">
 <h2>Download list</h2>

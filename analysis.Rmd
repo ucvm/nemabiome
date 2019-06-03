@@ -102,7 +102,7 @@ Once the analysis has completed, you will have a file called `nemabiome_results.
 
 The following is a sample analysis using the DADA2 pipeline (https://benjjneb.github.io/dada2/tutorial.html). This is meant to be an example and not a definitive workflow. First we load packages and set a seed for reproducibility.
 
-```
+```{r libraries, echo=T, results='hide'}
 library(DECIPHER)
 packageVersion("DECIPHER")
 
@@ -115,17 +115,20 @@ packageVersion("ShortRead")
 library(Biostrings)
 packageVersion("Biostrings")
 
+library(ggplot2)
+packageVersion("ggplot2")
+
 set.seed(106)
 ```
 
 To use the DADA2 pipeline, primers must be removed from amplicons. This can be done in R using cutadapt. Here we specify the path of sequences to be processed (using "/Miseq_Run" from previous examples) and the path of Cutadapt on your machine (we used "/home/gilleardlab/anaconda3/bin/cutadapt"). You will also need to specify the primers you used as the "FWD" and "REV" variables. We start off by creating all possible orientations of the forward and reverse sequences.
 
-```
-path<- "Miseq_Run"
+```{r cutadapt_initialization}
+path<- "~/MiSeq_Run/"
 list.files(path)
 
-fnFs<-sort(list.files(path, pattern = "_R1.fastq.gz", full.names = TRUE)) 
-fnRs <-sort(list.files(path, pattern = "_R2.fastq.gz", full.names = TRUE))
+fnFs<-sort(list.files(path, pattern = "_R1_001.fastq.gz", full.names = TRUE)) 
+fnRs <-sort(list.files(path, pattern = "_R2_001.fastq.gz", full.names = TRUE))
 
 
 #identifying the primers
@@ -147,7 +150,7 @@ FWD.orients
 
 Next we will remove all sequences containing ambiguous bases, and count the number of times our primers are observed in the remaining sequences.
 
-```
+```{r more_cutadapt_initialization}
 #fltering the sequences
 fnFs.filtN <- file.path(path, "filtN", basename(fnFs)) 
 fnRs.filtN <- file.path(path, "filtN", basename(fnRs))
@@ -167,8 +170,8 @@ rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.filtN[[1]]),
 
 Now we can use cutadapt to remove primers, and check that they have been successfully removed.
 
-```
-cutadapt <- "/home/gilleardlab/anaconda3/bin/cutadapt" # CHANGE ME to the cutadapt path on your machine
+```{r cutadapt, echo=T, results='hide'}
+cutadapt <- "/home/stefan/.local/bin/cutadapt" # CHANGE ME to the cutadapt path on your machine
 system2(cutadapt, args = "--version") # Run shell commands from R
 
 #now creating output filenames for cutadapted files, and define parameters to give cutadapt command
@@ -202,9 +205,9 @@ rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.cut[[1]]),
 
 Now that primers are removed, we can begin the DADA2 pipeline. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters. 
 
-```
-cutFs <- sort(list.files(path.cut, pattern = "_R1.fastq.gz", full.names = TRUE)) #remember to match file names 
-cutRs <- sort(list.files(path.cut, pattern = "_R2.fastq.gz", full.names = TRUE))
+```{r quality_profiles}
+cutFs <- sort(list.files(path.cut, pattern = "_R1_001.fastq.gz", full.names = TRUE)) #remember to match file names 
+cutRs <- sort(list.files(path.cut, pattern = "_R2_001.fastq.gz", full.names = TRUE))
 
 # Extract sample names, assuming filenames have same format, may need to alter!!!
 get.sample.name <- function(fname) strsplit(basename(fname), "_R")[[1]][1]
@@ -216,8 +219,8 @@ sample.names
 ```
 For the purposes of our analysis, we chose to conduct quality filtering with maximum expected errors of 2 for the forward sequence, 5 for the reverse, to truncate after a quality score of 2 or lower, and to filter out amplicons with lengths shorter than 50 base pairs. Again, filters for your own pipeline may differ. After quality filtering, we can run our sequences through learnErrors to create an error model, and then dereplicate our sequences.
 
-```
-#filtering reads 
+```{r}
+#filtering reads
 filtFs<-file.path(path.cut, "filtered", basename(cutFs))
 filtRs<-file.path(path.cut, "filtered", basename(cutRs))
 
@@ -231,7 +234,7 @@ errF<-learnErrors(filtFs, multithread=TRUE)
 errR<-learnErrors(filtRs, multithread=TRUE)
 
 #visualize the error rates w code below so you can see
-# plotErrors(errF, nominalQ=TRUE)
+plotErrors(errF, nominalQ=TRUE)
 
 # denoising data 
 derepFs<-derepFastq(filtFs, verbose = TRUE)
@@ -240,7 +243,7 @@ derepRs<-derepFastq(filtRs, verbose=TRUE)
 
 After dereplication, we can denoise our sequences using the DADA algorithm. We will also merge our paired-end sequences, allowing for up to 1 mismatch in the overlap region and returning all sequences whether they merged or not.
 
-```
+```{r denoise_and_merge, echo=T, results='hide'}
 dadaFs<-dada(derepFs, err=errF, multithread = TRUE)
 dadaRs<-dada(derepRs, err=errR, multithread=TRUE)
 
@@ -249,7 +252,7 @@ mergers<-mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose=TRUE, maxMismatch 
 
 Before we can assign taxonomy, we can construct a sequence table, remove chimeras using the removeBimeraDenovo command and then create a table of how many sequences were retained after each processing step.
 
-```
+```{r chimera_removal}
 seqtab<-makeSequenceTable(mergers)
 dim(seqtab) 
 
