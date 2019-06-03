@@ -103,7 +103,7 @@ Once the analysis has completed, you will have a file called `nemabiome_results.
 Preamble:
 The [DADA2 pipeline](https://benjjneb.github.io/dada2/tutorial.html) is used as a method to correct errors that are introduced into sequencing data during amplicon sequencing. The output of this pipeline is a table of amplicon sequence variants (ASVs), as opposed to the traditional OTUs seen in other amplicon sequencing workflows that cluster similar sequences into a single OTU. DADA2 is capable of resolving biological differences of 1 or 2 nucleotides, producing ASVs from amplicon data that are of higher resolution than OTUs.
 
-Requirements:
+### Requirements & Installations
 DADA2 is an open-source [R package](https://github.com/benjjneb/dada2) that will allow you to run through the entire pipeline, including steps to filter, dereplicate, identify chimeras, and merge paired-end reads.
 
 To use DADA2, you must download and install R for your operating system. This can be done [here](https://cloud.r-project.org/). You should use the latest version of R/
@@ -115,13 +115,19 @@ Since DADA2 is available as part of the Bioconductor Project Package Repository,
 install.packages("BiocManager")
 ```
 
-To install the latest version of the DADA2 package, type the following:
+To install the latest version of the DADA2 package (1.12.1), type the following:
 ```
 BiocManager::install("dada2", version = "3.9")
 ```
-*Note that if you previously had R and Bioconductor installed, you may need to update them to the most recent versions.*
+*If you have previously installed R and Bioconductor, you may need to update them to the most recent versions.*
 
-DADA2 Workflow:
+To use the DADA2 pipeline, primers must be removed from the amplicon sequence data. In the following tutorial, we will be using the `cutadapt` tool in R to do this. Cutadapt can be installed as a conda package. If you do not already have conda installed, you can do so [here](https://docs.conda.io/en/latest/miniconda.html). Once you have conda installed, go to Terminal or Command Prompt, and type the following:
+```
+conda install -c bioconda cutadapt
+```
+
+
+### DADA2 Workflow
 Once you have installed the above, you are ready to start using the DADA2 pipeline. The following is a sample analysis using the DADA2 pipeline (https://benjjneb.github.io/dada2/tutorial.html). This is meant to be an example and not a definitive workflow. First, we load packages and set a seed for reproducibility.
 
 ```{r libraries, echo=T, message = FALSE}
@@ -143,7 +149,8 @@ packageVersion("ggplot2")
 set.seed(106)
 ```
 
-To use the DADA2 pipeline, primers must be removed from amplicons. This can be done in R using cutadapt. Here we specify the path of sequences to be processed (using "/Miseq_Run" from previous examples) and the path of Cutadapt on your machine (we used "/home/gilleardlab/anaconda3/bin/cutadapt"). You will also need to specify the primers you used as the "FWD" and "REV" variables. We start off by creating all possible orientations of the forward and reverse sequences.
+
+Next, we specify the path of sequences to be processed (using "/Miseq_Run" from previous examples). The DADA2 pipeline is intended to be used with demultiplexed, paired-end fastq files. That is to say, the samples must be separated into individual files and ordered such that forward and reverse reads of the same sample are matched. The pattern of the filenames should be the same for all forward and reverse files. In this example, the names are formatted as such: `samplename_R1_001.fastq.fz` for forward reads and `samplename_R2_001.fastq.gz` for reverse reads.
 
 ```{r cutadapt_initialization}
 path<- "~/MiSeq_Run/"
@@ -151,13 +158,16 @@ list.files(path)
 
 fnFs<-sort(list.files(path, pattern = "_R1_001.fastq.gz", full.names = TRUE)) 
 fnRs <-sort(list.files(path, pattern = "_R2_001.fastq.gz", full.names = TRUE))
+```
 
+You will also need to specify the primers sequences you used as the "FWD" and "REV" variables. These will be removed. To check that the primer sequences are correct and are present, we start off by creating all possible orientations of the forward and reverse sequences.
 
+```
 #identifying the primers
 FWD<-"ACGTCTGGTTCAGGGTTGTT"
 REV <- "TTAGTTTCTTTTCCTCCGCT"
 
-allOrients<-function(primer) {   #creates all orientations of the primer sequence)
+allOrients<-function(primer) {   #creates all orientations of the primer sequence
   require(Biostrings)
   dna<-DNAString(primer) #biostring works w dnastring objects
   orients<-c(Forward=dna, Complement=complement(dna), Reverse=reverse(dna),
@@ -170,10 +180,10 @@ REV.orients<-allOrients(REV)
 FWD.orients
 ```
 
-Next we will remove all sequences containing ambiguous bases, and count the number of times our primers are observed in the remaining sequences.
+Next, since the DADA2 workflow does not allow any ambiguous bases (Ns), we will remove all sequences containing Ns. Then, we will count the number of times our primers are observed in the remaining sequences. At this point, you should expect to find the forward primer in the forward reads in the forward orientation and reverse reads in the reverse orientation. You should also expect to find the reverse primer in the reverse reads in the forward orientation and forward reads in the reverse orientation. 
 
 ```{r more_cutadapt_initialization}
-#fltering the sequences
+#filtering the sequences
 fnFs.filtN <- file.path(path, "filtN", basename(fnFs)) 
 fnRs.filtN <- file.path(path, "filtN", basename(fnRs))
 filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = TRUE)
@@ -190,7 +200,7 @@ rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.filtN[[1]]),
       REV.ReverseReads = sapply(REV.orients, primerHits, fn = fnRs.filtN[[1]]))
 ```
 
-Now we can use cutadapt to remove primers, and check that they have been successfully removed.
+Now that we have confirmed the presence of the correct primers, we can use cutadapt to remove them. We will also check that they have been successfully removed. You should expect to see 0s across the table that is generated. To use cutadapt, you will need to specify the path of it on your machine (we used "/home/stefan/.local/bin/cutadapt").
 
 ```{r cutadapt, echo=T, results='hide'}
 cutadapt <- "/home/stefan/.local/bin/cutadapt" # CHANGE ME to the cutadapt path on your machine
@@ -225,7 +235,7 @@ rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.cut[[1]]),
 
 ```
 
-Now that primers are removed, we can begin the DADA2 pipeline. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters. 
+Now that primers are removed, we can officially begin the DADA2 pipeline. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters. 
 
 ```{r quality_profiles}
 cutFs <- sort(list.files(path.cut, pattern = "_R1_001.fastq.gz", full.names = TRUE)) #remember to match file names 
@@ -239,6 +249,7 @@ sample.names
 #plotQualityProfile(cutFs[1:2])+ggtitle("Forward")
 #plotQualityProfile(cutRs[1:2])+ggtitle("Reverse")
 ```
+
 For the purposes of our analysis, we chose to conduct quality filtering with maximum expected errors of 2 for the forward sequence, 5 for the reverse, to truncate after a quality score of 2 or lower, and to filter out amplicons with lengths shorter than 50 base pairs. Again, filters for your own pipeline may differ. After quality filtering, we can run our sequences through learnErrors to create an error model, and then dereplicate our sequences.
 
 ```{r}
