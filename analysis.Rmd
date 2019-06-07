@@ -2,7 +2,7 @@
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = "hide")
 ```
 
 # Analysis Protocols {.tabset .tabset-pills .tabset-fade}
@@ -111,15 +111,26 @@ To use DADA2, you must download and install R for your operating system. This ca
 If you would like, download and install RStudio, which is an integrated development environment (IDE) for R programming. This can be done through [this link](https://www.rstudio.com/download).
 
 Since DADA2 is available as part of the Bioconductor Project Package Repository, install Bioconductor in R.
+
 ```
 install.packages("BiocManager")
 ```
 
+<<<<<<< HEAD
 To install the latest version of the DADA2 package (1.12.1), type the following:
 ```
 BiocManager::install("dada2", version = "3.9")
 ```
 *If you have previously installed R and Bioconductor, you may need to update them to the most recent versions.*
+=======
+To install the latest version of the DADA2 package, type the following:
+
+```
+BiocManager::install("dada2", version = "3.9")
+```
+
+*Note that if you previously had R and Bioconductor installed, you may need to update them to the most recent versions.*
+>>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
 
 To use the DADA2 pipeline, primers must be removed from the amplicon sequence data. In the following tutorial, we will be using the `cutadapt` tool in R to do this. Cutadapt can be installed as a conda package. If you do not already have conda installed, you can do so [here](https://docs.conda.io/en/latest/miniconda.html). Once you have conda installed, go to Terminal or Command Prompt, and type the following:
 ```
@@ -131,6 +142,7 @@ conda install -c bioconda cutadapt
 Once you have installed the above, you are ready to start using the DADA2 pipeline. The following is a sample analysis using the DADA2 pipeline (https://benjjneb.github.io/dada2/tutorial.html). This is meant to be an example and not a definitive workflow. First, we load packages and set a seed for reproducibility.
 
 ```{r libraries, echo=T, message = FALSE}
+
 library(DECIPHER)
 packageVersion("DECIPHER")
 
@@ -146,16 +158,35 @@ packageVersion("Biostrings")
 library(ggplot2)
 packageVersion("ggplot2")
 
+library(stringr) # not strictly required but handy
+packageVersion("stringr")
+
 set.seed(106)
 ```
 
+<<<<<<< HEAD
 
 Next, we specify the path of sequences to be processed (using "/Miseq_Run" from previous examples). The DADA2 pipeline is intended to be used with demultiplexed, paired-end fastq files. That is to say, the samples must be separated into individual files and ordered such that forward and reverse reads of the same sample are matched. The pattern of the filenames should be the same for all forward and reverse files. In this example, the names are formatted as such: `samplename_R1_001.fastq.fz` for forward reads and `samplename_R2_001.fastq.gz` for reverse reads.
+=======
+### Setup
 
-```{r cutadapt_initialization}
-path<- "~/MiSeq_Run/"
-list.files(path)
+To get started we'll need to do a little prep.  We'll start by defining where our raw data files live using the `path` variable.  We then create a vector of file names, one for the forward reads and one for the reverse.  The `samples` vector contains our sample names, extracted from the file names using a regular expression.  For Illumina data, often the sample name is everything before the first underscore.
 
+The primer sequences are defined here as well, because we'll be clipping those off shortly.  The forward primer will be at the beginning of the forward read and the reverse primer will be at the beginning of the reverse read.  The reverse complements are included in case the amplicon sequence is shorter than our read length.  When this happens the sequence will contain the reverse complement of the opposite primer, i.e. there may be reverse-complemented reverse primer at the end of the forward read.
+
+```{r primer_initialization}
+path <- "~/MiSeq_Run"
+
+fwd_files <- sort(list.files(path, pattern = "R1", full.names = TRUE)) 
+rev_files <- sort(list.files(path, pattern = "R2", full.names = TRUE))
+>>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
+
+# It's also handy to have a vector of sample names, which in this case is everything up 
+# until the first underscore, which is what our regular expression caputres.  You may
+# also create this manually if you don't have too many samples
+samples = str_extract(basename(fwd_files), "^[^_]+")
+
+<<<<<<< HEAD
 fnFs<-sort(list.files(path, pattern = "_R1_001.fastq.gz", full.names = TRUE)) 
 fnRs <-sort(list.files(path, pattern = "_R2_001.fastq.gz", full.names = TRUE))
 ```
@@ -173,13 +204,31 @@ allOrients<-function(primer) {   #creates all orientations of the primer sequenc
   orients<-c(Forward=dna, Complement=complement(dna), Reverse=reverse(dna),
              RevComp=reverseComplement(dna))
   return(sapply(orients, toString)) #now converting back into character vector
-}
-FWD.orients<-allOrients(FWD)
-REV.orients<-allOrients(REV)
+=======
+names(fwd_files) <- samples
+names(rev_files) <- samples
 
-FWD.orients
+fwd_primer <- "ACGTCTGGTTCAGGGTTGTT"
+rev_primer <- "TTAGTTTCTTTTCCTCCGCT"
+fwd_primer_rev <- as.character(reverseComplement(DNAStringSet(fwd_primer)))
+rev_primer_rev <- as.character(reverseComplement(DNAStringSet(rev_primer)))
 ```
 
+Before we move on let's do a quick sanity check to make sure our primer sequences are detected.  The code below will count the number of times we have a primer hit in our fastq file.  Note that this is a quick and dirty method to be sure that we have the right primer sequence.  For proper primer removal we'll need something more sophisticated, like `cutadapt` which we'll demonstrate next.
+
+```{r}
+# This function counts number of reads in which the primer is found
+count_primers <- function(primer, filename) {
+  num_hits <- vcountPattern(primer, sread(readFastq(filename)), fixed = FALSE)
+  return(sum(num_hits > 0))
+>>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
+}
+
+count_primers(fwd_primer, fwd_files[[1]])
+count_primers(rev_primer, rev_files[[1]])
+```
+
+<<<<<<< HEAD
 Next, since the DADA2 workflow does not allow any ambiguous bases (Ns), we will remove all sequences containing Ns. Then, we will count the number of times our primers are observed in the remaining sequences. At this point, you should expect to find the forward primer in the forward reads in the forward orientation and reverse reads in the reverse orientation. You should also expect to find the reverse primer in the reverse reads in the forward orientation and forward reads in the reverse orientation. 
 
 ```{r more_cutadapt_initialization}
@@ -187,19 +236,25 @@ Next, since the DADA2 workflow does not allow any ambiguous bases (Ns), we will 
 fnFs.filtN <- file.path(path, "filtN", basename(fnFs)) 
 fnRs.filtN <- file.path(path, "filtN", basename(fnRs))
 filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = TRUE)
+=======
+### Primer removal
 
-#counting number of primers 
-primerHits <- function(primer, fn) {
-  # Counts number of reads in which the primer is found
-  nhits <- vcountPattern(primer, sread(readFastq(fn)), fixed = FALSE)
-  return(sum(nhits > 0))
-}
-rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.filtN[[1]]), 
-      FWD.ReverseReads = sapply(FWD.orients, primerHits, fn = fnRs.filtN[[1]]), 
-      REV.ForwardReads = sapply(REV.orients, primerHits, fn = fnFs.filtN[[1]]), 
-      REV.ReverseReads = sapply(REV.orients, primerHits, fn = fnRs.filtN[[1]]))
+Now we can use cutadapt to remove primers, and check that they have been successfully removed.  Cutadapt was designed to remove sequencing adapters that sometimes get left on the reads, however, it's main function is to detect and trim off regions that match a known sequence, which is precisely what we want to do here.  
+>>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
+
+Cutadapt is best installed using conda (`conda install cutadapt`) and can also be used directly from the command line.  Here we demonstrate how to run it directly from R using the `system2` command but the results are the same either way.  The first parameter to `system2` is the program we wish to run and the second is character vector of arguments and their values.
+
+```{r}
+
+# CHANGE ME to the cutadapt path on your machine.  If you've installed conda according to the 
+# provided instructions then this will likely be the same for you.
+cutadapt <- path.expand("~/miniconda3/bin/cutadapt")
+
+# Make sure it works
+system2(cutadapt, args = "--version") 
 ```
 
+<<<<<<< HEAD
 Now that we have confirmed the presence of the correct primers, we can use cutadapt to remove them. We will also check that they have been successfully removed. You should expect to see 0s across the table that is generated. To use cutadapt, you will need to specify the path of it on your machine (we used "/home/stefan/.local/bin/cutadapt").
 
 ```{r cutadapt, echo=T, results='hide'}
@@ -226,86 +281,268 @@ for(i in seq_along(fnFs)) {
                              "-o", fnFs.cut[i], "-p", fnRs.cut[i], # output files
                              fnFs.filtN[i], fnRs.filtN[i])) # input files
 }
+=======
+Now output filenames are defined as well as parameters for cutadapt.  The critical parameters are the primer sequences and their orientation.  It's strongly recommended that you review the [cutadapt documentation] (https://cutadapt.readthedocs.io/en/stable/guide.html) for full details of each parameter.  Briefly:
 
-# remember to check things - can check presence of primers in the first cutadapted sample 
-rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.cut[[1]]), 
-      FWD.ReverseReads = sapply(FWD.orients, primerHits, fn = fnRs.cut[[1]]), 
-      REV.ForwardReads = sapply(REV.orients, primerHits, fn = fnFs.cut[[1]]), 
-      REV.ReverseReads = sapply(REV.orients, primerHits, fn = fnRs.cut[[1]]))
+`-g`: sequence to trim off the 5' end of the forward read (forward primer)
+`-a`: sequence to trim off the 3' end of the forward read (reverse complemented reverse primer)
+`-G`: sequence to trim off the 5' end of the reverse read (reverse primer)
+`-A`: sequence to trim off the 3' end of the reverse read (reverse complemented forward primer)
+>>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
 
-```
+We'll also add `-m 50` to get rid of super short junky reads, `--max-n 1` to get rid of reads that have any N's in them and `-n 2` so that cutadapt will remove multiple primer hits if there happens to be read-through.  The `--discard-untrimmed` is also added so only reads that contain a primer will be kept ensuring we keep only valid amplicons.   And finally a `-q 15` will trim off low quality bases from the 3' end.  
 
-Now that primers are removed, we can officially begin the DADA2 pipeline. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters. 
-
-```{r quality_profiles}
-cutFs <- sort(list.files(path.cut, pattern = "_R1_001.fastq.gz", full.names = TRUE)) #remember to match file names 
-cutRs <- sort(list.files(path.cut, pattern = "_R2_001.fastq.gz", full.names = TRUE))
-
-# Extract sample names, assuming filenames have same format, may need to alter!!!
-get.sample.name <- function(fname) strsplit(basename(fname), "_R")[[1]][1]
-sample.names <- unname(sapply(cutFs, get.sample.name))
-sample.names
-
-#plotQualityProfile(cutFs[1:2])+ggtitle("Forward")
-#plotQualityProfile(cutRs[1:2])+ggtitle("Reverse")
-```
-
-For the purposes of our analysis, we chose to conduct quality filtering with maximum expected errors of 2 for the forward sequence, 5 for the reverse, to truncate after a quality score of 2 or lower, and to filter out amplicons with lengths shorter than 50 base pairs. Again, filters for your own pipeline may differ. After quality filtering, we can run our sequences through learnErrors to create an error model, and then dereplicate our sequences.
+<div class="alert alert-warning" role="alert">
+  <p>In our experience this small amount of trimming can remove the need for truncating the reads later on but this is something that may vary from run to run it and an important paramter to consider for your own data </p>
+</div>
 
 ```{r}
-#filtering reads
-filtFs<-file.path(path.cut, "filtered", basename(cutFs))
-filtRs<-file.path(path.cut, "filtered", basename(cutRs))
 
-out <- filterAndTrim(cutFs, filtFs, cutRs, filtRs, maxN = 0, maxEE = c(2, 5), 
-                     truncQ = 2, minLen = 50, rm.phix = TRUE, compress = TRUE, multithread = TRUE)  
-head(out)
-out
+# Create an output directory to store the clipped files
+cut_dir <- file.path(path, "cutadapt")
+if (!dir.exists(cut_dir)) dir.create(cut_dir)
 
-#learning errors
-errF<-learnErrors(filtFs, multithread=TRUE)
-errR<-learnErrors(filtRs, multithread=TRUE)
+fwd_cut <- file.path(cut_dir, basename(fwd_files))
+rev_cut <- file.path(cut_dir, basename(rev_files))
 
-#visualize the error rates w code below so you can see
-plotErrors(errF, nominalQ=TRUE)
+names(fwd_cut) <- samples
+names(rev_cut) <- samples
 
-# denoising data 
-derepFs<-derepFastq(filtFs, verbose = TRUE)
-derepRs<-derepFastq(filtRs, verbose=TRUE)
+# It's good practice to keep some log files so let's create some
+# file names that we can use for those 
+cut_logs <- path.expand(file.path(cut_dir, paste0(samples, ".log")))
+
+cutadapt_args <- c("-g", fwd_primer, "-a", rev_primer_rev, 
+                   "-G", rev_primer, "-A", fwd_primer_rev,
+                   "-n", 2, "--discard-untrimmed")
+
+# Loop over the list of files, running cutadapt on each file.  If you don't have a vector of sample names or 
+# don't want to keep the log files you can set stdout = "" to output to the console or stdout = NULL to discard
+for (i in seq_along(fwd_files)) {
+  system2(cutadapt, 
+          args = c(cutadapt_args,
+                   "-o", fwd_cut[i], "-p", rev_cut[i], 
+                   fwd_files[i], rev_files[i]),
+          stdout = cut_logs[i])  
+}
+
+# quick check that we got something
+head(list.files(cut_dir))
 ```
 
-After dereplication, we can denoise our sequences using the DADA algorithm. We will also merge our paired-end sequences, allowing for up to 1 mismatch in the overlap region and returning all sequences whether they merged or not.
+<<<<<<< HEAD
+Now that primers are removed, we can officially begin the DADA2 pipeline. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters. 
+=======
+### Inspect quality scores
 
-```{r denoise_and_merge, echo=T, results='hide'}
-dadaFs<-dada(derepFs, err=errF, multithread = TRUE)
-dadaRs<-dada(derepRs, err=errR, multithread=TRUE)
+Now that primers are removed, we can begin the DADA2 pipeline in full. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters. For the sake of speed we only show 2 samples here but feel free to look at all your samples (or more than 2 anyway).
+>>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
 
-mergers<-mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose=TRUE, maxMismatch = 1, returnRejects = TRUE)
+```{r quality_profiles}
+plotQualityProfile(fwd_cut[1:2]) + ggtitle("Forward")
 ```
 
-Before we can assign taxonomy, we can construct a sequence table, remove chimeras using the removeBimeraDenovo command and then create a table of how many sequences were retained after each processing step.
+Everything looks pretty good here.  The majority of our reads should be 230 bp based on the fact that we trimmed 20 bp primers off the beginning of the read.  It looks like a very, very few did not get trimmed properly but from the red line across the bottom, which is the number of reads of that length, we can see that this is such a small percentage that we don't need to worry about it.
 
-```{r chimera_removal}
-seqtab<-makeSequenceTable(mergers)
+<div class="alert alert-success" role="alert">
+  <h4 class="alert-heading">Side note</h4>
+  <p>If you're paying attention you might be asking why, if the primers always appear at the same point in the read, can't we just clip the reads at this point.  In fact, for some datasets, this one included, that would be a valid strategy given that the all the ITS2 sequences are longer than the read length (250 bp).  However, this is not always the case and as described above, if the amplicon length is less than the read lenght we'll have to find and remove the opposite primer.  So in general it's good practice to use something like cutadapt which will ensure the correct sequences are output. </p>
+</div>
+
+
+```{r}
+plotQualityProfile(rev_cut[1:2]) + ggtitle("Reverse")
+```
+
+Reverse reads are lower quality as is always the case for Illumina data.  However, it looks like the quality average is above 20 for most of the length of the read so we'll go ahead with the analysis.
+
+
+### Quality filtering
+
+For the purposes of our analysis, we chose to conduct quality filtering with maximum expected errors of 2 for the forward sequence, 5 for the reverse, to truncate after a quality score of 2 or lower.
+
+<div class="alert alert-warning" role="alert">
+  <p>Make your own decisions about trimming paramters!  Your data will be different, possibly very different, from ours so our parmeter choices are likely to be not at all appropriate for your data.  So don't copy and paste this code - think carefully about your data and choose parameters appropriate for your data.</p>
+</div>
+
+
+```{r}
+
+# Same as for the clippling we create an output directory to store the filtered files
+filt_dir <- file.path(path, "filtered")
+if (!dir.exists(filt_dir)) dir.create(filt_dir)
+
+fwd_filt <- file.path(filt_dir, basename(fwd_files))
+rev_filt <- file.path(filt_dir, basename(rev_files))
+
+names(fwd_filt) <- samples
+names(rev_filt) <- samples
+
+filtered_out <- filterAndTrim(
+  fwd = fwd_cut, 
+  filt = fwd_filt,
+  rev = rev_cut,
+  filt.rev = rev_filt,
+  maxEE = c(2, 5), 
+  truncQ = 2, 
+  rm.phix = TRUE, 
+  compress = TRUE, 
+  multithread = TRUE
+  )  
+
+head(filtered_out)
+```
+
+<<<<<<< HEAD
+For the purposes of our analysis, we chose to conduct quality filtering with maximum expected errors of 2 for the forward sequence, 5 for the reverse, to truncate after a quality score of 2 or lower, and to filter out amplicons with lengths shorter than 50 base pairs. Again, filters for your own pipeline may differ. After quality filtering, we can run our sequences through learnErrors to create an error model, and then dereplicate our sequences.
+=======
+
+### Main dada2 workflow
+
+Much of the remainder of the dada2 workflow is very well documented in the main dada2 tutorial so if you'd like to read in more detail please that tutorial as well as the dada2 paper.
+
+#### Learn errors
+
+Here dada2 learns the error profile for your data using an interative approach.  These error profiles are used in the next step to correct errors. 
+>>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
+
+```{r}
+
+err_fwd <- learnErrors(fwd_filt, multithread = TRUE)
+err_rev <- learnErrors(rev_filt, multithread = TRUE)
+
+plotErrors(err_fwd, nominalQ = TRUE)
+```
+The plot shows how well the estimated error rates fit the observed rates.  The black line should line up reasonably well with the black points.  This looks reasonable so we continue on.
+
+#### Denoising (aka error-correcting)
+
+We can now denoise our sequences using the DADA algorithm. Note that older versions of dada2 required a dereplication step that is now done automatically by the `dada` function.  
+
+```{r denoise}
+dada_fwd <- dada(fwd_filt, err = err_fwd, multithread = TRUE)
+dada_rev <- dada(rev_filt, err = err_rev, multithread = TRUE)
+```
+
+#### Merge pairs
+
+Now that we have accurate sequences we can merge the paired-end reads to reconstruct the full amplicon sequence.  Note that most sequences should succesfully overlap, _unless_ your trimming parameters were too aggresive (i.e. too much sequence was trimmed off the end) _or_ you have amplicons that longer than the combined read length (>500 bp, in this case). In the latter case these reads are still useable but will need special handling (more details to come on those cases).
+
+```{r merge}
+mergers <- mergePairs(
+  dadaF = dada_fwd,
+  dadaR = dada_rev,
+  derepF = fwd_filt,
+  derepR = rev_filt,
+  maxMismatch = 1, 
+  verbose=TRUE
+)
+
+```
+
+
+#### Sequence table
+
+Before we can assign taxonomy, we can construct a sequence table, which lists the number of each sequence present in each sample.  We can see the dimensions of this sequence table, where the number of rows is the number of samples and the number of columns is the number of total unique sequences
+
+```{r seq_table}
+seqtab <- makeSequenceTable(mergers)
 dim(seqtab) 
+```
 
-#Remove chimeras 
-seqtab.nochim<-removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE, verbose=TRUE)
-#inspect distribution sequence lengths
-table(nchar(getSequences(seqtab.nochim)))
 
-#track reads through the pipeline - inspect the number of reads that made it through each step in the pipeline -- IMPORTANT
+#### Remove chimeras 
 
+Don't be alarmed here if many of your sequences are discarded - the number of chimeras varies but can be quite high in some cases.
+
+```{r}
+seqtab_nochim <- removeBimeraDenovo(seqtab, method = "consensus", multithread = TRUE, verbose = TRUE)
+dim(seqtab_nochim)
+
+```
+
+### How did we do?
+
+#### Sequence length distribution
+
+```{r}
+table(nchar(getSequences(seqtab_nochim)))
+```
+
+#### Number of reads at each step
+
+This is an important step, particularly if you're trying to track down where something went wrong.
+
+```{r}
+# small function to get the number of sequences
 getN <- function(x) sum(getUniques(x))
-track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, 
-                                                                       getN), rowSums(seqtab.nochim))
 
-# If processing a single sample, remove the sapply calls: e.g. replace
-# sapply(dadaFs, getN) with getN(dadaFs)
-colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", 
-                     "nonchim")
-rownames(track) <- sample.names     #what's considered to be an overlarge drop?? - reads seem fine
+track <- cbind(
+  filtered_out, 
+  sapply(dada_fwd, getN), 
+  sapply(dada_rev, getN), 
+  sapply(mergers, getN), 
+  rowSums(seqtab_nochim)
+)
+
+colnames(track) <- c("raw", "filtered", "denoised_fwd", "denoised_rev", "merged", "no_chim")
+rownames(track) <- samples  
 head(track)
+```
+
+### Assigning taxonomy with IDTAXA
+
+Now that we have a sequence table with the chimeras removed, we can classify/assign taxonomy to the sequence variants. Although there are multiple multiple taxonomic classification methods, we will be using IdTaxa, which is available through the `DECIPHER` package. You can read more about IdTaxa [here](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5).
+
+#### Training the classifier
+The IdTaxa classification method relies on a training set that contains sequences that are representative of known taxa. Although there exists trained classifiers, we will be using the ITS2 Nematode database as our classifier. Since it is not trained, we will have to train the classifier using `LearnTaxa`, which is also available as a `DECIPHER` package. The `train` parameter of `LearnTaxa` contains the sequences included in the classifier as a DNAStringSet. Each sequence is formatted such that the names of each taxonomic level is separated by a semicolon. Once the sequence headers of the classifier are parsed, the `taxonomy` parameter will contain the taxonomic assignment, separated by a semicolon, for each sequence in `train`. 
+``` {r}
+# Load the classifier into R, then parse the headers by their taxonomic levels.
+train <- readDNAStringSet("~/Desktop/ITS2_nematode_dada2.fasta")
+s <- strsplit(names(train), ";")
+  superkingdom <- sapply(s, `[`, 1)
+  kingdom <- sapply(s, `[`, 2)
+  phylum <- sapply(s, `[`, 3)
+  class <- sapply(s, `[`, 4)
+  order <- sapply(s, `[`, 5)
+  family <- sapply(s, `[`, 6)
+  genus <- sapply(s, `[`, 7)
+  species <- sapply(s, `[`, 8)
+taxonomy <- paste("Root", domain, kingdom, phylum, class, order, family, genus, species, sep = ";")
+
+# Train the classifier.
+trainingSet <- LearnTaxa(database, taxonomy)
+```
+
+#### Running IdTaxa
+To use IdTaxa, we will need to convert the unique sequence variants that we want to classify into a DNAStringSet object. Now that we have our trained classifier (i.e. training set) and the sequences we want to classify, we can run `IdTaxa`. You can change various parameters of `IdTaxa` depending on your data. We recommend reviewing the [IdTaxa documentation] (https://rdrr.io/bioc/DECIPHER/man/IdTaxa.html) for further information. Here, we have specified several parameters:
+
+* `strand = "both"` : by setting the `strand` parameter to "both", each sequence variant is classified using both the forward and reverse complement orientation. The sequence varient will be classified as the result with the highest confidence.
+* `threshold = 60` : setting the `threshold` to 60 specifies when the taxonomic classifications are truncated. A lower threshold usually results in higher taxonomic level classifications, but lower accuracy (i.e. confidence). A higher threshold usually results in lower taxonomic level classifications, but with higher accuracy.
+* `bootstraps = 100` : this specifies the amount of times bootstrap replicates are performed for each sequence. 
+* `processors = NULL` : automatically uses all available processors.
+* `verbose = TRUE` : displays progress.
+* `type = "extended"` : by setting the `type` to "extended", the output for each sequence variant will contain the taxonomic classification, the names of each taxonomic rank, and the confidence of the assignment. 
+
+``` {r}
+dna <- readDNAStringSet(getSequences(seqtab_nochim))
+
+ids <- IdTaxa(dna, trainingSet, strand = "both", threshold = 60, bootstraps = 100, processors = NULL, verbose = TRUE, type = "extended")
+```
+
+Although it contains all the necessary information, the output of `IdTaxa` is not as intuitive as we would like. It outputs a list of the sequence variants. Within this list, each element will have its taxonomic classification and the confidence for each taxon. To facilitate easier manipulation and comprehension of the data, we will convert this list into a matrix, with the rows as the sequence variants and the columns as their taxonomic classifications and confidence.
+
+``` {r}
+ranks <- c("superkingdom", "kingdom", "phylum", "class", "order", "family", "genus", "species")
+
+taxid <- t(sapply(ids, function(x) {
+  m <- match(ranks, x$rank)
+  taxa <- x$taxon[m]
+  taxa
+}))
+
+colnames(taxid) <- ranks
+rownames(taxid) <- colnames(seqtab_nochim)
 ```
 
 ## Download list {#downloads}
