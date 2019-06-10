@@ -436,14 +436,6 @@ The IdTaxa classification method relies on a training set that contains sequence
 # Load the sequences (we use the rdp formatted database here - the IDTAXA formatted version will be forthcoming)
 train <- readDNAStringSet("~/Nematode_ITS2_rdp_0.9.3.fasta")
 
-db = readr::read_tsv("../../databases/Nematode_ITS2/db/taxonomy_nr.txt")
-
-db %>% 
-  select(-uid, -accn) %>% 
-  distinct() %>% 
-  rownames_to_column("Index") %>% 
-  rename(Name = taxid)
-
 # extract the sequence headers and remove everything up to and including the first space
 # this is the format required by the classifier
 taxonomy <- names(train)
@@ -495,7 +487,7 @@ colnames(taxid) <- ranks
 rownames(taxid) <- colnames(seqtab_nochim)
 ```
 
-## Over to phyloseq
+### Over to phyloseq
 
 ```{r}
 library(phyloseq)

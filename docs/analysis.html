@@ -420,39 +420,62 @@ sample3 sample3_S3_L001_R1_001.fastq     sample3_S3_L001_R2_001.fastq
 </div>
 <div id="dada2-example-workflow" class="section level2">
 <h2>DADA2 Example Workflow</h2>
-<p>The following is a sample analysis using the DADA2 pipeline (<a href="https://benjjneb.github.io/dada2/tutorial.html" class="uri">https://benjjneb.github.io/dada2/tutorial.html</a>). This is meant to be an example and not a definitive workflow. First we load packages and set a seed for reproducibility.</p>
+<div id="preamble" class="section level3">
+<h3>Preamble</h3>
+<p>The <a href="https://benjjneb.github.io/dada2/tutorial.html">DADA2 pipeline</a> is used as a method to correct errors that are introduced into sequencing data during amplicon sequencing. The output of this pipeline is a table of amplicon sequence variants (ASVs), as opposed to the traditional OTUs seen in other amplicon sequencing workflows that cluster similar sequences into a single OTU. DADA2 is capable of resolving biological differences of 1 or 2 nucleotides, producing ASVs from amplicon data that are of higher resolution than OTUs.</p>
+</div>
+<div id="requirements-installations" class="section level3">
+<h3>Requirements &amp; Installations</h3>
+<p>DADA2 is an open-source <a href="https://github.com/benjjneb/dada2">R package</a> that will allow you to run through the entire pipeline, including steps to filter, dereplicate, identify chimeras, and merge paired-end reads.</p>
+<p>To use DADA2, you must download and install R for your operating system. This can be done <a href="https://cloud.r-project.org/">here</a>. You should use the latest version of R/</p>
+<p>If you would like, download and install RStudio, which is an integrated development environment (IDE) for R programming. This can be done through <a href="https://www.rstudio.com/download">this link</a>.</p>
+<p>Since DADA2 is available as part of the Bioconductor Project Package Repository, install Bioconductor in R.</p>
+<pre><code>install.packages(&quot;BiocManager&quot;)</code></pre>
+<p>To install the latest version of the DADA2 package (1.12.1), type the following:</p>
+<pre><code>BiocManager::install(&quot;dada2&quot;, version = &quot;3.9&quot;)</code></pre>
+<p><em>If you have previously installed R and Bioconductor, you may need to update them to the most recent versions.</em></p>
+<p>To use the DADA2 pipeline, primers must be removed from the amplicon sequence data. In the following tutorial, we will be using the <code>cutadapt</code> tool in R to do this. Cutadapt can be installed as a conda package. If you do not already have conda installed, you can do so <a href="https://docs.conda.io/en/latest/miniconda.html">here</a>. Once you have conda installed, go to Terminal or Command Prompt, and type the following:</p>
+<pre><code>conda install -c bioconda cutadapt</code></pre>
+</div>
+<div id="dada2-workflow" class="section level3">
+<h3>DADA2 Workflow</h3>
+<p>Once you have installed the above, you are ready to start using the DADA2 pipeline. The following is a sample analysis using the DADA2 pipeline (<a href="https://benjjneb.github.io/dada2/tutorial.html" class="uri">https://benjjneb.github.io/dada2/tutorial.html</a>). This is meant to be an example and not a definitive workflow. First, we load packages and set a seed for reproducibility.</p>
 <pre class="r"><code>library(DECIPHER)
-packageVersion(&quot;DECIPHER&quot;)
-
-library(dada2)
-packageVersion(&quot;dada2&quot;) 
-
-library(ShortRead)
-packageVersion(&quot;ShortRead&quot;) 
-
-library(Biostrings)
-packageVersion(&quot;Biostrings&quot;)
-
-library(ggplot2)
-packageVersion(&quot;ggplot2&quot;)
-
-library(stringr) # not strictly required but handy
-packageVersion(&quot;stringr&quot;)
-
-set.seed(106)</code></pre>
+packageVersion(&quot;DECIPHER&quot;)</code></pre>
+<pre><code>## [1] &#39;2.12.0&#39;</code></pre>
+<pre class="r"><code>library(dada2)
+packageVersion(&quot;dada2&quot;) </code></pre>
+<pre><code>## [1] &#39;1.12.1&#39;</code></pre>
+<pre class="r"><code>library(ShortRead)
+packageVersion(&quot;ShortRead&quot;) </code></pre>
+<pre><code>## [1] &#39;1.42.0&#39;</code></pre>
+<pre class="r"><code>library(Biostrings)
+packageVersion(&quot;Biostrings&quot;)</code></pre>
+<pre><code>## [1] &#39;2.52.0&#39;</code></pre>
+<pre class="r"><code>library(ggplot2)
+packageVersion(&quot;ggplot2&quot;)</code></pre>
+<pre><code>## [1] &#39;3.1.1&#39;</code></pre>
+<pre class="r"><code>library(stringr) # not strictly required but handy
+packageVersion(&quot;stringr&quot;)</code></pre>
+<pre><code>## [1] &#39;1.4.0&#39;</code></pre>
+<pre class="r"><code>set.seed(106)</code></pre>
+</div>
 <div id="setup" class="section level3">
 <h3>Setup</h3>
-<p>To get started we’ll need to do a little prep. We’ll start by defining where our raw data files live using the <code>path</code> variable. We then create a vector of file names, one for the forward reads and one for the reverse. The <code>samples</code> vector contains our sample names, extracted from the file names using a regular expression. For Illumina data, often the sample name is everything before the first underscore.</p>
+<p>To get started we’ll need to do a little prep. We’ll start by defining the path of sequences to be processed (using “~/Miseq_Run” from previous examples). The DADA2 pipeline is intended to be used with demultiplexed, paired-end fastq files. That is to say, the samples must be separated into individual files and ordered such that forward and reverse reads of the same sample are matched. The pattern of the filenames should be the same for all forward and reverse files. In this example, the names are formatted as such: <code>samplename_R1_001.fastq.fz</code> for forward reads and <code>samplename_R2_001.fastq.gz</code> for reverse reads.</p>
+<p>We then create a vector of file names, one for the forward reads and one for the reverse. The <code>samples</code> vector contains our sample names, extracted from the file names using a regular expression. For Illumina data, often the sample name is everything before the first underscore.</p>
 <p>The primer sequences are defined here as well, because we’ll be clipping those off shortly. The forward primer will be at the beginning of the forward read and the reverse primer will be at the beginning of the reverse read. The reverse complements are included in case the amplicon sequence is shorter than our read length. When this happens the sequence will contain the reverse complement of the opposite primer, i.e. there may be reverse-complemented reverse primer at the end of the forward read.</p>
 <pre class="r"><code>path &lt;- &quot;~/MiSeq_Run&quot;
 
 fwd_files &lt;- sort(list.files(path, pattern = &quot;R1&quot;, full.names = TRUE)) 
 rev_files &lt;- sort(list.files(path, pattern = &quot;R2&quot;, full.names = TRUE))
 
+
 # It&#39;s also handy to have a vector of sample names, which in this case is everything up 
 # until the first underscore, which is what our regular expression caputres.  You may
 # also create this manually if you don&#39;t have too many samples
 samples = str_extract(basename(fwd_files), &quot;^[^_]+&quot;)
+
 
 names(fwd_files) &lt;- samples
 names(rev_files) &lt;- samples
@@ -468,8 +491,10 @@ count_primers &lt;- function(primer, filename) {
   return(sum(num_hits &gt; 0))
 }
 
-count_primers(fwd_primer, fwd_files[[1]])
-count_primers(rev_primer, rev_files[[1]])</code></pre>
+count_primers(fwd_primer, fwd_files[[1]])</code></pre>
+<pre><code>## [1] 25357</code></pre>
+<pre class="r"><code>count_primers(rev_primer, rev_files[[1]])</code></pre>
+<pre><code>## [1] 21503</code></pre>
 </div>
 <div id="primer-removal" class="section level3">
 <h3>Primer removal</h3>
@@ -519,6 +544,9 @@ for (i in seq_along(fwd_files)) {
 
 # quick check that we got something
 head(list.files(cut_dir))</code></pre>
+<pre><code>## [1] &quot;G1_S1_L001_R1_001.fastq.gz&quot; &quot;G1_S1_L001_R2_001.fastq.gz&quot;
+## [3] &quot;G1.log&quot;                     &quot;G2_S2_L001_R1_001.fastq.gz&quot;
+## [5] &quot;G2_S2_L001_R2_001.fastq.gz&quot; &quot;G2.log&quot;</code></pre>
 </div>
 <div id="inspect-quality-scores" class="section level3">
 <h3>Inspect quality scores</h3>
@@ -569,6 +597,9 @@ filtered_out &lt;- filterAndTrim(
   )  
 
 head(filtered_out)</code></pre>
+<pre><code>##                            reads.in reads.out
+## G1_S1_L001_R1_001.fastq.gz    25276     24107
+## G2_S2_L001_R1_001.fastq.gz    25908     24533</code></pre>
 </div>
 <div id="main-dada2-workflow" class="section level3">
 <h3>Main dada2 workflow</h3>
@@ -576,17 +607,22 @@ head(filtered_out)</code></pre>
 <div id="learn-errors" class="section level4">
 <h4>Learn errors</h4>
 <p>Here dada2 learns the error profile for your data using an interative approach. These error profiles are used in the next step to correct errors.</p>
-<pre class="r"><code>err_fwd &lt;- learnErrors(fwd_filt, multithread = TRUE)
-err_rev &lt;- learnErrors(rev_filt, multithread = TRUE)
-
-plotErrors(err_fwd, nominalQ = TRUE)</code></pre>
+<pre class="r"><code>err_fwd &lt;- learnErrors(fwd_filt, multithread = TRUE)</code></pre>
+<pre><code>## 11162461 total bases in 48640 reads from 2 samples will be used for learning the error rates.</code></pre>
+<pre class="r"><code>err_rev &lt;- learnErrors(rev_filt, multithread = TRUE)</code></pre>
+<pre><code>## 11118332 total bases in 48640 reads from 2 samples will be used for learning the error rates.</code></pre>
+<pre class="r"><code>plotErrors(err_fwd, nominalQ = TRUE)</code></pre>
 <p><img src="analysis_files/figure-html/unnamed-chunk-6-1.png" width="672" /> The plot shows how well the estimated error rates fit the observed rates. The black line should line up reasonably well with the black points. This looks reasonable so we continue on.</p>
 </div>
 <div id="denoising-aka-error-correcting" class="section level4">
 <h4>Denoising (aka error-correcting)</h4>
 <p>We can now denoise our sequences using the DADA algorithm. Note that older versions of dada2 required a dereplication step that is now done automatically by the <code>dada</code> function.</p>
-<pre class="r"><code>dada_fwd &lt;- dada(fwd_filt, err = err_fwd, multithread = TRUE)
-dada_rev &lt;- dada(rev_filt, err = err_rev, multithread = TRUE)</code></pre>
+<pre class="r"><code>dada_fwd &lt;- dada(fwd_filt, err = err_fwd, multithread = TRUE)</code></pre>
+<pre><code>## Sample 1 - 24107 reads in 4939 unique sequences.
+## Sample 2 - 24533 reads in 5379 unique sequences.</code></pre>
+<pre class="r"><code>dada_rev &lt;- dada(rev_filt, err = err_rev, multithread = TRUE)</code></pre>
+<pre><code>## Sample 1 - 24107 reads in 15358 unique sequences.
+## Sample 2 - 24533 reads in 15463 unique sequences.</code></pre>
 </div>
 <div id="merge-pairs" class="section level4">
 <h4>Merge pairs</h4>
@@ -605,12 +641,14 @@ dada_rev &lt;- dada(rev_filt, err = err_rev, multithread = TRUE)</code></pre>
 <p>Before we can assign taxonomy, we can construct a sequence table, which lists the number of each sequence present in each sample. We can see the dimensions of this sequence table, where the number of rows is the number of samples and the number of columns is the number of total unique sequences</p>
 <pre class="r"><code>seqtab &lt;- makeSequenceTable(mergers)
 dim(seqtab) </code></pre>
+<pre><code>## [1]  2 55</code></pre>
 </div>
 <div id="remove-chimeras" class="section level4">
 <h4>Remove chimeras</h4>
 <p>Don’t be alarmed here if many of your sequences are discarded - the number of chimeras varies but can be quite high in some cases.</p>
 <pre class="r"><code>seqtab_nochim &lt;- removeBimeraDenovo(seqtab, method = &quot;consensus&quot;, multithread = TRUE, verbose = TRUE)
 dim(seqtab_nochim)</code></pre>
+<pre><code>## [1]  2 19</code></pre>
 </div>
 </div>
 <div id="how-did-we-do" class="section level3">
@@ -618,6 +656,9 @@ dim(seqtab_nochim)</code></pre>
 <div id="sequence-length-distribution" class="section level4">
 <h4>Sequence length distribution</h4>
 <pre class="r"><code>table(nchar(getSequences(seqtab_nochim)))</code></pre>
+<pre><code>## 
+## 273 274 281 283 287 288 289 291 
+##   2   2   2   2   2   1   1   7</code></pre>
 </div>
 <div id="number-of-reads-at-each-step" class="section level4">
 <h4>Number of reads at each step</h4>
@@ -636,7 +677,97 @@ track &lt;- cbind(
 colnames(track) &lt;- c(&quot;raw&quot;, &quot;filtered&quot;, &quot;denoised_fwd&quot;, &quot;denoised_rev&quot;, &quot;merged&quot;, &quot;no_chim&quot;)
 rownames(track) &lt;- samples  
 head(track)</code></pre>
+<pre><code>##      raw filtered denoised_fwd denoised_rev merged no_chim
+## G1 25276    24107        24071        21484  21286   20336
+## G2 25908    24533        24479        21994  21684   19950</code></pre>
 </div>
+</div>
+<div id="assigning-taxonomy-with-idtaxa" class="section level3">
+<h3>Assigning taxonomy with IDTAXA</h3>
+<p>Now that we have a sequence table with the chimeras removed, we can classify/assign taxonomy to the sequence variants. Although there are multiple multiple taxonomic classification methods, we will be using IdTaxa, which is available through the <code>DECIPHER</code> package. You can read more about IdTaxa <a href="https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5">here</a>.</p>
+<div id="training-the-classifier" class="section level4">
+<h4>Training the classifier</h4>
+<p>The IdTaxa classification method relies on a training set that contains sequences that are representative of known taxa. Although there exists trained classifiers, we will be using the ITS2 Nematode database as our classifier. Since it is not trained, we will have to train the classifier using <code>LearnTaxa</code>, which is also available as a <code>DECIPHER</code> package. The <code>train</code> parameter of <code>LearnTaxa</code> contains the sequences included in the classifier as a DNAStringSet. Each sequence is formatted such that the names of each taxonomic level is separated by a semicolon. Once the sequence headers of the classifier are parsed, the <code>taxonomy</code> parameter will contain the taxonomic assignment, separated by a semicolon, for each sequence in <code>train</code>.</p>
+<pre class="r"><code># Load the sequences (we use the rdp formatted database here - the IDTAXA formatted version will be forthcoming)
+train &lt;- readDNAStringSet(&quot;~/Nematode_ITS2_rdp_0.9.3.fasta&quot;)
+
+# extract the sequence headers and remove everything up to and including the first space
+# this is the format required by the classifier
+taxonomy &lt;- names(train)
+taxonomy = str_remove(taxonomy, &quot;^[\\S]+\\s&quot;)
+
+# Train the classifier
+trainingSet &lt;- LearnTaxa(train, taxonomy)</code></pre>
+<pre><code>## ===========================================================================
+## 
+## Time difference of 11.07 secs</code></pre>
+</div>
+<div id="running-idtaxa" class="section level4">
+<h4>Running IdTaxa</h4>
+<p>To use IdTaxa, we will need to convert the unique sequence variants that we want to classify into a DNAStringSet object. Now that we have our trained classifier (i.e. training set) and the sequences we want to classify, we can run <code>IdTaxa</code>. You can change various parameters of <code>IdTaxa</code> depending on your data. We recommend reviewing the [IdTaxa documentation] (<a href="https://rdrr.io/bioc/DECIPHER/man/IdTaxa.html" class="uri">https://rdrr.io/bioc/DECIPHER/man/IdTaxa.html</a>) for further information. Here, we have specified several parameters:</p>
+<ul>
+<li><code>strand = &quot;both&quot;</code> : by setting the <code>strand</code> parameter to “both”, each sequence variant is classified using both the forward and reverse complement orientation. The sequence varient will be classified as the result with the highest confidence.</li>
+<li><code>threshold = 60</code> : setting the <code>threshold</code> to 60 specifies when the taxonomic classifications are truncated. A lower threshold usually results in higher taxonomic level classifications, but lower accuracy (i.e. confidence). A higher threshold usually results in lower taxonomic level classifications, but with higher accuracy.</li>
+<li><code>bootstraps = 100</code> : this specifies the amount of times bootstrap replicates are performed for each sequence.</li>
+<li><code>processors = NULL</code> : automatically uses all available processors.</li>
+<li><code>verbose = TRUE</code> : displays progress.</li>
+<li><code>type = &quot;extended&quot;</code> : by setting the <code>type</code> to “extended”, the output for each sequence variant will contain the taxonomic classification, the names of each taxonomic rank, and the confidence of the assignment.</li>
+</ul>
+<pre class="r"><code>dna &lt;- DNAStringSet(getSequences(seqtab_nochim))
+
+idtaxa &lt;- IdTaxa(dna, 
+              trainingSet, 
+              strand = &quot;both&quot;, 
+              threshold = 60, 
+              bootstraps = 100, 
+              processors = NULL, 
+              verbose = TRUE, 
+              type = &quot;extended&quot;)</code></pre>
+<pre><code>## ===========================================================================
+## 
+## Time difference of 0.62 secs</code></pre>
+<p>Although it contains all the necessary information, the output of <code>IdTaxa</code> is not as intuitive as we would like. It outputs a list of the sequence variants. Within this list, each element will have its taxonomic classification and the confidence for each taxon. To facilitate easier manipulation and comprehension of the data, we will convert this list into a matrix, with the rows as the sequence variants and the columns as their taxonomic classifications.</p>
+<pre class="r"><code># These are the ranks in the Nematode ITS2 database
+ranks &lt;- c(&quot;superkingdom&quot;, &quot;kingdom&quot;, &quot;phylum&quot;, &quot;class&quot;, &quot;order&quot;, &quot;family&quot;, &quot;genus&quot;, &quot;species&quot;)
+
+# Extract the classification and remove the &quot;Root&quot; column
+taxid &lt;- t(sapply(idtaxa, function(x) x$taxon))[,-1]
+
+# column bnames are the ranks, and rownames should match the column names of the sequence table
+colnames(taxid) &lt;- ranks
+rownames(taxid) &lt;- colnames(seqtab_nochim)</code></pre>
+</div>
+</div>
+<div id="over-to-phyloseq" class="section level3">
+<h3>Over to phyloseq</h3>
+<pre class="r"><code>library(phyloseq)
+# This is just a placeholder - normally this would be a dataframe containing all your sample inforamtion,
+# with rownames matching the sample names
+samp_data &lt;-  data.frame(
+  row.names = samples,
+  sample = samples
+)
+
+# We need better tables for our sequences than the actual sequence which is the dada2 default
+asvs &lt;- paste0(&quot;ASV_&quot;, 1:length(dna))
+rownames(taxid) &lt;- asvs
+colnames(seqtab_nochim) &lt;- asvs
+names(dna) &lt;- asvs
+
+# Now we put everything into one phyloseq object (even the sequences) so it is easy to use
+physeq = phyloseq(
+  otu_table(seqtab_nochim, taxa_are_rows = FALSE),
+  tax_table(taxid),
+  sample_data(samp_data),
+  dna
+)
+
+physeq</code></pre>
+<pre><code>## phyloseq-class experiment-level object
+## otu_table()   OTU Table:         [ 19 taxa and 2 samples ]
+## sample_data() Sample Data:       [ 2 samples by 1 sample variables ]
+## tax_table()   Taxonomy Table:    [ 19 taxa by 8 taxonomic ranks ]
+## refseq()      DNAStringSet:      [ 19 reference sequences ]</code></pre>
 </div>
 </div>
 <div id="downloads" class="section level2">
