@@ -1,8 +1,10 @@
 ---
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = "hide")
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
 # Analysis Protocols {.tabset .tabset-pills .tabset-fade}
@@ -100,10 +102,12 @@ Once the analysis has completed, you will have a file called `nemabiome_results.
 
 ## DADA2 Example Workflow
 
-Preamble:
+### Preamble
+
 The [DADA2 pipeline](https://benjjneb.github.io/dada2/tutorial.html) is used as a method to correct errors that are introduced into sequencing data during amplicon sequencing. The output of this pipeline is a table of amplicon sequence variants (ASVs), as opposed to the traditional OTUs seen in other amplicon sequencing workflows that cluster similar sequences into a single OTU. DADA2 is capable of resolving biological differences of 1 or 2 nucleotides, producing ASVs from amplicon data that are of higher resolution than OTUs.
 
 ### Requirements & Installations
+
 DADA2 is an open-source [R package](https://github.com/benjjneb/dada2) that will allow you to run through the entire pipeline, including steps to filter, dereplicate, identify chimeras, and merge paired-end reads.
 
 To use DADA2, you must download and install R for your operating system. This can be done [here](https://cloud.r-project.org/). You should use the latest version of R/
@@ -116,29 +120,24 @@ Since DADA2 is available as part of the Bioconductor Project Package Repository,
 install.packages("BiocManager")
 ```
 
-<<<<<<< HEAD
 To install the latest version of the DADA2 package (1.12.1), type the following:
+
 ```
 BiocManager::install("dada2", version = "3.9")
 ```
+
 *If you have previously installed R and Bioconductor, you may need to update them to the most recent versions.*
-=======
-To install the latest version of the DADA2 package, type the following:
 
-```
-BiocManager::install("dada2", version = "3.9")
-```
-
-*Note that if you previously had R and Bioconductor installed, you may need to update them to the most recent versions.*
->>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
 
 To use the DADA2 pipeline, primers must be removed from the amplicon sequence data. In the following tutorial, we will be using the `cutadapt` tool in R to do this. Cutadapt can be installed as a conda package. If you do not already have conda installed, you can do so [here](https://docs.conda.io/en/latest/miniconda.html). Once you have conda installed, go to Terminal or Command Prompt, and type the following:
+
 ```
 conda install -c bioconda cutadapt
 ```
 
 
 ### DADA2 Workflow
+
 Once you have installed the above, you are ready to start using the DADA2 pipeline. The following is a sample analysis using the DADA2 pipeline (https://benjjneb.github.io/dada2/tutorial.html). This is meant to be an example and not a definitive workflow. First, we load packages and set a seed for reproducibility.
 
 ```{r libraries, echo=T, message = FALSE}
@@ -164,13 +163,12 @@ packageVersion("stringr")
 set.seed(106)
 ```
 
-<<<<<<< HEAD
 
-Next, we specify the path of sequences to be processed (using "/Miseq_Run" from previous examples). The DADA2 pipeline is intended to be used with demultiplexed, paired-end fastq files. That is to say, the samples must be separated into individual files and ordered such that forward and reverse reads of the same sample are matched. The pattern of the filenames should be the same for all forward and reverse files. In this example, the names are formatted as such: `samplename_R1_001.fastq.fz` for forward reads and `samplename_R2_001.fastq.gz` for reverse reads.
-=======
 ### Setup
 
-To get started we'll need to do a little prep.  We'll start by defining where our raw data files live using the `path` variable.  We then create a vector of file names, one for the forward reads and one for the reverse.  The `samples` vector contains our sample names, extracted from the file names using a regular expression.  For Illumina data, often the sample name is everything before the first underscore.
+To get started we'll need to do a little prep.  We'll start by defining the path of sequences to be processed (using "~/Miseq_Run" from previous examples). The DADA2 pipeline is intended to be used with demultiplexed, paired-end fastq files. That is to say, the samples must be separated into individual files and ordered such that forward and reverse reads of the same sample are matched. The pattern of the filenames should be the same for all forward and reverse files. In this example, the names are formatted as such: `samplename_R1_001.fastq.fz` for forward reads and `samplename_R2_001.fastq.gz` for reverse reads.
+
+We then create a vector of file names, one for the forward reads and one for the reverse.  The `samples` vector contains our sample names, extracted from the file names using a regular expression.  For Illumina data, often the sample name is everything before the first underscore.
 
 The primer sequences are defined here as well, because we'll be clipping those off shortly.  The forward primer will be at the beginning of the forward read and the reverse primer will be at the beginning of the reverse read.  The reverse complements are included in case the amplicon sequence is shorter than our read length.  When this happens the sequence will contain the reverse complement of the opposite primer, i.e. there may be reverse-complemented reverse primer at the end of the forward read.
 
@@ -179,32 +177,14 @@ path <- "~/MiSeq_Run"
 
 fwd_files <- sort(list.files(path, pattern = "R1", full.names = TRUE)) 
 rev_files <- sort(list.files(path, pattern = "R2", full.names = TRUE))
->>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
+
 
 # It's also handy to have a vector of sample names, which in this case is everything up 
 # until the first underscore, which is what our regular expression caputres.  You may
 # also create this manually if you don't have too many samples
 samples = str_extract(basename(fwd_files), "^[^_]+")
 
-<<<<<<< HEAD
-fnFs<-sort(list.files(path, pattern = "_R1_001.fastq.gz", full.names = TRUE)) 
-fnRs <-sort(list.files(path, pattern = "_R2_001.fastq.gz", full.names = TRUE))
-```
 
-You will also need to specify the primers sequences you used as the "FWD" and "REV" variables. These will be removed. To check that the primer sequences are correct and are present, we start off by creating all possible orientations of the forward and reverse sequences.
-
-```
-#identifying the primers
-FWD<-"ACGTCTGGTTCAGGGTTGTT"
-REV <- "TTAGTTTCTTTTCCTCCGCT"
-
-allOrients<-function(primer) {   #creates all orientations of the primer sequence
-  require(Biostrings)
-  dna<-DNAString(primer) #biostring works w dnastring objects
-  orients<-c(Forward=dna, Complement=complement(dna), Reverse=reverse(dna),
-             RevComp=reverseComplement(dna))
-  return(sapply(orients, toString)) #now converting back into character vector
-=======
 names(fwd_files) <- samples
 names(rev_files) <- samples
 
@@ -221,26 +201,16 @@ Before we move on let's do a quick sanity check to make sure our primer sequence
 count_primers <- function(primer, filename) {
   num_hits <- vcountPattern(primer, sread(readFastq(filename)), fixed = FALSE)
   return(sum(num_hits > 0))
->>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
 }
 
 count_primers(fwd_primer, fwd_files[[1]])
 count_primers(rev_primer, rev_files[[1]])
 ```
 
-<<<<<<< HEAD
-Next, since the DADA2 workflow does not allow any ambiguous bases (Ns), we will remove all sequences containing Ns. Then, we will count the number of times our primers are observed in the remaining sequences. At this point, you should expect to find the forward primer in the forward reads in the forward orientation and reverse reads in the reverse orientation. You should also expect to find the reverse primer in the reverse reads in the forward orientation and forward reads in the reverse orientation. 
 
-```{r more_cutadapt_initialization}
-#filtering the sequences
-fnFs.filtN <- file.path(path, "filtN", basename(fnFs)) 
-fnRs.filtN <- file.path(path, "filtN", basename(fnRs))
-filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = TRUE)
-=======
 ### Primer removal
 
 Now we can use cutadapt to remove primers, and check that they have been successfully removed.  Cutadapt was designed to remove sequencing adapters that sometimes get left on the reads, however, it's main function is to detect and trim off regions that match a known sequence, which is precisely what we want to do here.  
->>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
 
 Cutadapt is best installed using conda (`conda install cutadapt`) and can also be used directly from the command line.  Here we demonstrate how to run it directly from R using the `system2` command but the results are the same either way.  The first parameter to `system2` is the program we wish to run and the second is character vector of arguments and their values.
 
@@ -254,41 +224,13 @@ cutadapt <- path.expand("~/miniconda3/bin/cutadapt")
 system2(cutadapt, args = "--version") 
 ```
 
-<<<<<<< HEAD
-Now that we have confirmed the presence of the correct primers, we can use cutadapt to remove them. We will also check that they have been successfully removed. You should expect to see 0s across the table that is generated. To use cutadapt, you will need to specify the path of it on your machine (we used "/home/stefan/.local/bin/cutadapt").
 
-```{r cutadapt, echo=T, results='hide'}
-cutadapt <- "/home/stefan/.local/bin/cutadapt" # CHANGE ME to the cutadapt path on your machine
-system2(cutadapt, args = "--version") # Run shell commands from R
-
-#now creating output filenames for cutadapted files, and define parameters to give cutadapt command
-#critical parameters are the primers and they need to be in the right orientation
-
-path.cut <- file.path(path, "cutadapt")
-if(!dir.exists(path.cut)) dir.create(path.cut)
-fnFs.cut <- file.path(path.cut, basename(fnFs))
-fnRs.cut <- file.path(path.cut, basename(fnRs))  #cutadapt not working -> due to files not gz?
-
-FWD.RC <- dada2:::rc(FWD)
-REV.RC <- dada2:::rc(REV)
-# Trim FWD and the reverse-complement of REV off of R1 (forward reads)
-R1.flags <- paste("-g", FWD, "-a", REV.RC) 
-# Trim REV and the reverse-complement of FWD off of R2 (reverse reads)
-R2.flags <- paste("-G", REV, "-A", FWD.RC) 
-# Run Cutadapt
-for(i in seq_along(fnFs)) {
-  system2(cutadapt, args = c(R1.flags, R2.flags, "-n", 2, # -n 2 required to remove FWD and REV from reads
-                             "-o", fnFs.cut[i], "-p", fnRs.cut[i], # output files
-                             fnFs.filtN[i], fnRs.filtN[i])) # input files
-}
-=======
 Now output filenames are defined as well as parameters for cutadapt.  The critical parameters are the primer sequences and their orientation.  It's strongly recommended that you review the [cutadapt documentation] (https://cutadapt.readthedocs.io/en/stable/guide.html) for full details of each parameter.  Briefly:
 
 `-g`: sequence to trim off the 5' end of the forward read (forward primer)
 `-a`: sequence to trim off the 3' end of the forward read (reverse complemented reverse primer)
 `-G`: sequence to trim off the 5' end of the reverse read (reverse primer)
 `-A`: sequence to trim off the 3' end of the reverse read (reverse complemented forward primer)
->>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
 
 We'll also add `-m 50` to get rid of super short junky reads, `--max-n 1` to get rid of reads that have any N's in them and `-n 2` so that cutadapt will remove multiple primer hits if there happens to be read-through.  The `--discard-untrimmed` is also added so only reads that contain a primer will be kept ensuring we keep only valid amplicons.   And finally a `-q 15` will trim off low quality bases from the 3' end.  
 
@@ -330,13 +272,9 @@ for (i in seq_along(fwd_files)) {
 head(list.files(cut_dir))
 ```
 
-<<<<<<< HEAD
-Now that primers are removed, we can officially begin the DADA2 pipeline. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters. 
-=======
 ### Inspect quality scores
 
 Now that primers are removed, we can begin the DADA2 pipeline in full. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters. For the sake of speed we only show 2 samples here but feel free to look at all your samples (or more than 2 anyway).
->>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
 
 ```{r quality_profiles}
 plotQualityProfile(fwd_cut[1:2]) + ggtitle("Forward")
@@ -393,10 +331,6 @@ filtered_out <- filterAndTrim(
 head(filtered_out)
 ```
 
-<<<<<<< HEAD
-For the purposes of our analysis, we chose to conduct quality filtering with maximum expected errors of 2 for the forward sequence, 5 for the reverse, to truncate after a quality score of 2 or lower, and to filter out amplicons with lengths shorter than 50 base pairs. Again, filters for your own pipeline may differ. After quality filtering, we can run our sequences through learnErrors to create an error model, and then dereplicate our sequences.
-=======
-
 ### Main dada2 workflow
 
 Much of the remainder of the dada2 workflow is very well documented in the main dada2 tutorial so if you'd like to read in more detail please that tutorial as well as the dada2 paper.
@@ -404,7 +338,6 @@ Much of the remainder of the dada2 workflow is very well documented in the main 
 #### Learn errors
 
 Here dada2 learns the error profile for your data using an interative approach.  These error profiles are used in the next step to correct errors. 
->>>>>>> 934decbba6921c53eff869685e83f504230c3cf1
 
 ```{r}
 
@@ -495,26 +428,36 @@ head(track)
 Now that we have a sequence table with the chimeras removed, we can classify/assign taxonomy to the sequence variants. Although there are multiple multiple taxonomic classification methods, we will be using IdTaxa, which is available through the `DECIPHER` package. You can read more about IdTaxa [here](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5).
 
 #### Training the classifier
-The IdTaxa classification method relies on a training set that contains sequences that are representative of known taxa. Although there exists trained classifiers, we will be using the ITS2 Nematode database as our classifier. Since it is not trained, we will have to train the classifier using `LearnTaxa`, which is also available as a `DECIPHER` package. The `train` parameter of `LearnTaxa` contains the sequences included in the classifier as a DNAStringSet. Each sequence is formatted such that the names of each taxonomic level is separated by a semicolon. Once the sequence headers of the classifier are parsed, the `taxonomy` parameter will contain the taxonomic assignment, separated by a semicolon, for each sequence in `train`. 
-``` {r}
-# Load the classifier into R, then parse the headers by their taxonomic levels.
-train <- readDNAStringSet("~/Desktop/ITS2_nematode_dada2.fasta")
-s <- strsplit(names(train), ";")
-  superkingdom <- sapply(s, `[`, 1)
-  kingdom <- sapply(s, `[`, 2)
-  phylum <- sapply(s, `[`, 3)
-  class <- sapply(s, `[`, 4)
-  order <- sapply(s, `[`, 5)
-  family <- sapply(s, `[`, 6)
-  genus <- sapply(s, `[`, 7)
-  species <- sapply(s, `[`, 8)
-taxonomy <- paste("Root", domain, kingdom, phylum, class, order, family, genus, species, sep = ";")
 
-# Train the classifier.
-trainingSet <- LearnTaxa(database, taxonomy)
+The IdTaxa classification method relies on a training set that contains sequences that are representative of known taxa. Although there exists trained classifiers, we will be using the ITS2 Nematode database as our classifier. Since it is not trained, we will have to train the classifier using `LearnTaxa`, which is also available as a `DECIPHER` package. The `train` parameter of `LearnTaxa` contains the sequences included in the classifier as a DNAStringSet. Each sequence is formatted such that the names of each taxonomic level is separated by a semicolon. Once the sequence headers of the classifier are parsed, the `taxonomy` parameter will contain the taxonomic assignment, separated by a semicolon, for each sequence in `train`. 
+
+``` {r}
+
+# Load the sequences (we use the rdp formatted database here - the IDTAXA formatted version will be forthcoming)
+train <- readDNAStringSet("~/Nematode_ITS2_rdp_0.9.3.fasta")
+
+db = readr::read_tsv("../../databases/Nematode_ITS2/db/taxonomy_nr.txt")
+
+db %>% 
+  select(-uid, -accn) %>% 
+  distinct() %>% 
+  rownames_to_column("Index") %>% 
+  rename(Name = taxid)
+
+# extract the sequence headers and remove everything up to and including the first space
+# this is the format required by the classifier
+taxonomy <- names(train)
+taxonomy = str_remove(taxonomy, "^[\\S]+\\s")
+
+# Train the classifier
+trainingSet <- LearnTaxa(train, taxonomy)
 ```
 
+
+
+
 #### Running IdTaxa
+
 To use IdTaxa, we will need to convert the unique sequence variants that we want to classify into a DNAStringSet object. Now that we have our trained classifier (i.e. training set) and the sequences we want to classify, we can run `IdTaxa`. You can change various parameters of `IdTaxa` depending on your data. We recommend reviewing the [IdTaxa documentation] (https://rdrr.io/bioc/DECIPHER/man/IdTaxa.html) for further information. Here, we have specified several parameters:
 
 * `strand = "both"` : by setting the `strand` parameter to "both", each sequence variant is classified using both the forward and reverse complement orientation. The sequence varient will be classified as the result with the highest confidence.
@@ -525,25 +468,61 @@ To use IdTaxa, we will need to convert the unique sequence variants that we want
 * `type = "extended"` : by setting the `type` to "extended", the output for each sequence variant will contain the taxonomic classification, the names of each taxonomic rank, and the confidence of the assignment. 
 
 ``` {r}
-dna <- readDNAStringSet(getSequences(seqtab_nochim))
+dna <- DNAStringSet(getSequences(seqtab_nochim))
 
-ids <- IdTaxa(dna, trainingSet, strand = "both", threshold = 60, bootstraps = 100, processors = NULL, verbose = TRUE, type = "extended")
+idtaxa <- IdTaxa(dna, 
+              trainingSet, 
+              strand = "both", 
+              threshold = 60, 
+              bootstraps = 100, 
+              processors = NULL, 
+              verbose = TRUE, 
+              type = "extended")
 ```
 
-Although it contains all the necessary information, the output of `IdTaxa` is not as intuitive as we would like. It outputs a list of the sequence variants. Within this list, each element will have its taxonomic classification and the confidence for each taxon. To facilitate easier manipulation and comprehension of the data, we will convert this list into a matrix, with the rows as the sequence variants and the columns as their taxonomic classifications and confidence.
+Although it contains all the necessary information, the output of `IdTaxa` is not as intuitive as we would like. It outputs a list of the sequence variants. Within this list, each element will have its taxonomic classification and the confidence for each taxon. To facilitate easier manipulation and comprehension of the data, we will convert this list into a matrix, with the rows as the sequence variants and the columns as their taxonomic classifications.
 
 ``` {r}
+
+# These are the ranks in the Nematode ITS2 database
 ranks <- c("superkingdom", "kingdom", "phylum", "class", "order", "family", "genus", "species")
 
-taxid <- t(sapply(ids, function(x) {
-  m <- match(ranks, x$rank)
-  taxa <- x$taxon[m]
-  taxa
-}))
+# Extract the classification and remove the "Root" column
+taxid <- t(sapply(idtaxa, function(x) x$taxon))[,-1]
 
+# column bnames are the ranks, and rownames should match the column names of the sequence table
 colnames(taxid) <- ranks
 rownames(taxid) <- colnames(seqtab_nochim)
 ```
+
+## Over to phyloseq
+
+```{r}
+library(phyloseq)
+# This is just a placeholder - normally this would be a dataframe containing all your sample inforamtion,
+# with rownames matching the sample names
+samp_data <-  data.frame(
+  row.names = samples,
+  sample = samples
+)
+
+# We need better tables for our sequences than the actual sequence which is the dada2 default
+asvs <- paste0("ASV_", 1:length(dna))
+rownames(taxid) <- asvs
+colnames(seqtab_nochim) <- asvs
+names(dna) <- asvs
+
+# Now we put everything into one phyloseq object (even the sequences) so it is easy to use
+physeq = phyloseq(
+  otu_table(seqtab_nochim, taxa_are_rows = FALSE),
+  tax_table(taxid),
+  sample_data(samp_data),
+  dna
+)
+
+physeq
+```
+
 
 ## Download list {#downloads}
 
