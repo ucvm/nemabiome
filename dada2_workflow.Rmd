@@ -12,15 +12,21 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRU
 
 ## Setup
 
-The [DADA2 pipeline](https://benjjneb.github.io/dada2/tutorial.html) is used as a method to correct errors that are introduced into sequencing data during amplicon sequencing. The output of this pipeline is a table of amplicon sequence variants (ASVs), as opposed to the traditional OTUs seen in other amplicon sequencing workflows that cluster similar sequences into a single OTU. DADA2 is capable of resolving biological differences of 1 or 2 nucleotides, producing ASVs from amplicon data that are of higher resolution than OTUs.
+The [DADA2 pipeline](https://www.nature.com/articles/nmeth.3869) is used as a method to correct errors that are introduced into sequencing data during amplicon sequencing. It is implemented as an open-source R-package that will allow you to run through the entire pipeline, including steps to filter, dereplicate, identify chimeras, and merge paired-end reads.  We will use one external application, cutadapt, to remove primer sequences.  The output of this pipeline is a table of amplicon sequence variants (ASVs), as opposed to the traditional OTUs seen in other amplicon sequencing workflows that cluster similar sequences into a single OTU. DADA2 is capable of resolving biological differences of 1 or 2 nucleotides, producing ASVs from amplicon data that are of higher resolution than OTUs.  For a more general and detailed tutorial please see the dada2 [website](https://benjjneb.github.io/dada2)
 
-DADA2 is an open-source [R package](https://github.com/benjjneb/dada2) that will allow you to run through the entire pipeline, including steps to filter, dereplicate, identify chimeras, and merge paired-end reads.
+### Requirements
 
-To use DADA2, you must download and install R for your operating system. This can be done [here](https://cloud.r-project.org/). You should use the latest version of R/
+* MacOS or Linux.  Windows is possible if you use Windows Subsystem for Linux or a virtual machine like VirtualBox.
+* A modern desktop or laptop.  The memory and cpu requirements for running dada2 are fairly modest.  If you have a low-powered computer it will still run but will likely take much longer.  
 
-If you would like, download and install RStudio, which is an integrated development environment (IDE) for R programming. This can be done through [this link](https://www.rstudio.com/download).
 
-Since DADA2 is available as part of the Bioconductor Project Package Repository, install Bioconductor in R.
+### Install R
+
+To use DADA2, you must download and install R for your operating system. This can be done [here](https://cloud.r-project.org/). You should use the latest version of R. It is also highly recommned (but not required) to download and install RStudio, which is an integrated development environment (IDE) for R programming. This can be done through [this link](https://www.rstudio.com/download).
+
+### Install dada2
+
+Since dada2 is available as part of the Bioconductor Project Package Repository, first install Bioconductor.
 
 ```
 install.packages("BiocManager")
@@ -32,8 +38,10 @@ To install the latest version of the DADA2 package (1.12.1), type the following:
 BiocManager::install("dada2", version = "3.9")
 ```
 
-*If you have previously installed R and Bioconductor, you may need to update them to the most recent versions.*
 
+*If you have previously installed R and Bioconductor, you may need to update them to the most recent versions. This tutorial relies on features of dada2 only in version 1.12.1 or greater*
+
+### Install cutadapt
 
 To use the DADA2 pipeline, primers must be removed from the amplicon sequence data. In the following tutorial, we will be using the `cutadapt` tool in R to do this. Cutadapt can be installed as a conda package. If you do not already have conda installed, you can do so [here](https://docs.conda.io/en/latest/miniconda.html). Once you have conda installed, go to Terminal or Command Prompt, and type the following:
 
@@ -41,7 +49,13 @@ To use the DADA2 pipeline, primers must be removed from the amplicon sequence da
 conda install -c bioconda cutadapt
 ```
 
+### Download files
 
+This tutorial is run with the files listed on the [Analysis](analysis.html) page.  Please download those and if you want to follow along exactly then place them in a folder called `MiSeq_Run` in your home directory.  Here we only use two samples to keep the run time short but feel free to run it with all the example files if desired.
+
+You'll also need the ITS2 database files formatted for IDTAXA.  You can find them at https://doi.org/10.5281/zenodo.3235802. Please download the [Nematode_ITS2_1.0.0_idtaxa.fasta](https://zenodo.org/record/3235803/files/Nematode_ITS2_1.0.0_idtaxa.fasta?download=1) file with sequences and the [Nematode_ITS2_1.0.0_idtaxa.tax](https://zenodo.org/record/3235803/files/Nematode_ITS2_1.0.0_idtaxa.tax?download=1) taxonomy file.
+
+### Preparing
 
 Once you have installed the above, you are ready to start using the DADA2 pipeline. The following is a sample analysis using the DADA2 pipeline (https://benjjneb.github.io/dada2/tutorial.html). This is meant to be an example and not a definitive workflow. First, we load packages and set a seed for reproducibility.
 
@@ -64,6 +78,9 @@ packageVersion("ggplot2")
 
 library(stringr) # not strictly required but handy
 packageVersion("stringr")
+
+library(readr)
+packageVersion("readr")
 
 set.seed(106)
 ```
@@ -337,16 +354,12 @@ The IdTaxa classification method relies on a training set that contains sequence
 
 ``` {r}
 
-# Load the sequences (we use the rdp formatted database here - the IDTAXA formatted version will be forthcoming)
-train <- readDNAStringSet("~/Nematode_ITS2_rdp_0.9.3.fasta")
+train <- readDNAStringSet("~/Nematode_ITS2_1.0.0_idtaxa.fasta")
+tax <- read_tsv("~/Nematode_ITS2_1.0.0_idtaxa.tax")
 
-# extract the sequence headers and remove everything up to and including the first space
-# this is the format required by the classifier
-taxonomy <- names(train)
-taxonomy = str_remove(taxonomy, "^[\\S]+\\s")
 
 # Train the classifier
-trainingSet <- LearnTaxa(train, taxonomy)
+trainingSet <- LearnTaxa(train, names(train), tax)
 ```
 
 
@@ -375,22 +388,16 @@ idtaxa <- IdTaxa(dna,
               type = "extended")
 ```
 
-Although it contains all the necessary information, the output of `IdTaxa` is not as intuitive as we would like. It outputs a list of the sequence variants. Within this list, each element will have its taxonomic classification and the confidence for each taxon. To facilitate easier manipulation and comprehension of the data, we will convert this list into a matrix, with the rows as the sequence variants and the columns as their taxonomic classifications.
+Although it contains all the necessary information, the output of `IdTaxa` is not as intuitive as we would like. It outputs a list of the sequence variants. Within this list, each element will have its taxonomic classification and the confidence for each taxon. To facilitate easier manipulation and comprehension of the data, we will convert this list into a matrix, with the rows as the sequence variants and the columns as their taxonomic classifications.  We also drop the "Root" column.
 
-``` {r}
+```{r}
+taxid <- t(sapply(idtaxa, function(x) setNames(x$taxon, x$rank)))[, -1]
 
-# These are the ranks in the Nematode ITS2 database
-ranks <- c("superkingdom", "kingdom", "phylum", "class", "order", "family", "genus", "species")
-
-# Extract the classification and remove the "Root" column
-taxid <- t(sapply(idtaxa, function(x) x$taxon))[,-1]
-
-# column bnames are the ranks, and rownames should match the column names of the sequence table
-colnames(taxid) <- ranks
-rownames(taxid) <- colnames(seqtab_nochim)
 ```
 
 ### Over to phyloseq
+
+The individual pieces of the analysis can be save to text or excel files but if you've made it this far then why not continue on in R!  [Phyloseq](https://joey711.github.io/phyloseq/) is a powerful toolkit for working with these types of data in R and is the recommended next step for analysis.  More tutorials on downstream analysis to come!
 
 ```{r}
 library(phyloseq)
