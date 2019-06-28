@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>mothur_workflow.utf8.md</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Roboto|Lobster" rel="stylesheet">
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 52px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h2 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h3 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h4 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h5 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h6 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">
+      	<img alt="Nemabiome Logo" src="images/logo/nemabiome_compact_64.png" style="width:35px;height:35px">
+      </a>
+    </div>
+    	
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+				
+<!--
+				<li class="nav-item">
+					<a class="nav-link" href="overview.html">
+						<span class="ion ion-map"></span>
+    				Overview
+					</a>
+				</li>
+	-->
+			<!-- Parasite -->
+				<li class="nav-item">
+  				<a class="nav-link" href="parasite.html">
+    				<span class="ion ion-bug"></span>
+    				Parasite Prep
+     			</a>
+				</li>
+				
+			<!-- Sequencing -->	
+				<li class="nav-item">
+  				<a class="nav-link" href="sequencing.html">
+    				<span class="ion ion-erlenmeyer-flask"></span>
+    				Sequencing
+     			</a>
+				</li>
+				
+			<!-- Analysis -->
+				<li class="dropdown">
+					<a class="nav-link" href="analysis.html" role="button" >
+						<span class="ion ion-monitor"></span>
+    				Analysis
+    				<span class="caret"></span>
+     			</a>
+     			<ul class="dropdown-menu">
+     				<li><a href="dada2_workflow.html">Dada2 Workflow</a></li>
+     				<li><a href="mothur_workflow.html">Mothur Workflow</a></li>
+     			</ul>
+				</li>
+			
+		<!-- 
+			Interpretation 
+				<li class="nav-item">
+  				<a class="nav-link" href="interpretation.html">
+    				<span class="ion ion-stats-bars"></span>
+    				Interpretation
+     			</a>
+				</li>
+-->
+			</ul>
+			
+			<!-- Citation and about -->
+	    <ul class="nav navbar-nav navbar-right">
+
+				<li>
+  				<a href="citation.html">
+    				<span class="ion ion-information-circled"></span>
+    		    Citation
+  				</a>
+				</li>
+				
+			
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="mothur-workflow" class="section level1 tabset tabset-fade">
+<h1>Mothur Workflow</h1>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<div id="install" class="section level3">
+<h3>Install</h3>
+<p>The primary software used for analysis is Mothur. This program is command line based, and will require you to type simple commands into either Terminal (Mac) or Command Prompt (Windows).</p>
+<p>To download Mothur go to the Mothur github <a href="https://github.com/mothur/mothur/releases/latest">downloads</a> page and download the latest version for your operating system. Unzip then move this folder to your home directory (your C: Drive on a PC, or your ‘User’ folder on a Mac).</p>
+<div class="panel panel-info">
+<div class="panel-heading">
+Tip
+</div>
+<div class="panel-body">
+<p>To check that you have placed the folder in the correct location, open up either Terminal (Mac) or Command Prompt (PC). Type <code>~/mothur/mothur</code> (Mac) or <code>C:\mothur\mothur.exe</code> (PC). If your screen looks similar to this:</p>
+<p><img src="images/mothur_screenshot.png" /></p>
+<p>You have done it correctly.</p>
+</div>
+</div>
+</div>
+<div id="preparing-files-for-analysis" class="section level3">
+<h3>Preparing files for analysis</h3>
+<div id="downloading-sequencing-data-files-from-basespace" class="section level4">
+<h4>Downloading sequencing data files from BaseSpace</h4>
+<p>To download the sequencing fields from BaseSpace. Go to <a href="https://basespace.illumina.com/home/index" class="uri">https://basespace.illumina.com/home/index</a>, log-in, and navigate to your sequencing run. Click “Download” and select “All FASTQ files for this run”. Then click “Download your files”. BaseSpace uses the “BaseSpace Downloader” to download your files. If you have not previously downloaded this program, you must download it at this time. Select the location to download your files.</p>
+<p>Once your files have downloaded, navigate to the folder where the files were downloaded. There will be one folder that corresponds to each sample that was sequenced. In each of these folders there will be two files, one that corresponds to the forward reads, and one that corresponds to the reverse reads. The forward and reverse read files for all samples will need to be moved to a single folder for analysis to conduct the analysis.</p>
+<div class="panel panel-success">
+<div class="panel-heading">
+Recommendation
+</div>
+<div class="panel-body">
+<p>Create a folder on your home directory with the name of your sequencing run (for the rest of this example it will be called “MiSeq_Run”). Move all of your files into this folder.</p>
+</div>
+</div>
+<p>Once the files have been moved, the files must be unzipped/uncompressed. This can be done with the Archive Utility on a Mac and any file compression software, such as WinZip, on a PC. Make sure you unzip your files into the folder that you have created (i.e. “Miseq_Run”)</p>
+</div>
+</div>
+<div id="create-sample-list" class="section level3">
+<h3>Create sample list</h3>
+<p>You will need to create a file that contains the name of your sample, and specifies which files correspond to this sample. This will tell the program which files to analyze for each particular sample. You can download the file “nemabiome.files” in the <a href="interpretation.html">Examples</a> section for an example of what this file must look like. Each line in this file represents a single sample that must be analyzed. The first column is the sample name, the second column is the file name for the forward read file, and the third column is the name of the reverse read file. Each column is separated by a single tab. An example is also listed below.</p>
+<p>Example:</p>
+<pre><code>sample1 sample1_S1_L001_R1_001.fastq     sample1_S1_L001_R2_001.fastq
+sample2 sample2_S2_L001_R1_001.fastq     sample2_S2_L001_R2_001.fastq
+sample3 sample3_S3_L001_R1_001.fastq     sample3_S3_L001_R2_001.fastq
+...</code></pre>
+<p>Sample names may vary between different Illumina platforms, so please check the names of your downloaded files, to ensure the file names are correct. Please name this file as “stability.files”, with the “.files” file extension. Place this file in your folder that you created for analysis. This is the only file that you will need to create from scratch for this analysis, if you use the provided files.</p>
+</div>
+<div id="download-analysis-files" class="section level3">
+<h3>Download analysis files</h3>
+<p>Download the analysis files <a href="downloads/nematode_ITS2_database_version1_3.fasta" download>Nematode ITS2 database version 1.3</a>, <a href="downloads/nematode_taxonomy_1_3.tax" download>Nematode taxonomy file (version 1.3)</a> and <a href="downloads/batchfile.txt" download>Mothur batch file</a>. Place these files in the folder that contains your sequencing data (i.e. ‘MiSeq_Run’)</p>
+<p>For a standard application do not make any changes to these files. If you are aware of the number of processors that your computer has, open up the <code>batchfile.txt</code> file, go to the first line and change the parameter “processors” from “processors=2” to the number of processors in your computer.</p>
+</div>
+</div>
+<div id="running-analysis" class="section level2">
+<h2>Running analysis</h2>
+<p>Once all files have been downloaded, open up Terminal or Command Prompt. You will then need to navigate to the folder you created, which can be done using the “cd” command. If you created your analysis folder in your home directory type:</p>
+<pre><code>cd MiSeq_Run</code></pre>
+<p>This will change to this folder.</p>
+<p>Then type:</p>
+<pre><code>~/mothur/mothur batchfile.txt</code></pre>
+<p>(On a Mac)</p>
+<p>OR</p>
+<pre><code>C:\mothur\mothur.exe C:\MiSeq_Run\batchfile.txt</code></pre>
+<p>(On a PC)</p>
+<p>This will launch Mothur, and begin to complete the commands that are contained within the batchfile. You will need to leave your computer open and running while the analysis completes. The amount of time that it will take to run will vary with your computer, and the number of samples/reads that you will be analyzing. General run times will probably be around ~4 hours, on a standard computer, 96 samples with an average read depth of ~50,000 reads.</p>
+<p>Once the analysis has completed, you will have a file called <code>nemabiome_results.summary</code>. You can open this file up and copy the contents into an Excel workbook to properly view the data.</p>
+<div id="example-output" class="section level3">
+<h3>Example output</h3>
+<p>You can download the file <a href = "downloads/example_nemabiome_results.txt" download>example_nemabiome_results.txt</a>. This is what your output file should look like if you have completed the analysis correctly.</p>
+</div>
+</div>
+<div id="initial-interpretation-of-results" class="section level2">
+<h2>Initial interpretation of results</h2>
+<p>A youtube video outlines the main steps involved with the initial manipulation of raw read count data and basic visualisation of the example dataset.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OkTVcnbskTw" frameborder="0" allowfullscreen>
+</iframe>
+<p><br></p>
+<div id="visualize-raw-read-counts-in-excel-spreadsheet" class="section level3">
+<h3>1. Visualize raw read counts in excel spreadsheet</h3>
+<p>The first step is to copy and paste the raw read counts into an excel spreadsheet. The first three columns (rankID, taxon, daughterlevel) indicate the level of taxonomic classification. The fourth column (total) is the total number of reads assigned to that taxonomic level. The individual read counts for each sample begins in the 5th column and the sample name is given in the top row. To display reads solely assigned at the species level, delete all rows other than “taxlevel 12”.</p>
+</div>
+<div id="filter-raw-read-count-data" class="section level3">
+<h3>2. Filter raw read count data</h3>
+<p>Delete rows that have very few total reads. These are very likely the result of background contamination. The number of reads chosen as a minimum threshold will vary between laboratories and specific applications. It is advisable to run blank sequencing controls alongside your experimental samples that can be used to assess the level of background contamination. In addition, rows that are “unclassified” at the species level also need to examined critically. If the total read count for these unclassified species are high then they may represent a species that is not present in the database. if the total read count is low (below the threshold that has been set), then the reads are probably the result of PCR/sequencing error and therefore need to be removed from the dataset.</p>
+</div>
+<div id="correction-for-pcr-bias" class="section level3">
+<h3>3. Correction for PCR bias</h3>
+<p>The efficiency of ITS-2 rDNA PCR amplification varies between species for a variety of different reasons (see Avramenko et al., 2015 for a more comprehensive discussion of the issues involved). Consequently, correction factors have been estimated that can be used to correct for this amplification bias. The correction factor that we have empirically determined for the major cattle and sheep species are provided below (from Avramenko et al 2017 and Redman et al, unpublished data). Simply multiply the raw read count by the correction factor for each individual species.</p>
+<div id="correction-factors" class="section level4">
+<h4>Correction factors</h4>
+<div id="cattle" class="section level5">
+<h5><strong>Cattle</strong></h5>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parasite species</th>
+<th align="left">Correction factor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><em>Cooperia punctata</em></td>
+<td align="left">2.7087</td>
+</tr>
+<tr class="even">
+<td align="left"><em>Cooperia oncophora</em></td>
+<td align="left">1.1545</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>Haemonchus placei</em></td>
+<td align="left">0.9339</td>
+</tr>
+<tr class="even">
+<td align="left"><em>Nematodirus helvetianus</em></td>
+<td align="left">0.7127</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>Ostertagia ostertagi</em></td>
+<td align="left">1.2592</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="sheep" class="section level5">
+<h5><strong>Sheep</strong></h5>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parasite species</th>
+<th align="left">Correction factor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><em>Cooperia curticei</em></td>
+<td align="left">1.6107</td>
+</tr>
+<tr class="even">
+<td align="left"><em>Teladorsagia circumcincta</em></td>
+<td align="left">1.1885</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>Trichostrongylus vitrinus</em></td>
+<td align="left">1.0239</td>
+</tr>
+<tr class="even">
+<td align="left"><em>Trichostrongylus axei</em></td>
+<td align="left">0.9647</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>Trichostrongylus colubriformis</em></td>
+<td align="left">1.0239</td>
+</tr>
+<tr class="even">
+<td align="left"><em>Haemonchus contortus</em></td>
+<td align="left">0.6970</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="calculate-relative-abundance-of-each-species" class="section level3">
+<h3>4. Calculate relative abundance of each species</h3>
+<p>To estimate the relative abundance of each species in a sample simply divide the corrected read count by the total corrected read count for each individual sample and multiply by 100.</p>
+</div>
+<div id="graphical-visualisation-of-species-proportions" class="section level3">
+<h3>5. Graphical visualisation of species proportions</h3>
+<p>The resulting percentages can then be turned into a stacked bar chart as the the first step at visualising your results.</p>
+</div>
+</div>
+<div id="downloads" class="section level2">
+<h2>Download list</h2>
+<ul>
+<li><a href="downloads/batchfile.txt" download="downloads/batchfile.txt">Mothur batch file</a></li>
+<li><a href="downloads/nematode_taxonomy_1_3.tax" download>Nematode taxonomy file (version 1.3)</a></li>
+<li><a href="downloads/nematode_ITS2_database_version1_3.fasta" download>Nematode ITS2 database version 1.3</a></li>
+</ul>
+</div>
+</div>
+
+   </div> <!-- articleBandContent -->
+</div> <!-- pageContent -->
+ 
+
+<footer class="footer">
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container">
+	    <div class="col-sm-12 text-center navbar-text">
+	        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+    				<img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    		</a>
+    		This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+	    </div>
+	  </div>
+	</nav>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

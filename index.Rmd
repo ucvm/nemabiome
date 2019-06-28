@@ -9,32 +9,95 @@ output: html_document
   max-width: none;
 	padding: 0px;
 }
+body {
+	margin-top: -10px;
+}
 </style>
 
-<div class="jumbotron">
-	<div class="container">
-		<img src="images/nemabiome_full.png"/>
-		<!--
-			<h2>Your source for all things Nemabiome related.</h2>
-		-->	
+<div class="jumbotron parallax">
+	<div class="text-center">
+		<img src="images/nemabiome_full.png" class="img-responsive" width="800px"/>
 	</div>
 </div>
+
 
 <div class="container">
 	<div class="row">
 		<div class="col-md-8">
-			<h3/>What is the nemabiome?</h3>
+			<h2/>What is the nemabiome?</h2>
 			<p>
-				Deep amplicon sequencing, or metabarcoding, using next-generation sequencing platforms, has revolutionized the study of microbial communities in humans, animals and the environment. Like microbes, parasites often exist in complex communities within a host and/or the external environment. We have coined the phrase “nemabiome” to describe the community of nematodes that inhabit a single host animal or environmental niche. We have recently described the use of deep amplicon sequencing, targeting the internal transcribed spacer 2 (ITS-2) rDNA locus, to study the gastro-intestinal nemabiome of cattle (Avramenko et al 2015, Avramenko et al 2017). Nemabiome sequencing provides a detailed picture of the species composition of the GIN parasite community structure in large sample sets and has a huge number of potential applications in diagnostics, surveillance and research. This website provides an overview of the methods we currently use for nemabiome sequencing, targeting the ITS-2 rRNA locus, in a number of host species including sheep, bison and horses. We plan to update this website as our methods, applications and targeted loci evolve. The aim is to enable any laboratory with basic parasitology and molecular biology capacity to undertake the approach.  
+				Deep amplicon sequencing, or metabarcoding, using next-generation sequencing platforms, has revolutionized the study of microbial communities in humans, animals and the environment. Like microbes, parasites often exist in complex communities within a host and/or the external environment. We have coined the phrase “nemabiome” to describe the community of nematodes that inhabit a single host animal or environmental niche. We have recently described the use of deep amplicon sequencing, targeting the internal transcribed spacer 2 (ITS-2) rDNA locus, to study the gastro-intestinal nemabiome of cattle (Avramenko et al 2015, Avramenko et al 2017). Nemabiome sequencing provides a detailed picture of the species composition of the GIN parasite community structure in large sample sets and has a huge number of potential applications in diagnostics, surveillance and research.   
 			</p>
+			<!--
 			<a class="btn btn-primary btn-lg" href="overview.html" role="button">
 				Read more!
 			</a>
+			-->
 		</div>
 		<div class="col-md-4">
 			<img src="images/nemabiome-tree.png"/>
 		</div>
 	</div>
-</div>
 
+<h2>Get started</h2>
+
+<p>This website provides an overview of the methods we currently use for nemabiome sequencing, targeting the ITS-2 rRNA locus, in a number of host species including sheep, bison and horses. We plan to update this website as our methods, applications and targeted loci evolve. The aim is to enable any laboratory with basic parasitology and molecular biology capacity to undertake the approach. The information and protocols on this website are arranged under three broad sections which are accessible by clicking on the links on the top menu bar or on the titles of the boxes below.</p>
+
+<div class="row">
+	<div class="col-sm-4">
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <a class="panel-title" href="parasite.html">
+    			<span class="ion ion-bug"></span>
+		    	Parasite Prep
+		    </a>
+		  </div>
+		  <div class="panel-body">
+		  	<ul class="list-unstyled">
+		  		<li><h6 class="text-left">Culture parasite material</h6></li>
+		  		<li><h6 class="text-left">Prepare DNA lysates</h6></li>
+		  	</ul>
+		  </div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <a class="panel-title" href="sequencing.html">
+    			<span class="ion ion-erlenmeyer-flask"></span>
+		    	Sequencing
+		    </a>
+		  </div>
+		  <div class="panel-body">
+		  	<ul class="list-unstyled">
+		  		<li><h6 class="text-left">Amplify ITS-2 region and add adaptors</h6></li>
+		  		<li><h6 class="text-left">Add Illumina barcodes</h6></li>
+		  		<li><h6 class="text-left">Make normalized library and quantify</h6></li>
+		  		<li><h6 class="text-left">Prepare and denature library</h6></li>
+		  		<li><h6 class="text-left">Load library onto MiSeq instrument</h6></li>
+		  	</ul>
+		  </div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <a class="panel-title" href="analysis.html">
+		    	<span class="ion ion-monitor"></span>
+		    	Analysis
+		    </a>
+		  </div>
+		  <div class="panel-body">
+		  	<ul class="list-unstyled">
+			  	<li><h6 class="text-left">Download software and analysis files</h6></li>
+			  	<li><h6 class="text-left">Download sequence data from Basespace</h6></li>
+			  	<li><h6 class="text-left">Create sample list</li>
+			  	<li><h6 class="text-left">Run analysis</li>
+			  </ul>
+		  </div>
+		</div>
+	</div>
+
+</div>
+</div>
 <!--/html_preserve-->

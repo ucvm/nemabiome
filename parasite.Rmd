@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 options(knitr.table.format = params$table_format) 
 ```
 
-# Parasite Protocols {.tabset .tabset-pills .tabset-fade}
+# Parasite Protocols {.tabset .tabset-fade}
 
 
 Download a pdf of all the protocols for printing <a href="downloads/parasite.pdf">here</a>

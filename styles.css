@@ -1,19 +1,45 @@
 body {
 	font-family: 'Nunito Sans', sans-serif;
 	margin-bottom: 60px;
+	margin-top: 10px;
 }
 
 h1, h2, h3, h4, h5, h6 {
 	font-family: 'Roboto', sans-serif;
 }
-
+/*
 .section h1 {
 	padding-top: 200px;
 }
+*/
+
+ ul.nav li.dropdown:hover ul.dropdown-menu {
+display: block;
+}
+
+.parallax {
+	  /* The image used */
+	background-image: url(images/celia-sun-XSzgadZ8fbU-unsplash.jpg);
+
+  /* Set a specific height */
+  height: 600px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 .jumbotron {
-	background-image: url(images/sheep-lake-bw.jpg);
 	background-size: cover;
+	/*background-image: url(images/celia-sun-XSzgadZ8fbU-unsplash.jpg);*/
+}
+
+.jumbotron img{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 p {
@@ -24,10 +50,11 @@ p {
 	font-size: 1.5rem;
 }
 
+
+
 .navbar {
 	font-size: 1.5rem;
-	padding-bottom: 0px;
-	margin-bottom: 20px;
+	min-height: 55px;
 }
 
 html {

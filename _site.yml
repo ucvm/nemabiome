@@ -1,7 +1,8 @@
 name: "Nemabiome"
 output:
   html_document:
-    theme: paper
+    theme: spacelab
+    highlight: tango
     includes:
       in_header: header.html
       after_body: footer.html

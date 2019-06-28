@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 options(knitr.table.format = params$table_format) 
 ```
 
-# Sequencing Protocols {.tabset .tabset-pills .tabset-fade}
+# Sequencing Protocols {.tabset .tabset-fade}
 
 Download a pdf of all the protocols for printing <a href="downloads/sequencing.pdf">here</a>
 
@@ -38,7 +38,7 @@ Download a pdf of all the protocols for printing <a href="downloads/sequencing.p
 
 
 ```{r}
-data_frame(
+tibble(
 	Name = c("NC1_with_Illumina_Adapter_(0N)", "NC1_with_Illumina_Adapter_(1N)",
 					 "NC1_with_Illumina_Adapter_(2N)", "NC1_with_Illumina_Adapter_(3N)"),
 	Sequence = c("TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGACGTCTGGTTCAGGGTTGTT",

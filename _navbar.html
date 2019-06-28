@@ -1,4 +1,4 @@
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -14,45 +14,52 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 				
-				<li>
-					<a href="overview.html">
+<!--
+				<li class="nav-item">
+					<a class="nav-link" href="overview.html">
 						<span class="ion ion-map"></span>
     				Overview
 					</a>
 				</li>
-	
+	-->
 			<!-- Parasite -->
-				<li>
-  				<a href="parasite.html">
+				<li class="nav-item">
+  				<a class="nav-link" href="parasite.html">
     				<span class="ion ion-bug"></span>
     				Parasite Prep
      			</a>
 				</li>
 				
 			<!-- Sequencing -->	
-				<li>
-  				<a href="sequencing.html">
+				<li class="nav-item">
+  				<a class="nav-link" href="sequencing.html">
     				<span class="ion ion-erlenmeyer-flask"></span>
     				Sequencing
      			</a>
 				</li>
 				
 			<!-- Analysis -->
-				<li>
-  				<a href="analysis.html">
-    				<span class="ion ion-monitor"></span>
+				<li class="dropdown">
+					<a class="nav-link" href="analysis.html" role="button" >
+						<span class="ion ion-monitor"></span>
     				Analysis
+    				<span class="caret"></span>
      			</a>
+     			<ul class="dropdown-menu">
+     				<li><a href="dada2_workflow.html">Dada2 Workflow</a></li>
+     				<li><a href="mothur_workflow.html">Mothur Workflow</a></li>
+     			</ul>
 				</li>
 			
-			<!-- Interpretation -->
-				<li>
-  				<a href="interpretation.html">
+		<!-- 
+			Interpretation 
+				<li class="nav-item">
+  				<a class="nav-link" href="interpretation.html">
     				<span class="ion ion-stats-bars"></span>
     				Interpretation
      			</a>
 				</li>
-
+-->
 			</ul>
 			
 			<!-- Citation and about -->
