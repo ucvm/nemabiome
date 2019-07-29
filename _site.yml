@@ -9,3 +9,4 @@ output:
     css: styles.css
     md_extensions: +markdown_in_html_blocks
 output_dir: "docs"
+include: ["_redirects"]
