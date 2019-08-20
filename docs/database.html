@@ -12,7 +12,7 @@
 
 
 
-<title>interpretation.utf8.md</title>
+<title>database.utf8.md</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -334,128 +334,19 @@ $(document).ready(function () {
 </div>
 
 
-<div id="example-and-interpretation" class="section level1 tabset tabset-pills tabset-fade">
-<h1>Example and Interpretation</h1>
-<div id="example-dataset" class="section level2">
-<h2>Example dataset</h2>
-<p>We have provided a worked example that will hopefully help beginners get started with this assay.</p>
-<p>This dataset contains 26 pooled strongyle worm samples collected from Brazilian cattle farms. Each sample contains 1000 L3 larvae cultured from fecal samples. The Nemabiome assay was used to investigate species proportions within these pooled samples. The raw results from the assay are usually downloaded directly from the Illumina website (Basespace). We have provided the raw results from these samples below. Begin by downloading and unzipping all three files.</p>
-<div id="example-miseq-data-files" class="section level3">
-<h3>Example Miseq data files</h3>
-<ul>
-<li><a href="https://www.dropbox.com/s/xtwosyzfv9a6zrb/Fastq_files_set1.zip?dl=1">Set 1</a></li>
-<li><a href="https://www.dropbox.com/s/ligdhzjtuc2597y/Fastq_files_set2.zip?dl=1">Set 2</a></li>
-<li><a href="https://www.dropbox.com/s/sny2r4e2q4c59fl/Fastq_files_set3.zip?dl=1">Set 3</a></li>
-</ul>
-<p>Also download the example file <a href = "downloads/nemabiome.files" download>nemabiome.files</a>. This file contains a list of the samples that we are analyzing, and specifies which files belong to each sample. From this you can generate your stability.files that should look like this.</p>
-<p>Use these files to work through the steps set-out under the Analysis tab.</p>
-</div>
-<div id="example-output" class="section level3">
-<h3>Example output</h3>
-<p>You can download the file <a href = "downloads/example_nemabiome_results.txt" download>example_nemabiome_results.txt</a>. This is what your output file should look like if you have completed the analysis correctly.</p>
-</div>
-</div>
-<div id="initial-interpretation-of-results" class="section level2">
-<h2>Initial interpretation of results</h2>
-<p>A youtube video outlines the main steps involved with the initial manipulation of raw read count data and basic visualisation of the example dataset.</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/OkTVcnbskTw" frameborder="0" allowfullscreen>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.min.js"></script>
+<style>
+  iframe {
+    min-width: 100%;
+  }
+</style>
+<iframe id="myIframe" src="https://cooperia.chgi.ucalgary.ca/Nematode_ITS2/" scrolling="no" frameborder="no">
 </iframe>
-<p><br></p>
-<div id="visualize-raw-read-counts-in-excel-spreadsheet" class="section level3">
-<h3>1. Visualize raw read counts in excel spreadsheet</h3>
-<p>The first step is to copy and paste the raw read counts into an excel spreadsheet. The first three columns (rankID, taxon, daughterlevel) indicate the level of taxonomic classification. The fourth column (total) is the total number of reads assigned to that taxonomic level. The individual read counts for each sample begins in the 5th column and the sample name is given in the top row. To display reads solely assigned at the species level, delete all rows other than “taxlevel 12”.</p>
-</div>
-<div id="filter-raw-read-count-data" class="section level3">
-<h3>2. Filter raw read count data</h3>
-<p>Delete rows that have very few total reads. These are very likely the result of background contamination. The number of reads chosen as a minimum threshold will vary between laboratories and specific applications. It is advisable to run blank sequencing controls alongside your experimental samples that can be used to assess the level of background contamination. In addition, rows that are “unclassified” at the species level also need to examined critically. If the total read count for these unclassified species are high then they may represent a species that is not present in the database. if the total read count is low (below the threshold that has been set), then the reads are probably the result of PCR/sequencing error and therefore need to be removed from the dataset.</p>
-</div>
-<div id="correction-for-pcr-bias" class="section level3">
-<h3>3. Correction for PCR bias</h3>
-<p>The efficiency of ITS-2 rDNA PCR amplification varies between species for a variety of different reasons (see Avramenko et al., 2015 for a more comprehensive discussion of the issues involved). Consequently, correction factors have been estimated that can be used to correct for this amplification bias. The correction factor that we have empirically determined for the major cattle and sheep species are provided below (from Avramenko et al 2017 and Redman et al, unpublished data). Simply multiply the raw read count by the correction factor for each individual species.</p>
-<div id="correction-factors" class="section level4">
-<h4>Correction factors</h4>
-<div id="cattle" class="section level5">
-<h5><strong>Cattle</strong></h5>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Parasite species</th>
-<th align="left">Correction factor</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><em>Cooperia punctata</em></td>
-<td align="left">2.7087</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Cooperia oncophora</em></td>
-<td align="left">1.1545</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Haemonchus placei</em></td>
-<td align="left">0.9339</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Nematodirus helvetianus</em></td>
-<td align="left">0.7127</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Ostertagia ostertagi</em></td>
-<td align="left">1.2592</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="sheep" class="section level5">
-<h5><strong>Sheep</strong></h5>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Parasite species</th>
-<th align="left">Correction factor</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><em>Cooperia curticei</em></td>
-<td align="left">1.6107</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Teladorsagia circumcincta</em></td>
-<td align="left">1.1885</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Trichostrongylus vitrinus</em></td>
-<td align="left">1.0239</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Trichostrongylus axei</em></td>
-<td align="left">0.9647</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Trichostrongylus colubriformis</em></td>
-<td align="left">1.0239</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Haemonchus contortus</em></td>
-<td align="left">0.6970</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="calculate-relative-abundance-of-each-species" class="section level3">
-<h3>4. Calculate relative abundance of each species</h3>
-<p>To estimate the relative abundance of each species in a sample simply divide the corrected read count by the total corrected read count for each individual sample and multiply by 100.</p>
-</div>
-<div id="graphical-visualisation-of-species-proportions" class="section level3">
-<h3>5. Graphical visualisation of species proportions</h3>
-<p>The resulting percentages can then be turned into a stacked bar chart as the the first step at visualising your results.</p>
-</div>
-</div>
-</div>
+<script>
+  iFrameResize({
+    heightCalculationMethod: 'taggedElement'
+  });
+</script>
 
    </div> <!-- articleBandContent -->
 </div> <!-- pageContent -->
