@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRU
     min-width: 100%;
   }
 </style>
-<iframe id="myIframe" src="https://cooperia.chgi.ucalgary.ca/Nematode_ITS2/" scrolling="no" frameborder="no"></iframe>
+<iframe id="myIframe" src="https://ucvm-bio.shinyapps.io/Nematode_ITS2/" scrolling="no" frameborder="no"></iframe>
 <script>
   iFrameResize({
     heightCalculationMethod: 'taggedElement'
