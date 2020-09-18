@@ -101,6 +101,44 @@ This will launch Mothur, and begin to complete the commands that are contained w
 
 Once the analysis has completed, you will have a file called `nemabiome_results.summary`. You can open this file up and copy the contents into an Excel workbook to properly view the data. 
 
+<div class="alert alert-warning" role="alert">
+  <p>There is a [bug](https://forum.mothur.org/t/problem-with-screen-seqs-parameter-minsim/20667) with Mothur's `align.seq` command which will cause the `screen.seq` command next step to remove all reads. Until this is fixed, a manual work around is described below. </p>
+</div>
+
+Download and use <a href="downloads/batchfile_1.txt" download>batchfile_1.txt</a> and <a href="downloads/batchfile_2.txt" download>batchfile_2.txt</a> instead of `batchfile.txt`.
+
+Type:
+
+```
+~/mothur/mothur batchfile_1.txt
+```  
+(On a Mac)
+ 
+OR
+
+```
+C:\mothur\mothur.exe C:\MiSeq_Run\batchfile_1.txt
+``` 
+(On a PC)
+
+Once Mothur is finished running `batchfile_1.txt`, open `nemabiome.trim.contigs.good.align.report` file in Excel and fill the empty "AlignmentMethod" column with "needleman" to all rows.
+
+Once that is fixed, type:
+
+```
+~/mothur/mothur batchfile_2.txt
+```  
+(On a Mac)
+ 
+OR
+
+```
+C:\mothur\mothur.exe C:\MiSeq_Run\batchfile_2.txt
+``` 
+(On a PC)
+
+Once Mothur has completed running `batchfile_2.txt`, you will have a file called `nemabiome_results.summary`. You can open this file up and copy the contents into an Excel workbook to properly view the data. 
+
 
 ### Example output
 
