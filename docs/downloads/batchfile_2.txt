@@ -1,0 +1,5 @@
+screen.seqs(fasta=nemabiome.trim.contigs.good.align, alignreport=nemabiome.trim.contigs.good.align.report, minsim=90, minscore=10, group=nemabiome.contigs.good.groups)
+classify.seqs(fasta=nemabiome.trim.contigs.good.good.align, template=nematode_ITS2_database_version1_3.fasta, taxonomy=nematode_taxonomy_1_3.tax, method=knn, processors=2, numwanted=3)
+summary.tax(taxonomy=nemabiome.trim.contigs.good.good.nematode_taxonomy_1_3.knn.taxonomy, group=nemabiome.contigs.good.good.groups)
+split.groups(fasta=nemabiome.trim.contigs.good.fasta, group=nemabiome.contigs.good.groups)
+system(mv nemabiome.trim.contigs.good.good.nematode_taxonomy_1_3.knn.tax.summary nemabiome_results.summary)
