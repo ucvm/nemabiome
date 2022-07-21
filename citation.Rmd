@@ -16,7 +16,8 @@ knitr::opts_chunk$set(echo = FALSE)
 * The nemabiome concept and development of tools to study the nemabiome is done in the lab of [John Gilleard](http://www.ucalgary.ca/jsgilleard/)
 * Bench protocols written by Elizabeth Redman
 * Analysis protocols written by Russell Avramenko
-* ITS2 database and taxonomy constructed by Russell Avramenko
+* Previous ITS2 database and taxonomy (for [Mothur Workflow](mothur_workflow.html)) created by Russell Avramenko
+* [New ITS2 database](its2-database.html) is generated using [markerDB](https://github.com/ucvm/markerDB) pipeline developed by Matthew Workentine
 * Nemabiome logo design by Matilde Tonelli
 * Website built by Matthew Workentine
 
@@ -25,9 +26,13 @@ This website is hosted on Netlify, code available on <a target="_blank" href="ht
 
 ## Citation
 
-If you use any of the described protocols in your work we kindly ask that you credit this website as well as cite the following journal article:
+If you use the [new ITS2 database](its2-database.html) in your work we kindly ask that you credit this website as well as cite the following journal article:
 
-Avramenko RW, Redman EM, Lewis R, Yazwinski TA, Wasmuth JD, Gilleard JS. *Exploring the Gastrointestinal “Nemabiome”: Deep Amplicon Sequencing to Quantify the Species Composition of Parasitic Nematode Communities.* PLoS ONE. **2015;10:** e0143559. https://doi.org/10.1371/journal.pone.0143559
+> Workentine ML, Chen R, Zhu S, Gavriliuc S, Shaw N, Rijke J de, Redman EM, Avramenko RW, Wit J, Poissant J, Gilleard JS. *A database for ITS2 sequences from nematodes.* BMC Genetics. **2020** 21(1):74. https://doi.org/10.1186/s12863-020-00880-0
+
+If you use any of the [sequencing protocols](sequencing.html) or [Mothur workflow](mothur_workflow.html) in your work we kindly ask that you credit this website as well as cite the following journal article:
+
+> Avramenko RW, Redman EM, Lewis R, Yazwinski TA, Wasmuth JD, Gilleard JS. *Exploring the Gastrointestinal “Nemabiome”: Deep Amplicon Sequencing to Quantify the Species Composition of Parasitic Nematode Communities.* PLoS ONE. **2015;10:** e0143559. https://doi.org/10.1371/journal.pone.0143559
 
 ## Other relevant references
 

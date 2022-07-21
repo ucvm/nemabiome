@@ -1,56 +1,72 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title>citation.utf8.md</title>
+<title>citation.knit</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Roboto|Lobster" rel="stylesheet">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
 
 
 
 
 <style type="text/css">
-h1 {
-  font-size: 34px;
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
 }
-h1.title {
-  font-size: 38px;
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
 }
-h2 {
-  font-size: 30px;
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
 }
-h3 {
-  font-size: 24px;
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
 }
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
+div.csl-indent {
+  margin-left: 2em;
 }
 </style>
 
@@ -64,13 +80,8 @@ h6 {
   margin-left: auto;
   margin-right: auto;
 }
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -84,40 +95,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 52px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
-.section h2 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
-.section h3 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
-.section h4 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
-.section h5 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
-.section h6 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -145,7 +132,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -157,7 +144,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -168,10 +155,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -183,7 +183,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -219,6 +218,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -326,7 +326,8 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+
+<div id="header">
 
 
 
@@ -337,28 +338,67 @@ $(document).ready(function () {
 <div id="contributors" class="section level2">
 <h2>Contributors</h2>
 <ul>
-<li>The nemabiome concept and development of tools to study the nemabiome is done in the lab of <a href="http://www.ucalgary.ca/jsgilleard/">John Gilleard</a></li>
+<li>The nemabiome concept and development of tools to study the
+nemabiome is done in the lab of <a
+href="http://www.ucalgary.ca/jsgilleard/">John Gilleard</a></li>
 <li>Bench protocols written by Elizabeth Redman</li>
 <li>Analysis protocols written by Russell Avramenko</li>
-<li>ITS2 database and taxonomy constructed by Russell Avramenko</li>
+<li>Previous ITS2 database and taxonomy (for <a
+href="mothur_workflow.html">Mothur Workflow</a>) created by Russell
+Avramenko</li>
+<li><a href="its2-database.html">New ITS2 database</a> is generated
+using <a href="https://github.com/ucvm/markerDB">markerDB</a> pipeline
+developed by Matthew Workentine</li>
 <li>Nemabiome logo design by Matilde Tonelli</li>
 <li>Website built by Matthew Workentine</li>
 </ul>
-<p>This website is hosted on Netlify, code available on <a target="_blank" href="https://github.com/ucvm/nemabiome">Github</a></p>
+<p>This website is hosted on Netlify, code available on
+<a target="_blank" href="https://github.com/ucvm/nemabiome">Github</a></p>
 </div>
 <div id="citation" class="section level2">
 <h2>Citation</h2>
-<p>If you use any of the described protocols in your work we kindly ask that you credit this website as well as cite the following journal article:</p>
-<p>Avramenko RW, Redman EM, Lewis R, Yazwinski TA, Wasmuth JD, Gilleard JS. <em>Exploring the Gastrointestinal “Nemabiome”: Deep Amplicon Sequencing to Quantify the Species Composition of Parasitic Nematode Communities.</em> PLoS ONE. <strong>2015;10:</strong> e0143559. <a href="https://doi.org/10.1371/journal.pone.0143559" class="uri">https://doi.org/10.1371/journal.pone.0143559</a></p>
+<p>If you use the <a href="its2-database.html">new ITS2 database</a> in
+your work we kindly ask that you credit this website as well as cite the
+following journal article:</p>
+<blockquote>
+<p>Workentine ML, Chen R, Zhu S, Gavriliuc S, Shaw N, Rijke J de, Redman
+EM, Avramenko RW, Wit J, Poissant J, Gilleard JS. <em>A database for
+ITS2 sequences from nematodes.</em> BMC Genetics. <strong>2020</strong>
+21(1):74. <a href="https://doi.org/10.1186/s12863-020-00880-0"
+class="uri">https://doi.org/10.1186/s12863-020-00880-0</a></p>
+</blockquote>
+<p>If you use any of the <a href="sequencing.html">sequencing
+protocols</a> or <a href="mothur_workflow.html">Mothur workflow</a> in
+your work we kindly ask that you credit this website as well as cite the
+following journal article:</p>
+<blockquote>
+<p>Avramenko RW, Redman EM, Lewis R, Yazwinski TA, Wasmuth JD, Gilleard
+JS. <em>Exploring the Gastrointestinal “Nemabiome”: Deep Amplicon
+Sequencing to Quantify the Species Composition of Parasitic Nematode
+Communities.</em> PLoS ONE. <strong>2015;10:</strong> e0143559. <a
+href="https://doi.org/10.1371/journal.pone.0143559"
+class="uri">https://doi.org/10.1371/journal.pone.0143559</a></p>
+</blockquote>
 </div>
 <div id="other-relevant-references" class="section level2 unnumbered">
-<h2>Other relevant references</h2>
-<div id="refs" class="references">
-<div id="ref-Avramenko:2017fn">
-<p>1. Avramenko RW, Redman EM, Lewis R, Bichuette MA, Palmeira BM, Yazwinski TA, et al. The use of nemabiome metabarcoding to explore gastro-intestinal nematode species diversity and anthelmintic treatment effectiveness in beef calves. International journal for parasitology. 2017;47: 893–902. </p>
+<h2 class="unnumbered">Other relevant references</h2>
+<div id="refs" class="references csl-bib-body">
+<div id="ref-Avramenko:2017fn" class="csl-entry">
+<div class="csl-left-margin">1. </div><div
+class="csl-right-inline">Avramenko RW, Redman EM, Lewis R, Bichuette MA,
+Palmeira BM, Yazwinski TA, et al. <span class="nocase">The use of
+nemabiome metabarcoding to explore gastro-intestinal nematode species
+diversity and anthelmintic treatment effectiveness in beef
+calves</span>. International journal for parasitology. 2017;47: 893–902.
 </div>
-<div id="ref-Schloss:2009do">
-<p>2. Schloss PD, Westcott SL, Ryabin T, Hall JR, Hartmann M, Hollister EB, et al. Introducing mothur: open-source, platform-independent, community-supported software for describing and comparing microbial communities. Applied and Environmental Microbiology. 2009;75: 7537–7541. </p>
+</div>
+<div id="ref-Schloss:2009do" class="csl-entry">
+<div class="csl-left-margin">2. </div><div
+class="csl-right-inline">Schloss PD, Westcott SL, Ryabin T, Hall JR,
+Hartmann M, Hollister EB, et al. <span class="nocase">Introducing
+mothur: open-source, platform-independent, community-supported software
+for describing and comparing microbial communities.</span> Applied and
+Environmental Microbiology. 2009;75: 7537–7541. </div>
 </div>
 </div>
 </div>
@@ -382,13 +422,14 @@ $(document).ready(function () {
 
 
 
+
 </div>
 
 <script>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -406,7 +447,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
