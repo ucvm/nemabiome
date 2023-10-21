@@ -1,3 +1,8 @@
+#header {
+    display: none;
+}
+
+
 body {
 	font-family: 'Nunito Sans', sans-serif;
 	margin-bottom: 60px;
@@ -13,7 +18,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 */
 
- ul.nav li.dropdown:hover ul.dropdown-menu {
+ul.nav li.dropdown:hover ul.dropdown-menu {
 display: block;
 }
 

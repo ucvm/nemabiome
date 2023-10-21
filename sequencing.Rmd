@@ -1,4 +1,5 @@
 ---
+title: "Sequencing - Nemabiome.ca"
 params:
   table_format: html
 ---
