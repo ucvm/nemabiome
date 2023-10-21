@@ -1,4 +1,5 @@
 ---
+title: "Nemabiome.ca - DADA2 Workflow"
 editor_options: 
   chunk_output_type: console
 ---
@@ -51,9 +52,16 @@ conda install -c bioconda cutadapt
 
 ### Download files
 
-This tutorial is run with the files listed on the [Analysis](analysis.html) page.  Please download those and if you want to follow along exactly then place them in a folder called `MiSeq_Run` in your home directory.  Here we only use two samples to keep the run time short but feel free to run it with all the example files if desired.
+This tutorial is run with the files listed on the [Analysis](analysis.html) page. 
+Please download those and if you want to follow along exactly then place them in a folder called `Miseq_Run` in your home directory. 
+Here we only use two samples to keep the run time short but feel free to run it with all the example files if desired.
 
-You'll also need the ITS2 database files formatted for IDTAXA.  You can find them at https://doi.org/10.5281/zenodo.3235802. Please download the [Nematode_ITS2_1.0.0_idtaxa.fasta](https://zenodo.org/record/3235803/files/Nematode_ITS2_1.0.0_idtaxa.fasta?download=1) file with sequences and the [Nematode_ITS2_1.0.0_idtaxa.tax](https://zenodo.org/record/3235803/files/Nematode_ITS2_1.0.0_idtaxa.tax?download=1) taxonomy file.
+You'll also need the ITS2 database files formatted for IDTAXA. 
+For the purpose of this tutorial, the ITS2 database version used in this guide can be found at https://doi.org/10.5281/zenodo.3235802. 
+Please download the [Nematode_ITS2_1.0.0_idtaxa.fasta](https://zenodo.org/record/3235803/files/Nematode_ITS2_1.0.0_idtaxa.fasta?download=1) 
+file with sequences and the [Nematode_ITS2_1.0.0_idtaxa.tax](https://zenodo.org/record/3235803/files/Nematode_ITS2_1.0.0_idtaxa.tax?download=1) taxonomy file.
+
+For your own analysis, the latest version of our nematode [ITS2 database](its2_database.html) can be found under "Analysis" at the top navigation bar.
 
 ### Preparing
 
@@ -87,14 +95,28 @@ set.seed(106)
 
 
 
-To get started we'll need to do a little prep.  We'll start by defining the path of sequences to be processed (using "~/Miseq_Run" from previous examples). The DADA2 pipeline is intended to be used with demultiplexed, paired-end fastq files. That is to say, the samples must be separated into individual files and ordered such that forward and reverse reads of the same sample are matched. The pattern of the filenames should be the same for all forward and reverse files. In this example, the names are formatted as such: `samplename_R1_001.fastq.fz` for forward reads and `samplename_R2_001.fastq.gz` for reverse reads.
+To get started we'll need to do a little prep.  We'll start by defining the path 
+of sequences to be processed (using "~/Miseq_Run" from previous examples).
+The DADA2 pipeline is intended to be used with demultiplexed, paired-end fastq files. 
+That is to say, the samples must be separated into individual files and ordered 
+such that forward and reverse reads of the same sample are matched. 
+The pattern of the filenames should be the same for all forward and reverse files. 
+In this example, the names are formatted as such: `samplename_R1_001.fastq.gz` 
+for forward reads and `samplename_R2_001.fastq.gz` for reverse reads.
 
-We then create a vector of file names, one for the forward reads and one for the reverse.  The `samples` vector contains our sample names, extracted from the file names using a regular expression.  For Illumina data, often the sample name is everything before the first underscore.
+We then create a vector of file names, one for the forward reads and one for the reverse.
+The `samples` vector contains our sample names, extracted from the file names using a regular expression.
+For Illumina data, often the sample name is everything before the first underscore.
 
-The primer sequences are defined here as well, because we'll be clipping those off shortly.  The forward primer will be at the beginning of the forward read and the reverse primer will be at the beginning of the reverse read.  The reverse complements are included in case the amplicon sequence is shorter than our read length.  When this happens the sequence will contain the reverse complement of the opposite primer, i.e. there may be reverse-complemented reverse primer at the end of the forward read.
+The primer sequences are defined here as well, because we'll be clipping those off shortly. 
+The forward primer will be at the beginning of the forward read and the reverse primer 
+will be at the beginning of the reverse read.  The reverse complements are included 
+in case the amplicon sequence is shorter than our read length.  When this happens the 
+sequence will contain the reverse complement of the opposite primer, i.e. there may be 
+reverse-complemented reverse primer at the end of the forward read.
 
 ```{r primer_initialization}
-path <- "~/MiSeq_Run"
+path <- "~/Miseq_Run"
 
 fwd_files <- sort(list.files(path, pattern = "R1", full.names = TRUE)) 
 rev_files <- sort(list.files(path, pattern = "R2", full.names = TRUE))
@@ -139,21 +161,32 @@ Cutadapt is best installed using conda (`conda install cutadapt`) and can also b
 
 # CHANGE ME to the cutadapt path on your machine.  If you've installed conda according to the 
 # provided instructions then this will likely be the same for you.
-cutadapt <- path.expand("~/miniconda3/bin/cutadapt")
+cutadapt <- path.expand("~/miniconda3/envs/cutadapt/bin/cutadapt")
 
 # Make sure it works
 system2(cutadapt, args = "--version") 
 ```
 
 
-Now output filenames are defined as well as parameters for cutadapt.  The critical parameters are the primer sequences and their orientation.  It's strongly recommended that you review the [cutadapt documentation] (https://cutadapt.readthedocs.io/en/stable/guide.html) for full details of each parameter.  Briefly:
+Now output filenames are defined as well as parameters for cutadapt. 
+The critical parameters are the primer sequences and their orientation.
+It's strongly recommended that you review the [cutadapt documentation](https://cutadapt.readthedocs.io/en/stable/guide.html) 
+for full details of each parameter. 
+
+Briefly:
 
 `-g`: sequence to trim off the 5' end of the forward read (forward primer)
+
 `-a`: sequence to trim off the 3' end of the forward read (reverse complemented reverse primer)
+
 `-G`: sequence to trim off the 5' end of the reverse read (reverse primer)
+
 `-A`: sequence to trim off the 3' end of the reverse read (reverse complemented forward primer)
 
-We'll also add `-m 50` to get rid of super short junky reads, `--max-n 1` to get rid of reads that have any N's in them and `-n 2` so that cutadapt will remove multiple primer hits if there happens to be read-through.  The `--discard-untrimmed` is also added so only reads that contain a primer will be kept ensuring we keep only valid amplicons.   And finally a `-q 15` will trim off low quality bases from the 3' end.  
+We'll also add `-m 50` to get rid of super short junky reads, `--max-n 1` to get rid of reads that have any N's in them
+and `-n 2` so that cutadapt will remove multiple primer hits if there happens to be read-through.
+The `--discard-untrimmed` is also added so only reads that contain a primer will be kept ensuring we keep only valid amplicons.
+And finally a `-q 15` will trim off low quality bases from the 3' end.
 
 <div class="alert alert-warning" role="alert">
   <p>In our experience this small amount of trimming can remove the need for truncating the reads later on but this is something that may vary from run to run it and an important paramter to consider for your own data </p>
@@ -350,7 +383,14 @@ Now that we have a sequence table with the chimeras removed, we can classify/ass
 
 ### Training the classifier
 
-The IdTaxa classification method relies on a training set that contains sequences that are representative of known taxa. Although there exists trained classifiers, we will be using the ITS2 Nematode database as our classifier. Since it is not trained, we will have to train the classifier using `LearnTaxa`, which is also available as a `DECIPHER` package. The `train` parameter of `LearnTaxa` contains the sequences included in the classifier as a DNAStringSet. Each sequence is formatted such that the names of each taxonomic level is separated by a semicolon. Once the sequence headers of the classifier are parsed, the `taxonomy` parameter will contain the taxonomic assignment, separated by a semicolon, for each sequence in `train`. 
+The IDTAXA classification method relies on a training set that contains sequences that are representative of known taxa. 
+Although there exists trained classifiers, we will be using the ITS2 Nematode database as our classifier. 
+Since it is not trained, we will have to train the classifier using `LearnTaxa`, 
+which is also available as a `DECIPHER` package. The `train` parameter of `LearnTaxa` 
+contains the sequences included in the classifier as a DNAStringSet. Each sequence is 
+formatted such that the names of each taxonomic level is separated by a semicolon. 
+Once the sequence headers of the classifier are parsed, the `taxonomy` parameter will contain the taxonomic assignment, 
+separated by a semicolon, for each sequence in `train`. 
 
 ``` {r}
 
@@ -379,13 +419,13 @@ To use IdTaxa, we will need to convert the unique sequence variants that we want
 dna <- DNAStringSet(getSequences(seqtab_nochim))
 
 idtaxa <- IdTaxa(dna, 
-              trainingSet, 
-              strand = "both", 
-              threshold = 60, 
-              bootstraps = 100, 
-              processors = NULL, 
-              verbose = TRUE, 
-              type = "extended")
+                 trainingSet, 
+                 strand = "both", 
+                 threshold = 60, 
+                 bootstraps = 100, 
+                 processors = NULL, 
+                 verbose = TRUE, 
+                 type = "extended")
 ```
 
 Although it contains all the necessary information, the output of `IdTaxa` is not as intuitive as we would like. It outputs a list of the sequence variants. Within this list, each element will have its taxonomic classification and the confidence for each taxon. To facilitate easier manipulation and comprehension of the data, we will convert this list into a matrix, with the rows as the sequence variants and the columns as their taxonomic classifications.  We also drop the "Root" column.

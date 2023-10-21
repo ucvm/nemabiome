@@ -1,52 +1,80 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title>dada2_workflow.utf8.md</title>
+<title>Nemabiome.ca - DADA2 Workflow</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Roboto|Lobster" rel="stylesheet">
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
-<style type="text/css">code{white-space: pre;}</style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -55,17 +83,17 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  { background-color: #f8f8f8; }
+  {  background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
+code span.at { color: #204a87; } /* Attribute */
 code span.bn { color: #0000cf; } /* BaseN */
 code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
+code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #8f5902; font-style: italic; } /* Comment */
 code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
 code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
@@ -74,14 +102,14 @@ code span.dv { color: #0000cf; } /* DecVal */
 code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
 code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
 code span.ot { color: #8f5902; } /* Other */
 code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
 code span.ss { color: #4e9a06; } /* SpecialString */
 code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
@@ -96,13 +124,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -110,39 +145,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -154,13 +159,8 @@ h6 {
   margin-left: auto;
   margin-right: auto;
 }
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -174,40 +174,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 52px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
-.section h2 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
-.section h3 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
-.section h4 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
-.section h5 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
-.section h6 {
-  padding-top: 57px;
-  margin-top: -57px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -235,7 +211,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -247,7 +223,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -257,11 +233,28 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.parent().addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -273,13 +266,12 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -287,16 +279,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -309,6 +294,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -383,9 +369,15 @@ $(document).ready(function () {
     				<span class="caret"></span>
      			</a>
      			<ul class="dropdown-menu">
-     				<li><a href="dada2_workflow.html">Dada2 Workflow</a></li>
+     				<li><a href="analysis.html">Analysis</a></li>
+     				<li><a href="dada2_workflow.html">DADA2 Workflow</a></li>
      				<li><a href="mothur_workflow.html">Mothur Workflow</a></li>
      				<li><a href="its2-database.html">ITS2 Database</a></li>
+     				<li><a href="its1-database.html">ITS1 Database</a></li>
+     				<li><a href="its1-5-8s-its2-database.html">ITS1 5.8S ITS2 Database</a></li>
+     				<li><a href="18s-database.html">18S Database</a></li>
+     				<li><a href="28s-database.html">28S Database</a></li>
+     				<li><a href="primertc.html">PrimerTC</a></li>
      			</ul>
 				</li>
 			
@@ -416,156 +408,267 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+
+<div id="header">
 
 
 
+<h1 class="title toc-ignore">Nemabiome.ca - DADA2 Workflow</h1>
 
 </div>
 
 
 <div id="dada2-workflow" class="section level1 tabset tabset-fade">
-<h1>DADA2 Workflow</h1>
+<h1 class="tabset tabset-fade">DADA2 Workflow</h1>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
-<p>The <a href="https://www.nature.com/articles/nmeth.3869">DADA2 pipeline</a> is used as a method to correct errors that are introduced into sequencing data during amplicon sequencing. It is implemented as an open-source R-package that will allow you to run through the entire pipeline, including steps to filter, dereplicate, identify chimeras, and merge paired-end reads. We will use one external application, cutadapt, to remove primer sequences. The output of this pipeline is a table of amplicon sequence variants (ASVs), as opposed to the traditional OTUs seen in other amplicon sequencing workflows that cluster similar sequences into a single OTU. DADA2 is capable of resolving biological differences of 1 or 2 nucleotides, producing ASVs from amplicon data that are of higher resolution than OTUs. For a more general and detailed tutorial please see the dada2 <a href="https://benjjneb.github.io/dada2">website</a></p>
+<p>The <a href="https://www.nature.com/articles/nmeth.3869">DADA2
+pipeline</a> is used as a method to correct errors that are introduced
+into sequencing data during amplicon sequencing. It is implemented as an
+open-source R-package that will allow you to run through the entire
+pipeline, including steps to filter, dereplicate, identify chimeras, and
+merge paired-end reads. We will use one external application, cutadapt,
+to remove primer sequences. The output of this pipeline is a table of
+amplicon sequence variants (ASVs), as opposed to the traditional OTUs
+seen in other amplicon sequencing workflows that cluster similar
+sequences into a single OTU. DADA2 is capable of resolving biological
+differences of 1 or 2 nucleotides, producing ASVs from amplicon data
+that are of higher resolution than OTUs. For a more general and detailed
+tutorial please see the dada2 <a
+href="https://benjjneb.github.io/dada2">website</a></p>
 <div id="requirements" class="section level3">
 <h3>Requirements</h3>
 <ul>
-<li>MacOS or Linux. Windows is possible if you use Windows Subsystem for Linux or a virtual machine like VirtualBox.</li>
-<li>A modern desktop or laptop. The memory and cpu requirements for running dada2 are fairly modest. If you have a low-powered computer it will still run but will likely take much longer.</li>
+<li>MacOS or Linux. Windows is possible if you use Windows Subsystem for
+Linux or a virtual machine like VirtualBox.</li>
+<li>A modern desktop or laptop. The memory and cpu requirements for
+running dada2 are fairly modest. If you have a low-powered computer it
+will still run but will likely take much longer.</li>
 </ul>
 </div>
 <div id="install-r" class="section level3">
 <h3>Install R</h3>
-<p>To use DADA2, you must download and install R for your operating system. This can be done <a href="https://cloud.r-project.org/">here</a>. You should use the latest version of R. It is also highly recommned (but not required) to download and install RStudio, which is an integrated development environment (IDE) for R programming. This can be done through <a href="https://www.rstudio.com/download">this link</a>.</p>
+<p>To use DADA2, you must download and install R for your operating
+system. This can be done <a
+href="https://cloud.r-project.org/">here</a>. You should use the latest
+version of R. It is also highly recommned (but not required) to download
+and install RStudio, which is an integrated development environment
+(IDE) for R programming. This can be done through <a
+href="https://www.rstudio.com/download">this link</a>.</p>
 </div>
 <div id="install-dada2" class="section level3">
 <h3>Install dada2</h3>
-<p>Since dada2 is available as part of the Bioconductor Project Package Repository, first install Bioconductor.</p>
+<p>Since dada2 is available as part of the Bioconductor Project Package
+Repository, first install Bioconductor.</p>
 <pre><code>install.packages(&quot;BiocManager&quot;)</code></pre>
-<p>To install the latest version of the DADA2 package (1.12.1), type the following:</p>
+<p>To install the latest version of the DADA2 package (1.12.1), type the
+following:</p>
 <pre><code>BiocManager::install(&quot;dada2&quot;, version = &quot;3.9&quot;)</code></pre>
-<p><em>If you have previously installed R and Bioconductor, you may need to update them to the most recent versions. This tutorial relies on features of dada2 only in version 1.12.1 or greater</em></p>
+<p><em>If you have previously installed R and Bioconductor, you may need
+to update them to the most recent versions. This tutorial relies on
+features of dada2 only in version 1.12.1 or greater</em></p>
 </div>
 <div id="install-cutadapt" class="section level3">
 <h3>Install cutadapt</h3>
-<p>To use the DADA2 pipeline, primers must be removed from the amplicon sequence data. In the following tutorial, we will be using the <code>cutadapt</code> tool in R to do this. Cutadapt can be installed as a conda package. If you do not already have conda installed, you can do so <a href="https://docs.conda.io/en/latest/miniconda.html">here</a>. Once you have conda installed, go to Terminal or Command Prompt, and type the following:</p>
+<p>To use the DADA2 pipeline, primers must be removed from the amplicon
+sequence data. In the following tutorial, we will be using the
+<code>cutadapt</code> tool in R to do this. Cutadapt can be installed as
+a conda package. If you do not already have conda installed, you can do
+so <a href="https://docs.conda.io/en/latest/miniconda.html">here</a>.
+Once you have conda installed, go to Terminal or Command Prompt, and
+type the following:</p>
 <pre><code>conda install -c bioconda cutadapt</code></pre>
 </div>
 <div id="download-files" class="section level3">
 <h3>Download files</h3>
-<p>This tutorial is run with the files listed on the <a href="analysis.html">Analysis</a> page. Please download those and if you want to follow along exactly then place them in a folder called <code>MiSeq_Run</code> in your home directory. Here we only use two samples to keep the run time short but feel free to run it with all the example files if desired.</p>
-<p>You’ll also need the ITS2 database files formatted for IDTAXA. You can find them at <a href="https://doi.org/10.5281/zenodo.3235802" class="uri">https://doi.org/10.5281/zenodo.3235802</a>. Please download the <a href="https://zenodo.org/record/3235803/files/Nematode_ITS2_1.0.0_idtaxa.fasta?download=1">Nematode_ITS2_1.0.0_idtaxa.fasta</a> file with sequences and the <a href="https://zenodo.org/record/3235803/files/Nematode_ITS2_1.0.0_idtaxa.tax?download=1">Nematode_ITS2_1.0.0_idtaxa.tax</a> taxonomy file.</p>
+<p>This tutorial is run with the files listed on the <a
+href="analysis.html">Analysis</a> page. Please download those and if you
+want to follow along exactly then place them in a folder called
+<code>Miseq_Run</code> in your home directory. Here we only use two
+samples to keep the run time short but feel free to run it with all the
+example files if desired.</p>
+<p>You’ll also need the ITS2 database files formatted for IDTAXA. For
+the purpose of this tutorial, the ITS2 database version used in this
+guide can be found at <a href="https://doi.org/10.5281/zenodo.3235802"
+class="uri">https://doi.org/10.5281/zenodo.3235802</a>. Please download
+the <a
+href="https://zenodo.org/record/3235803/files/Nematode_ITS2_1.0.0_idtaxa.fasta?download=1">Nematode_ITS2_1.0.0_idtaxa.fasta</a>
+file with sequences and the <a
+href="https://zenodo.org/record/3235803/files/Nematode_ITS2_1.0.0_idtaxa.tax?download=1">Nematode_ITS2_1.0.0_idtaxa.tax</a>
+taxonomy file.</p>
+<p>For your own analysis, the latest version of our nematode <a
+href="its2_database.html">ITS2 database</a> can be found under
+“Analysis” at the top navigation bar.</p>
 </div>
 <div id="preparing" class="section level3">
 <h3>Preparing</h3>
-<p>Once you have installed the above, you are ready to start using the DADA2 pipeline. The following is a sample analysis using the DADA2 pipeline (<a href="https://benjjneb.github.io/dada2/tutorial.html" class="uri">https://benjjneb.github.io/dada2/tutorial.html</a>). This is meant to be an example and not a definitive workflow. First, we load packages and set a seed for reproducibility.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">library</span>(DECIPHER)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">packageVersion</span>(<span class="st">&quot;DECIPHER&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &#39;2.12.0&#39;</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(dada2)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">packageVersion</span>(<span class="st">&quot;dada2&quot;</span>) </a></code></pre></div>
-<pre><code>## [1] &#39;1.12.1&#39;</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(ShortRead)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">packageVersion</span>(<span class="st">&quot;ShortRead&quot;</span>) </a></code></pre></div>
-<pre><code>## [1] &#39;1.42.0&#39;</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">library</span>(Biostrings)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">packageVersion</span>(<span class="st">&quot;Biostrings&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &#39;2.52.0&#39;</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">packageVersion</span>(<span class="st">&quot;ggplot2&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &#39;3.2.0&#39;</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">library</span>(stringr) <span class="co"># not strictly required but handy</span></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">packageVersion</span>(<span class="st">&quot;stringr&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &#39;1.4.0&#39;</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">library</span>(readr)</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw">packageVersion</span>(<span class="st">&quot;readr&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &#39;1.3.1&#39;</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">106</span>)</a></code></pre></div>
-<p>To get started we’ll need to do a little prep. We’ll start by defining the path of sequences to be processed (using “~/Miseq_Run” from previous examples). The DADA2 pipeline is intended to be used with demultiplexed, paired-end fastq files. That is to say, the samples must be separated into individual files and ordered such that forward and reverse reads of the same sample are matched. The pattern of the filenames should be the same for all forward and reverse files. In this example, the names are formatted as such: <code>samplename_R1_001.fastq.fz</code> for forward reads and <code>samplename_R2_001.fastq.gz</code> for reverse reads.</p>
-<p>We then create a vector of file names, one for the forward reads and one for the reverse. The <code>samples</code> vector contains our sample names, extracted from the file names using a regular expression. For Illumina data, often the sample name is everything before the first underscore.</p>
-<p>The primer sequences are defined here as well, because we’ll be clipping those off shortly. The forward primer will be at the beginning of the forward read and the reverse primer will be at the beginning of the reverse read. The reverse complements are included in case the amplicon sequence is shorter than our read length. When this happens the sequence will contain the reverse complement of the opposite primer, i.e. there may be reverse-complemented reverse primer at the end of the forward read.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">path &lt;-<span class="st"> &quot;~/MiSeq_Run&quot;</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">fwd_files &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">list.files</span>(path, <span class="dt">pattern =</span> <span class="st">&quot;R1&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)) </a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">rev_files &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">list.files</span>(path, <span class="dt">pattern =</span> <span class="st">&quot;R2&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="co"># It&#39;s also handy to have a vector of sample names, which in this case is everything up </span></a>
-<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co"># until the first underscore, which is what our regular expression caputres.  You may</span></a>
-<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="co"># also create this manually if you don&#39;t have too many samples</span></a>
-<a class="sourceLine" id="cb19-10" data-line-number="10">samples =<span class="st"> </span><span class="kw">str_extract</span>(<span class="kw">basename</span>(fwd_files), <span class="st">&quot;^[^_]+&quot;</span>)</a>
-<a class="sourceLine" id="cb19-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb19-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="kw">names</span>(fwd_files) &lt;-<span class="st"> </span>samples</a>
-<a class="sourceLine" id="cb19-14" data-line-number="14"><span class="kw">names</span>(rev_files) &lt;-<span class="st"> </span>samples</a>
-<a class="sourceLine" id="cb19-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb19-16" data-line-number="16">fwd_primer &lt;-<span class="st"> &quot;ACGTCTGGTTCAGGGTTGTT&quot;</span></a>
-<a class="sourceLine" id="cb19-17" data-line-number="17">rev_primer &lt;-<span class="st"> &quot;TTAGTTTCTTTTCCTCCGCT&quot;</span></a>
-<a class="sourceLine" id="cb19-18" data-line-number="18">fwd_primer_rev &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">reverseComplement</span>(<span class="kw">DNAStringSet</span>(fwd_primer)))</a>
-<a class="sourceLine" id="cb19-19" data-line-number="19">rev_primer_rev &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">reverseComplement</span>(<span class="kw">DNAStringSet</span>(rev_primer)))</a></code></pre></div>
-<p>Before we move on let’s do a quick sanity check to make sure our primer sequences are detected. The code below will count the number of times we have a primer hit in our fastq file. Note that this is a quick and dirty method to be sure that we have the right primer sequence. For proper primer removal we’ll need something more sophisticated, like <code>cutadapt</code> which we’ll demonstrate next.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># This function counts number of reads in which the primer is found</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">count_primers &lt;-<span class="st"> </span><span class="cf">function</span>(primer, filename) {</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3">  num_hits &lt;-<span class="st"> </span><span class="kw">vcountPattern</span>(primer, <span class="kw">sread</span>(<span class="kw">readFastq</span>(filename)), <span class="dt">fixed =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb20-4" data-line-number="4">  <span class="kw">return</span>(<span class="kw">sum</span>(num_hits <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb20-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb20-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="kw">count_primers</span>(fwd_primer, fwd_files[[<span class="dv">1</span>]])</a></code></pre></div>
+<p>Once you have installed the above, you are ready to start using the
+DADA2 pipeline. The following is a sample analysis using the DADA2
+pipeline (<a href="https://benjjneb.github.io/dada2/tutorial.html"
+class="uri">https://benjjneb.github.io/dada2/tutorial.html</a>). This is
+meant to be an example and not a definitive workflow. First, we load
+packages and set a seed for reproducibility.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(DECIPHER)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;DECIPHER&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &#39;2.28.0&#39;</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(dada2)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;dada2&quot;</span>) </span></code></pre></div>
+<pre><code>## [1] &#39;1.28.0&#39;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">library</span>(ShortRead)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;ShortRead&quot;</span>) </span></code></pre></div>
+<pre><code>## [1] &#39;1.58.0&#39;</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">library</span>(Biostrings)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;Biostrings&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &#39;2.68.1&#39;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &#39;3.4.4&#39;</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">library</span>(stringr) <span class="co"># not strictly required but handy</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;stringr&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &#39;1.5.0&#39;</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;readr&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &#39;2.1.4&#39;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">106</span>)</span></code></pre></div>
+<p>To get started we’ll need to do a little prep. We’ll start by
+defining the path of sequences to be processed (using “~/Miseq_Run” from
+previous examples). The DADA2 pipeline is intended to be used with
+demultiplexed, paired-end fastq files. That is to say, the samples must
+be separated into individual files and ordered such that forward and
+reverse reads of the same sample are matched. The pattern of the
+filenames should be the same for all forward and reverse files. In this
+example, the names are formatted as such:
+<code>samplename_R1_001.fastq.gz</code> for forward reads and
+<code>samplename_R2_001.fastq.gz</code> for reverse reads.</p>
+<p>We then create a vector of file names, one for the forward reads and
+one for the reverse. The <code>samples</code> vector contains our sample
+names, extracted from the file names using a regular expression. For
+Illumina data, often the sample name is everything before the first
+underscore.</p>
+<p>The primer sequences are defined here as well, because we’ll be
+clipping those off shortly. The forward primer will be at the beginning
+of the forward read and the reverse primer will be at the beginning of
+the reverse read. The reverse complements are included in case the
+amplicon sequence is shorter than our read length. When this happens the
+sequence will contain the reverse complement of the opposite primer,
+i.e. there may be reverse-complemented reverse primer at the end of the
+forward read.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">&quot;~/Miseq_Run&quot;</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>fwd_files <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(path, <span class="at">pattern =</span> <span class="st">&quot;R1&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>rev_files <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(path, <span class="at">pattern =</span> <span class="st">&quot;R2&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="co"># It&#39;s also handy to have a vector of sample names, which in this case is everything up </span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="co"># until the first underscore, which is what our regular expression caputres.  You may</span></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="co"># also create this manually if you don&#39;t have too many samples</span></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>samples <span class="ot">=</span> <span class="fu">str_extract</span>(<span class="fu">basename</span>(fwd_files), <span class="st">&quot;^[^_]+&quot;</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="fu">names</span>(fwd_files) <span class="ot">&lt;-</span> samples</span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a><span class="fu">names</span>(rev_files) <span class="ot">&lt;-</span> samples</span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>fwd_primer <span class="ot">&lt;-</span> <span class="st">&quot;ACGTCTGGTTCAGGGTTGTT&quot;</span></span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>rev_primer <span class="ot">&lt;-</span> <span class="st">&quot;TTAGTTTCTTTTCCTCCGCT&quot;</span></span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a>fwd_primer_rev <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">reverseComplement</span>(<span class="fu">DNAStringSet</span>(fwd_primer)))</span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a>rev_primer_rev <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">reverseComplement</span>(<span class="fu">DNAStringSet</span>(rev_primer)))</span></code></pre></div>
+<p>Before we move on let’s do a quick sanity check to make sure our
+primer sequences are detected. The code below will count the number of
+times we have a primer hit in our fastq file. Note that this is a quick
+and dirty method to be sure that we have the right primer sequence. For
+proper primer removal we’ll need something more sophisticated, like
+<code>cutadapt</code> which we’ll demonstrate next.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># This function counts number of reads in which the primer is found</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>count_primers <span class="ot">&lt;-</span> <span class="cf">function</span>(primer, filename) {</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  num_hits <span class="ot">&lt;-</span> <span class="fu">vcountPattern</span>(primer, <span class="fu">sread</span>(<span class="fu">readFastq</span>(filename)), <span class="at">fixed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(num_hits <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>}</span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="fu">count_primers</span>(fwd_primer, fwd_files[[<span class="dv">1</span>]])</span></code></pre></div>
 <pre><code>## [1] 25357</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">count_primers</span>(rev_primer, rev_files[[<span class="dv">1</span>]])</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">count_primers</span>(rev_primer, rev_files[[<span class="dv">1</span>]])</span></code></pre></div>
 <pre><code>## [1] 21503</code></pre>
 </div>
 </div>
 <div id="primer-removal" class="section level2">
 <h2>Primer removal</h2>
-<p>Now we can use cutadapt to remove primers, and check that they have been successfully removed. Cutadapt was designed to remove sequencing adapters that sometimes get left on the reads, however, it’s main function is to detect and trim off regions that match a known sequence, which is precisely what we want to do here.</p>
-<p>Cutadapt is best installed using conda (<code>conda install cutadapt</code>) and can also be used directly from the command line. Here we demonstrate how to run it directly from R using the <code>system2</code> command but the results are the same either way. The first parameter to <code>system2</code> is the program we wish to run and the second is character vector of arguments and their values.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co"># CHANGE ME to the cutadapt path on your machine.  If you&#39;ve installed conda according to the </span></a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="co"># provided instructions then this will likely be the same for you.</span></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">cutadapt &lt;-<span class="st"> </span><span class="kw">path.expand</span>(<span class="st">&quot;~/miniconda3/bin/cutadapt&quot;</span>)</a>
-<a class="sourceLine" id="cb24-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="co"># Make sure it works</span></a>
-<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="kw">system2</span>(cutadapt, <span class="dt">args =</span> <span class="st">&quot;--version&quot;</span>) </a></code></pre></div>
-<p>Now output filenames are defined as well as parameters for cutadapt. The critical parameters are the primer sequences and their orientation. It’s strongly recommended that you review the [cutadapt documentation] (<a href="https://cutadapt.readthedocs.io/en/stable/guide.html" class="uri">https://cutadapt.readthedocs.io/en/stable/guide.html</a>) for full details of each parameter. Briefly:</p>
-<p><code>-g</code>: sequence to trim off the 5’ end of the forward read (forward primer) <code>-a</code>: sequence to trim off the 3’ end of the forward read (reverse complemented reverse primer) <code>-G</code>: sequence to trim off the 5’ end of the reverse read (reverse primer) <code>-A</code>: sequence to trim off the 3’ end of the reverse read (reverse complemented forward primer)</p>
-<p>We’ll also add <code>-m 50</code> to get rid of super short junky reads, <code>--max-n 1</code> to get rid of reads that have any N’s in them and <code>-n 2</code> so that cutadapt will remove multiple primer hits if there happens to be read-through. The <code>--discard-untrimmed</code> is also added so only reads that contain a primer will be kept ensuring we keep only valid amplicons. And finally a <code>-q 15</code> will trim off low quality bases from the 3’ end.</p>
+<p>Now we can use cutadapt to remove primers, and check that they have
+been successfully removed. Cutadapt was designed to remove sequencing
+adapters that sometimes get left on the reads, however, it’s main
+function is to detect and trim off regions that match a known sequence,
+which is precisely what we want to do here.</p>
+<p>Cutadapt is best installed using conda
+(<code>conda install cutadapt</code>) and can also be used directly from
+the command line. Here we demonstrate how to run it directly from R
+using the <code>system2</code> command but the results are the same
+either way. The first parameter to <code>system2</code> is the program
+we wish to run and the second is character vector of arguments and their
+values.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># CHANGE ME to the cutadapt path on your machine.  If you&#39;ve installed conda according to the </span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="co"># provided instructions then this will likely be the same for you.</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>cutadapt <span class="ot">&lt;-</span> <span class="fu">path.expand</span>(<span class="st">&quot;~/miniconda3/envs/cutadapt/bin/cutadapt&quot;</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="co"># Make sure it works</span></span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a><span class="fu">system2</span>(cutadapt, <span class="at">args =</span> <span class="st">&quot;--version&quot;</span>) </span></code></pre></div>
+<p>Now output filenames are defined as well as parameters for cutadapt.
+The critical parameters are the primer sequences and their orientation.
+It’s strongly recommended that you review the <a
+href="https://cutadapt.readthedocs.io/en/stable/guide.html">cutadapt
+documentation</a> for full details of each parameter.</p>
+<p>Briefly:</p>
+<p><code>-g</code>: sequence to trim off the 5’ end of the forward read
+(forward primer)</p>
+<p><code>-a</code>: sequence to trim off the 3’ end of the forward read
+(reverse complemented reverse primer)</p>
+<p><code>-G</code>: sequence to trim off the 5’ end of the reverse read
+(reverse primer)</p>
+<p><code>-A</code>: sequence to trim off the 3’ end of the reverse read
+(reverse complemented forward primer)</p>
+<p>We’ll also add <code>-m 50</code> to get rid of super short junky
+reads, <code>--max-n 1</code> to get rid of reads that have any N’s in
+them and <code>-n 2</code> so that cutadapt will remove multiple primer
+hits if there happens to be read-through. The
+<code>--discard-untrimmed</code> is also added so only reads that
+contain a primer will be kept ensuring we keep only valid amplicons. And
+finally a <code>-q 15</code> will trim off low quality bases from the 3’
+end.</p>
 <div class="alert alert-warning" role="alert">
 <p>
-In our experience this small amount of trimming can remove the need for truncating the reads later on but this is something that may vary from run to run it and an important paramter to consider for your own data
+In our experience this small amount of trimming can remove the need for
+truncating the reads later on but this is something that may vary from
+run to run it and an important paramter to consider for your own data
 </p>
 </div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># Create an output directory to store the clipped files</span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">cut_dir &lt;-<span class="st"> </span><span class="kw">file.path</span>(path, <span class="st">&quot;cutadapt&quot;</span>)</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="cf">if</span> (<span class="op">!</span><span class="kw">dir.exists</span>(cut_dir)) <span class="kw">dir.create</span>(cut_dir)</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5">fwd_cut &lt;-<span class="st"> </span><span class="kw">file.path</span>(cut_dir, <span class="kw">basename</span>(fwd_files))</a>
-<a class="sourceLine" id="cb25-6" data-line-number="6">rev_cut &lt;-<span class="st"> </span><span class="kw">file.path</span>(cut_dir, <span class="kw">basename</span>(rev_files))</a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="kw">names</span>(fwd_cut) &lt;-<span class="st"> </span>samples</a>
-<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="kw">names</span>(rev_cut) &lt;-<span class="st"> </span>samples</a>
-<a class="sourceLine" id="cb25-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb25-11" data-line-number="11"><span class="co"># It&#39;s good practice to keep some log files so let&#39;s create some</span></a>
-<a class="sourceLine" id="cb25-12" data-line-number="12"><span class="co"># file names that we can use for those </span></a>
-<a class="sourceLine" id="cb25-13" data-line-number="13">cut_logs &lt;-<span class="st"> </span><span class="kw">path.expand</span>(<span class="kw">file.path</span>(cut_dir, <span class="kw">paste0</span>(samples, <span class="st">&quot;.log&quot;</span>)))</a>
-<a class="sourceLine" id="cb25-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb25-15" data-line-number="15">cutadapt_args &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;-g&quot;</span>, fwd_primer, <span class="st">&quot;-a&quot;</span>, rev_primer_rev, </a>
-<a class="sourceLine" id="cb25-16" data-line-number="16">                   <span class="st">&quot;-G&quot;</span>, rev_primer, <span class="st">&quot;-A&quot;</span>, fwd_primer_rev,</a>
-<a class="sourceLine" id="cb25-17" data-line-number="17">                   <span class="st">&quot;-n&quot;</span>, <span class="dv">2</span>, <span class="st">&quot;--discard-untrimmed&quot;</span>)</a>
-<a class="sourceLine" id="cb25-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb25-19" data-line-number="19"><span class="co"># Loop over the list of files, running cutadapt on each file.  If you don&#39;t have a vector of sample names or </span></a>
-<a class="sourceLine" id="cb25-20" data-line-number="20"><span class="co"># don&#39;t want to keep the log files you can set stdout = &quot;&quot; to output to the console or stdout = NULL to discard</span></a>
-<a class="sourceLine" id="cb25-21" data-line-number="21"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(fwd_files)) {</a>
-<a class="sourceLine" id="cb25-22" data-line-number="22">  <span class="kw">system2</span>(cutadapt, </a>
-<a class="sourceLine" id="cb25-23" data-line-number="23">          <span class="dt">args =</span> <span class="kw">c</span>(cutadapt_args,</a>
-<a class="sourceLine" id="cb25-24" data-line-number="24">                   <span class="st">&quot;-o&quot;</span>, fwd_cut[i], <span class="st">&quot;-p&quot;</span>, rev_cut[i], </a>
-<a class="sourceLine" id="cb25-25" data-line-number="25">                   fwd_files[i], rev_files[i]),</a>
-<a class="sourceLine" id="cb25-26" data-line-number="26">          <span class="dt">stdout =</span> cut_logs[i])  </a>
-<a class="sourceLine" id="cb25-27" data-line-number="27">}</a>
-<a class="sourceLine" id="cb25-28" data-line-number="28"></a>
-<a class="sourceLine" id="cb25-29" data-line-number="29"><span class="co"># quick check that we got something</span></a>
-<a class="sourceLine" id="cb25-30" data-line-number="30"><span class="kw">head</span>(<span class="kw">list.files</span>(cut_dir))</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># Create an output directory to store the clipped files</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>cut_dir <span class="ot">&lt;-</span> <span class="fu">file.path</span>(path, <span class="st">&quot;cutadapt&quot;</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(cut_dir)) <span class="fu">dir.create</span>(cut_dir)</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>fwd_cut <span class="ot">&lt;-</span> <span class="fu">file.path</span>(cut_dir, <span class="fu">basename</span>(fwd_files))</span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>rev_cut <span class="ot">&lt;-</span> <span class="fu">file.path</span>(cut_dir, <span class="fu">basename</span>(rev_files))</span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="fu">names</span>(fwd_cut) <span class="ot">&lt;-</span> samples</span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="fu">names</span>(rev_cut) <span class="ot">&lt;-</span> samples</span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="co"># It&#39;s good practice to keep some log files so let&#39;s create some</span></span>
+<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co"># file names that we can use for those </span></span>
+<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a>cut_logs <span class="ot">&lt;-</span> <span class="fu">path.expand</span>(<span class="fu">file.path</span>(cut_dir, <span class="fu">paste0</span>(samples, <span class="st">&quot;.log&quot;</span>)))</span>
+<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a>cutadapt_args <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;-g&quot;</span>, fwd_primer, <span class="st">&quot;-a&quot;</span>, rev_primer_rev, </span>
+<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a>                   <span class="st">&quot;-G&quot;</span>, rev_primer, <span class="st">&quot;-A&quot;</span>, fwd_primer_rev,</span>
+<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a>                   <span class="st">&quot;-n&quot;</span>, <span class="dv">2</span>, <span class="st">&quot;--discard-untrimmed&quot;</span>)</span>
+<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a><span class="co"># Loop over the list of files, running cutadapt on each file.  If you don&#39;t have a vector of sample names or </span></span>
+<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a><span class="co"># don&#39;t want to keep the log files you can set stdout = &quot;&quot; to output to the console or stdout = NULL to discard</span></span>
+<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(fwd_files)) {</span>
+<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a>  <span class="fu">system2</span>(cutadapt, </span>
+<span id="cb25-23"><a href="#cb25-23" tabindex="-1"></a>          <span class="at">args =</span> <span class="fu">c</span>(cutadapt_args,</span>
+<span id="cb25-24"><a href="#cb25-24" tabindex="-1"></a>                   <span class="st">&quot;-o&quot;</span>, fwd_cut[i], <span class="st">&quot;-p&quot;</span>, rev_cut[i], </span>
+<span id="cb25-25"><a href="#cb25-25" tabindex="-1"></a>                   fwd_files[i], rev_files[i]),</span>
+<span id="cb25-26"><a href="#cb25-26" tabindex="-1"></a>          <span class="at">stdout =</span> cut_logs[i])  </span>
+<span id="cb25-27"><a href="#cb25-27" tabindex="-1"></a>}</span>
+<span id="cb25-28"><a href="#cb25-28" tabindex="-1"></a></span>
+<span id="cb25-29"><a href="#cb25-29" tabindex="-1"></a><span class="co"># quick check that we got something</span></span>
+<span id="cb25-30"><a href="#cb25-30" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">list.files</span>(cut_dir))</span></code></pre></div>
 <pre><code>## [1] &quot;G1_S1_L001_R1_001.fastq.gz&quot; &quot;G1_S1_L001_R2_001.fastq.gz&quot;
 ## [3] &quot;G1.log&quot;                     &quot;G2_S2_L001_R1_001.fastq.gz&quot;
 ## [5] &quot;G2_S2_L001_R2_001.fastq.gz&quot; &quot;G2.log&quot;</code></pre>
@@ -574,55 +677,80 @@ In our experience this small amount of trimming can remove the need for truncati
 <h2>Quality filtering</h2>
 <div id="inspect-quality-scores" class="section level3">
 <h3>Inspect quality scores</h3>
-<p>Now that primers are removed, we can begin the DADA2 pipeline in full. We start with plotting quality profiles of our sequences to determine suitable quality filtering parameters. For the sake of speed we only show 2 samples here but feel free to look at all your samples (or more than 2 anyway).</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">plotQualityProfile</span>(fwd_cut[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Forward&quot;</span>)</a></code></pre></div>
+<p>Now that primers are removed, we can begin the DADA2 pipeline in
+full. We start with plotting quality profiles of our sequences to
+determine suitable quality filtering parameters. For the sake of speed
+we only show 2 samples here but feel free to look at all your samples
+(or more than 2 anyway).</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">plotQualityProfile</span>(fwd_cut[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Forward&quot;</span>)</span></code></pre></div>
 <p><img src="dada2_workflow_files/figure-html/quality_profiles-1.png" width="672" /></p>
-<p>Everything looks pretty good here. The majority of our reads should be 230 bp based on the fact that we trimmed 20 bp primers off the beginning of the read. It looks like a very, very few did not get trimmed properly but from the red line across the bottom, which is the number of reads of that length, we can see that this is such a small percentage that we don’t need to worry about it.</p>
+<p>Everything looks pretty good here. The majority of our reads should
+be 230 bp based on the fact that we trimmed 20 bp primers off the
+beginning of the read. It looks like a very, very few did not get
+trimmed properly but from the red line across the bottom, which is the
+number of reads of that length, we can see that this is such a small
+percentage that we don’t need to worry about it.</p>
 <div class="alert alert-success" role="alert">
 <h4 class="alert-heading">
 Side note
 </h4>
 <p>
-If you’re paying attention you might be asking why, if the primers always appear at the same point in the read, can’t we just clip the reads at this point. In fact, for some datasets, this one included, that would be a valid strategy given that the all the ITS2 sequences are longer than the read length (250 bp). However, this is not always the case and as described above, if the amplicon length is less than the read lenght we’ll have to find and remove the opposite primer. So in general it’s good practice to use something like cutadapt which will ensure the correct sequences are output.
+If you’re paying attention you might be asking why, if the primers
+always appear at the same point in the read, can’t we just clip the
+reads at this point. In fact, for some datasets, this one included, that
+would be a valid strategy given that the all the ITS2 sequences are
+longer than the read length (250 bp). However, this is not always the
+case and as described above, if the amplicon length is less than the
+read lenght we’ll have to find and remove the opposite primer. So in
+general it’s good practice to use something like cutadapt which will
+ensure the correct sequences are output.
 </p>
 </div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">plotQualityProfile</span>(rev_cut[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Reverse&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">plotQualityProfile</span>(rev_cut[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Reverse&quot;</span>)</span></code></pre></div>
 <p><img src="dada2_workflow_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>Reverse reads are lower quality as is always the case for Illumina data. However, it looks like the quality average is above 20 for most of the length of the read so we’ll go ahead with the analysis.</p>
+<p>Reverse reads are lower quality as is always the case for Illumina
+data. However, it looks like the quality average is above 20 for most of
+the length of the read so we’ll go ahead with the analysis.</p>
 </div>
 <div id="filter-reads" class="section level3">
 <h3>Filter reads</h3>
-<p>For the purposes of our analysis, we chose to conduct quality filtering with maximum expected errors of 2 for the forward sequence, 5 for the reverse, to truncate after a quality score of 2 or lower.</p>
+<p>For the purposes of our analysis, we chose to conduct quality
+filtering with maximum expected errors of 2 for the forward sequence, 5
+for the reverse, to truncate after a quality score of 2 or lower.</p>
 <div class="alert alert-warning" role="alert">
 <p>
-Make your own decisions about trimming paramters! Your data will be different, possibly very different, from ours so our parmeter choices are likely to be not at all appropriate for your data. So don’t copy and paste this code - think carefully about your data and choose parameters appropriate for your data.
+Make your own decisions about trimming paramters! Your data will be
+different, possibly very different, from ours so our parmeter choices
+are likely to be not at all appropriate for your data. So don’t copy and
+paste this code - think carefully about your data and choose parameters
+appropriate for your data.
 </p>
 </div>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co"># Same as for the clippling we create an output directory to store the filtered files</span></a>
-<a class="sourceLine" id="cb29-2" data-line-number="2">filt_dir &lt;-<span class="st"> </span><span class="kw">file.path</span>(path, <span class="st">&quot;filtered&quot;</span>)</a>
-<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="cf">if</span> (<span class="op">!</span><span class="kw">dir.exists</span>(filt_dir)) <span class="kw">dir.create</span>(filt_dir)</a>
-<a class="sourceLine" id="cb29-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb29-5" data-line-number="5">fwd_filt &lt;-<span class="st"> </span><span class="kw">file.path</span>(filt_dir, <span class="kw">basename</span>(fwd_files))</a>
-<a class="sourceLine" id="cb29-6" data-line-number="6">rev_filt &lt;-<span class="st"> </span><span class="kw">file.path</span>(filt_dir, <span class="kw">basename</span>(rev_files))</a>
-<a class="sourceLine" id="cb29-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="kw">names</span>(fwd_filt) &lt;-<span class="st"> </span>samples</a>
-<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="kw">names</span>(rev_filt) &lt;-<span class="st"> </span>samples</a>
-<a class="sourceLine" id="cb29-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb29-11" data-line-number="11">filtered_out &lt;-<span class="st"> </span><span class="kw">filterAndTrim</span>(</a>
-<a class="sourceLine" id="cb29-12" data-line-number="12">  <span class="dt">fwd =</span> fwd_cut, </a>
-<a class="sourceLine" id="cb29-13" data-line-number="13">  <span class="dt">filt =</span> fwd_filt,</a>
-<a class="sourceLine" id="cb29-14" data-line-number="14">  <span class="dt">rev =</span> rev_cut,</a>
-<a class="sourceLine" id="cb29-15" data-line-number="15">  <span class="dt">filt.rev =</span> rev_filt,</a>
-<a class="sourceLine" id="cb29-16" data-line-number="16">  <span class="dt">maxEE =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>), </a>
-<a class="sourceLine" id="cb29-17" data-line-number="17">  <span class="dt">truncQ =</span> <span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb29-18" data-line-number="18">  <span class="dt">rm.phix =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb29-19" data-line-number="19">  <span class="dt">compress =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb29-20" data-line-number="20">  <span class="dt">multithread =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb29-21" data-line-number="21">  )  </a>
-<a class="sourceLine" id="cb29-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb29-23" data-line-number="23"><span class="kw">head</span>(filtered_out)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># Same as for the clippling we create an output directory to store the filtered files</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>filt_dir <span class="ot">&lt;-</span> <span class="fu">file.path</span>(path, <span class="st">&quot;filtered&quot;</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(filt_dir)) <span class="fu">dir.create</span>(filt_dir)</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>fwd_filt <span class="ot">&lt;-</span> <span class="fu">file.path</span>(filt_dir, <span class="fu">basename</span>(fwd_files))</span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>rev_filt <span class="ot">&lt;-</span> <span class="fu">file.path</span>(filt_dir, <span class="fu">basename</span>(rev_files))</span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a><span class="fu">names</span>(fwd_filt) <span class="ot">&lt;-</span> samples</span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a><span class="fu">names</span>(rev_filt) <span class="ot">&lt;-</span> samples</span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>filtered_out <span class="ot">&lt;-</span> <span class="fu">filterAndTrim</span>(</span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>  <span class="at">fwd =</span> fwd_cut, </span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>  <span class="at">filt =</span> fwd_filt,</span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>  <span class="at">rev =</span> rev_cut,</span>
+<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a>  <span class="at">filt.rev =</span> rev_filt,</span>
+<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a>  <span class="at">maxEE =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>), </span>
+<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a>  <span class="at">truncQ =</span> <span class="dv">2</span>, </span>
+<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a>  <span class="at">rm.phix =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a>  <span class="at">compress =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a>  <span class="at">multithread =</span> <span class="cn">TRUE</span></span>
+<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a>  )  </span>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a></span>
+<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a><span class="fu">head</span>(filtered_out)</span></code></pre></div>
 <pre><code>##                            reads.in reads.out
-## G1_S1_L001_R1_001.fastq.gz    25276     24107
+## G1_S1_L001_R1_001.fastq.gz    25276     24110
 ## G2_S2_L001_R1_001.fastq.gz    25908     24533</code></pre>
 </div>
 </div>
@@ -630,48 +758,67 @@ Make your own decisions about trimming paramters! Your data will be different, p
 <h2>Main workflow</h2>
 <div id="learn-errors" class="section level3">
 <h3>Learn errors</h3>
-<p>Here dada2 learns the error profile for your data using an interative approach. These error profiles are used in the next step to correct errors.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">err_fwd &lt;-<span class="st"> </span><span class="kw">learnErrors</span>(fwd_filt, <span class="dt">multithread =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<pre><code>## 11162461 total bases in 48640 reads from 2 samples will be used for learning the error rates.</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">err_rev &lt;-<span class="st"> </span><span class="kw">learnErrors</span>(rev_filt, <span class="dt">multithread =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<pre><code>## 11118332 total bases in 48640 reads from 2 samples will be used for learning the error rates.</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">plotErrors</span>(err_fwd, <span class="dt">nominalQ =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="dada2_workflow_files/figure-html/unnamed-chunk-6-1.png" width="672" /> The plot shows how well the estimated error rates fit the observed rates. The black line should line up reasonably well with the black points. This looks reasonable so we continue on.</p>
+<p>Here dada2 learns the error profile for your data using an interative
+approach. These error profiles are used in the next step to correct
+errors.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>err_fwd <span class="ot">&lt;-</span> <span class="fu">learnErrors</span>(fwd_filt, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 11163055 total bases in 48643 reads from 2 samples will be used for learning the error rates.</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>err_rev <span class="ot">&lt;-</span> <span class="fu">learnErrors</span>(rev_filt, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 11118642 total bases in 48643 reads from 2 samples will be used for learning the error rates.</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">plotErrors</span>(err_fwd, <span class="at">nominalQ =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="dada2_workflow_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+The plot shows how well the estimated error rates fit the observed
+rates. The black line should line up reasonably well with the black
+points. This looks reasonable so we continue on.</p>
 </div>
 <div id="denoising-aka-error-correcting" class="section level3">
 <h3>Denoising (aka error-correcting)</h3>
-<p>We can now denoise our sequences using the DADA algorithm. Note that older versions of dada2 required a dereplication step that is now done automatically by the <code>dada</code> function.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">dada_fwd &lt;-<span class="st"> </span><span class="kw">dada</span>(fwd_filt, <span class="dt">err =</span> err_fwd, <span class="dt">multithread =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<pre><code>## Sample 1 - 24107 reads in 4939 unique sequences.
-## Sample 2 - 24533 reads in 5379 unique sequences.</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">dada_rev &lt;-<span class="st"> </span><span class="kw">dada</span>(rev_filt, <span class="dt">err =</span> err_rev, <span class="dt">multithread =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<pre><code>## Sample 1 - 24107 reads in 15358 unique sequences.
-## Sample 2 - 24533 reads in 15463 unique sequences.</code></pre>
+<p>We can now denoise our sequences using the DADA algorithm. Note that
+older versions of dada2 required a dereplication step that is now done
+automatically by the <code>dada</code> function.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>dada_fwd <span class="ot">&lt;-</span> <span class="fu">dada</span>(fwd_filt, <span class="at">err =</span> err_fwd, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Sample 1 - 24110 reads in 4919 unique sequences.
+## Sample 2 - 24533 reads in 5351 unique sequences.</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>dada_rev <span class="ot">&lt;-</span> <span class="fu">dada</span>(rev_filt, <span class="at">err =</span> err_rev, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Sample 1 - 24110 reads in 15359 unique sequences.
+## Sample 2 - 24533 reads in 15454 unique sequences.</code></pre>
 </div>
 <div id="merge-pairs" class="section level3">
 <h3>Merge pairs</h3>
-<p>Now that we have accurate sequences we can merge the paired-end reads to reconstruct the full amplicon sequence. Note that most sequences should succesfully overlap, <em>unless</em> your trimming parameters were too aggresive (i.e. too much sequence was trimmed off the end) <em>or</em> you have amplicons that longer than the combined read length (&gt;500 bp, in this case). In the latter case these reads are still useable but will need special handling (more details to come on those cases).</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">mergers &lt;-<span class="st"> </span><span class="kw">mergePairs</span>(</a>
-<a class="sourceLine" id="cb40-2" data-line-number="2">  <span class="dt">dadaF =</span> dada_fwd,</a>
-<a class="sourceLine" id="cb40-3" data-line-number="3">  <span class="dt">dadaR =</span> dada_rev,</a>
-<a class="sourceLine" id="cb40-4" data-line-number="4">  <span class="dt">derepF =</span> fwd_filt,</a>
-<a class="sourceLine" id="cb40-5" data-line-number="5">  <span class="dt">derepR =</span> rev_filt,</a>
-<a class="sourceLine" id="cb40-6" data-line-number="6">  <span class="dt">maxMismatch =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb40-7" data-line-number="7">  <span class="dt">verbose=</span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb40-8" data-line-number="8">)</a></code></pre></div>
+<p>Now that we have accurate sequences we can merge the paired-end reads
+to reconstruct the full amplicon sequence. Note that most sequences
+should succesfully overlap, <em>unless</em> your trimming parameters
+were too aggresive (i.e. too much sequence was trimmed off the end)
+<em>or</em> you have amplicons that longer than the combined read length
+(&gt;500 bp, in this case). In the latter case these reads are still
+useable but will need special handling (more details to come on those
+cases).</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>mergers <span class="ot">&lt;-</span> <span class="fu">mergePairs</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>  <span class="at">dadaF =</span> dada_fwd,</span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a>  <span class="at">dadaR =</span> dada_rev,</span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a>  <span class="at">derepF =</span> fwd_filt,</span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a>  <span class="at">derepR =</span> rev_filt,</span>
+<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a>  <span class="at">maxMismatch =</span> <span class="dv">1</span>, </span>
+<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a>  <span class="at">verbose=</span><span class="cn">TRUE</span></span>
+<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <div id="sequence-table" class="section level3">
 <h3>Sequence table</h3>
-<p>Before we can assign taxonomy, we can construct a sequence table, which lists the number of each sequence present in each sample. We can see the dimensions of this sequence table, where the number of rows is the number of samples and the number of columns is the number of total unique sequences</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">seqtab &lt;-<span class="st"> </span><span class="kw">makeSequenceTable</span>(mergers)</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw">dim</span>(seqtab) </a></code></pre></div>
+<p>Before we can assign taxonomy, we can construct a sequence table,
+which lists the number of each sequence present in each sample. We can
+see the dimensions of this sequence table, where the number of rows is
+the number of samples and the number of columns is the number of total
+unique sequences</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>seqtab <span class="ot">&lt;-</span> <span class="fu">makeSequenceTable</span>(mergers)</span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a><span class="fu">dim</span>(seqtab) </span></code></pre></div>
 <pre><code>## [1]  2 55</code></pre>
 </div>
 <div id="remove-chimeras" class="section level3">
 <h3>Remove chimeras</h3>
-<p>Don’t be alarmed here if many of your sequences are discarded - the number of chimeras varies but can be quite high in some cases.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">seqtab_nochim &lt;-<span class="st"> </span><span class="kw">removeBimeraDenovo</span>(seqtab, <span class="dt">method =</span> <span class="st">&quot;consensus&quot;</span>, <span class="dt">multithread =</span> <span class="ot">TRUE</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw">dim</span>(seqtab_nochim)</a></code></pre></div>
+<p>Don’t be alarmed here if many of your sequences are discarded - the
+number of chimeras varies but can be quite high in some cases.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a>seqtab_nochim <span class="ot">&lt;-</span> <span class="fu">removeBimeraDenovo</span>(seqtab, <span class="at">method =</span> <span class="st">&quot;consensus&quot;</span>, <span class="at">multithread =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a><span class="fu">dim</span>(seqtab_nochim)</span></code></pre></div>
 <pre><code>## [1]  2 19</code></pre>
 </div>
 </div>
@@ -679,102 +826,151 @@ Make your own decisions about trimming paramters! Your data will be different, p
 <h2>How did we do?</h2>
 <div id="sequence-length-distribution" class="section level3">
 <h3>Sequence length distribution</h3>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">table</span>(<span class="kw">nchar</span>(<span class="kw">getSequences</span>(seqtab_nochim)))</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">nchar</span>(<span class="fu">getSequences</span>(seqtab_nochim)))</span></code></pre></div>
 <pre><code>## 
 ## 273 274 281 283 287 288 289 291 
 ##   2   2   2   2   2   1   1   7</code></pre>
 </div>
 <div id="number-of-reads-at-each-step" class="section level3">
 <h3>Number of reads at each step</h3>
-<p>This is an important step, particularly if you’re trying to track down where something went wrong.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co"># small function to get the number of sequences</span></a>
-<a class="sourceLine" id="cb47-2" data-line-number="2">getN &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sum</span>(<span class="kw">getUniques</span>(x))</a>
-<a class="sourceLine" id="cb47-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb47-4" data-line-number="4">track &lt;-<span class="st"> </span><span class="kw">cbind</span>(</a>
-<a class="sourceLine" id="cb47-5" data-line-number="5">  filtered_out, </a>
-<a class="sourceLine" id="cb47-6" data-line-number="6">  <span class="kw">sapply</span>(dada_fwd, getN), </a>
-<a class="sourceLine" id="cb47-7" data-line-number="7">  <span class="kw">sapply</span>(dada_rev, getN), </a>
-<a class="sourceLine" id="cb47-8" data-line-number="8">  <span class="kw">sapply</span>(mergers, getN), </a>
-<a class="sourceLine" id="cb47-9" data-line-number="9">  <span class="kw">rowSums</span>(seqtab_nochim)</a>
-<a class="sourceLine" id="cb47-10" data-line-number="10">)</a>
-<a class="sourceLine" id="cb47-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb47-12" data-line-number="12"><span class="kw">colnames</span>(track) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;raw&quot;</span>, <span class="st">&quot;filtered&quot;</span>, <span class="st">&quot;denoised_fwd&quot;</span>, <span class="st">&quot;denoised_rev&quot;</span>, <span class="st">&quot;merged&quot;</span>, <span class="st">&quot;no_chim&quot;</span>)</a>
-<a class="sourceLine" id="cb47-13" data-line-number="13"><span class="kw">rownames</span>(track) &lt;-<span class="st"> </span>samples  </a>
-<a class="sourceLine" id="cb47-14" data-line-number="14"><span class="kw">head</span>(track)</a></code></pre></div>
+<p>This is an important step, particularly if you’re trying to track
+down where something went wrong.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="co"># small function to get the number of sequences</span></span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a>getN <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">getUniques</span>(x))</span>
+<span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a>track <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
+<span id="cb47-5"><a href="#cb47-5" tabindex="-1"></a>  filtered_out, </span>
+<span id="cb47-6"><a href="#cb47-6" tabindex="-1"></a>  <span class="fu">sapply</span>(dada_fwd, getN), </span>
+<span id="cb47-7"><a href="#cb47-7" tabindex="-1"></a>  <span class="fu">sapply</span>(dada_rev, getN), </span>
+<span id="cb47-8"><a href="#cb47-8" tabindex="-1"></a>  <span class="fu">sapply</span>(mergers, getN), </span>
+<span id="cb47-9"><a href="#cb47-9" tabindex="-1"></a>  <span class="fu">rowSums</span>(seqtab_nochim)</span>
+<span id="cb47-10"><a href="#cb47-10" tabindex="-1"></a>)</span>
+<span id="cb47-11"><a href="#cb47-11" tabindex="-1"></a></span>
+<span id="cb47-12"><a href="#cb47-12" tabindex="-1"></a><span class="fu">colnames</span>(track) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;raw&quot;</span>, <span class="st">&quot;filtered&quot;</span>, <span class="st">&quot;denoised_fwd&quot;</span>, <span class="st">&quot;denoised_rev&quot;</span>, <span class="st">&quot;merged&quot;</span>, <span class="st">&quot;no_chim&quot;</span>)</span>
+<span id="cb47-13"><a href="#cb47-13" tabindex="-1"></a><span class="fu">rownames</span>(track) <span class="ot">&lt;-</span> samples  </span>
+<span id="cb47-14"><a href="#cb47-14" tabindex="-1"></a><span class="fu">head</span>(track)</span></code></pre></div>
 <pre><code>##      raw filtered denoised_fwd denoised_rev merged no_chim
-## G1 25276    24107        24071        21484  21286   20336
-## G2 25908    24533        24479        21994  21684   19950</code></pre>
+## G1 25276    24110        24074        21483  21254   20304
+## G2 25908    24533        24479        21994  21681   19947</code></pre>
 </div>
 </div>
 <div id="assigning-taxonomy-with-idtaxa" class="section level2">
 <h2>Assigning taxonomy with IDTAXA</h2>
-<p>Now that we have a sequence table with the chimeras removed, we can classify/assign taxonomy to the sequence variants. Although there are multiple multiple taxonomic classification methods, we will be using IdTaxa, which is available through the <code>DECIPHER</code> package. You can read more about IdTaxa <a href="https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5">here</a>.</p>
+<p>Now that we have a sequence table with the chimeras removed, we can
+classify/assign taxonomy to the sequence variants. Although there are
+multiple multiple taxonomic classification methods, we will be using
+IdTaxa, which is available through the <code>DECIPHER</code> package.
+You can read more about IdTaxa <a
+href="https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0521-5">here</a>.</p>
 <div id="training-the-classifier" class="section level3">
 <h3>Training the classifier</h3>
-<p>The IdTaxa classification method relies on a training set that contains sequences that are representative of known taxa. Although there exists trained classifiers, we will be using the ITS2 Nematode database as our classifier. Since it is not trained, we will have to train the classifier using <code>LearnTaxa</code>, which is also available as a <code>DECIPHER</code> package. The <code>train</code> parameter of <code>LearnTaxa</code> contains the sequences included in the classifier as a DNAStringSet. Each sequence is formatted such that the names of each taxonomic level is separated by a semicolon. Once the sequence headers of the classifier are parsed, the <code>taxonomy</code> parameter will contain the taxonomic assignment, separated by a semicolon, for each sequence in <code>train</code>.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">train &lt;-<span class="st"> </span><span class="kw">readDNAStringSet</span>(<span class="st">&quot;~/Nematode_ITS2_1.0.0_idtaxa.fasta&quot;</span>)</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">tax &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;~/Nematode_ITS2_1.0.0_idtaxa.tax&quot;</span>)</a>
-<a class="sourceLine" id="cb49-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb49-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="co"># Train the classifier</span></a>
-<a class="sourceLine" id="cb49-6" data-line-number="6">trainingSet &lt;-<span class="st"> </span><span class="kw">LearnTaxa</span>(train, <span class="kw">names</span>(train), tax)</a></code></pre></div>
-<pre><code>## ===========================================================================
+<p>The IDTAXA classification method relies on a training set that
+contains sequences that are representative of known taxa. Although there
+exists trained classifiers, we will be using the ITS2 Nematode database
+as our classifier. Since it is not trained, we will have to train the
+classifier using <code>LearnTaxa</code>, which is also available as a
+<code>DECIPHER</code> package. The <code>train</code> parameter of
+<code>LearnTaxa</code> contains the sequences included in the classifier
+as a DNAStringSet. Each sequence is formatted such that the names of
+each taxonomic level is separated by a semicolon. Once the sequence
+headers of the classifier are parsed, the <code>taxonomy</code>
+parameter will contain the taxonomic assignment, separated by a
+semicolon, for each sequence in <code>train</code>.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">readDNAStringSet</span>(<span class="st">&quot;~/Nematode_ITS2_1.0.0_idtaxa.fasta&quot;</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a>tax <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">&quot;~/Nematode_ITS2_1.0.0_idtaxa.tax&quot;</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" tabindex="-1"></a><span class="co"># Train the classifier</span></span>
+<span id="cb49-6"><a href="#cb49-6" tabindex="-1"></a>trainingSet <span class="ot">&lt;-</span> <span class="fu">LearnTaxa</span>(train, <span class="fu">names</span>(train), tax)</span></code></pre></div>
+<pre><code>## ================================================================================
 ## 
-## Time difference of 16.38 secs</code></pre>
+## Time difference of 131.39 secs</code></pre>
 </div>
 <div id="running-idtaxa" class="section level3">
 <h3>Running IdTaxa</h3>
-<p>To use IdTaxa, we will need to convert the unique sequence variants that we want to classify into a DNAStringSet object. Now that we have our trained classifier (i.e. training set) and the sequences we want to classify, we can run <code>IdTaxa</code>. You can change various parameters of <code>IdTaxa</code> depending on your data. We recommend reviewing the [IdTaxa documentation] (<a href="https://rdrr.io/bioc/DECIPHER/man/IdTaxa.html" class="uri">https://rdrr.io/bioc/DECIPHER/man/IdTaxa.html</a>) for further information. Here, we have specified several parameters:</p>
+<p>To use IdTaxa, we will need to convert the unique sequence variants
+that we want to classify into a DNAStringSet object. Now that we have
+our trained classifier (i.e. training set) and the sequences we want to
+classify, we can run <code>IdTaxa</code>. You can change various
+parameters of <code>IdTaxa</code> depending on your data. We recommend
+reviewing the [IdTaxa documentation] (<a
+href="https://rdrr.io/bioc/DECIPHER/man/IdTaxa.html"
+class="uri">https://rdrr.io/bioc/DECIPHER/man/IdTaxa.html</a>) for
+further information. Here, we have specified several parameters:</p>
 <ul>
-<li><code>strand = &quot;both&quot;</code> : by setting the <code>strand</code> parameter to “both”, each sequence variant is classified using both the forward and reverse complement orientation. The sequence varient will be classified as the result with the highest confidence.</li>
-<li><code>threshold = 60</code> : setting the <code>threshold</code> to 60 specifies when the taxonomic classifications are truncated. A lower threshold usually results in higher taxonomic level classifications, but lower accuracy (i.e. confidence). A higher threshold usually results in lower taxonomic level classifications, but with higher accuracy.</li>
-<li><code>bootstraps = 100</code> : this specifies the amount of times bootstrap replicates are performed for each sequence.</li>
-<li><code>processors = NULL</code> : automatically uses all available processors.</li>
+<li><code>strand = "both"</code> : by setting the <code>strand</code>
+parameter to “both”, each sequence variant is classified using both the
+forward and reverse complement orientation. The sequence varient will be
+classified as the result with the highest confidence.</li>
+<li><code>threshold = 60</code> : setting the <code>threshold</code> to
+60 specifies when the taxonomic classifications are truncated. A lower
+threshold usually results in higher taxonomic level classifications, but
+lower accuracy (i.e. confidence). A higher threshold usually results in
+lower taxonomic level classifications, but with higher accuracy.</li>
+<li><code>bootstraps = 100</code> : this specifies the amount of times
+bootstrap replicates are performed for each sequence.</li>
+<li><code>processors = NULL</code> : automatically uses all available
+processors.</li>
 <li><code>verbose = TRUE</code> : displays progress.</li>
-<li><code>type = &quot;extended&quot;</code> : by setting the <code>type</code> to “extended”, the output for each sequence variant will contain the taxonomic classification, the names of each taxonomic rank, and the confidence of the assignment.</li>
+<li><code>type = "extended"</code> : by setting the <code>type</code> to
+“extended”, the output for each sequence variant will contain the
+taxonomic classification, the names of each taxonomic rank, and the
+confidence of the assignment.</li>
 </ul>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">dna &lt;-<span class="st"> </span><span class="kw">DNAStringSet</span>(<span class="kw">getSequences</span>(seqtab_nochim))</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">idtaxa &lt;-<span class="st"> </span><span class="kw">IdTaxa</span>(dna, </a>
-<a class="sourceLine" id="cb51-4" data-line-number="4">              trainingSet, </a>
-<a class="sourceLine" id="cb51-5" data-line-number="5">              <span class="dt">strand =</span> <span class="st">&quot;both&quot;</span>, </a>
-<a class="sourceLine" id="cb51-6" data-line-number="6">              <span class="dt">threshold =</span> <span class="dv">60</span>, </a>
-<a class="sourceLine" id="cb51-7" data-line-number="7">              <span class="dt">bootstraps =</span> <span class="dv">100</span>, </a>
-<a class="sourceLine" id="cb51-8" data-line-number="8">              <span class="dt">processors =</span> <span class="ot">NULL</span>, </a>
-<a class="sourceLine" id="cb51-9" data-line-number="9">              <span class="dt">verbose =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb51-10" data-line-number="10">              <span class="dt">type =</span> <span class="st">&quot;extended&quot;</span>)</a></code></pre></div>
-<pre><code>## ===========================================================================
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a>dna <span class="ot">&lt;-</span> <span class="fu">DNAStringSet</span>(<span class="fu">getSequences</span>(seqtab_nochim))</span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a>idtaxa <span class="ot">&lt;-</span> <span class="fu">IdTaxa</span>(dna, </span>
+<span id="cb51-4"><a href="#cb51-4" tabindex="-1"></a>                 trainingSet, </span>
+<span id="cb51-5"><a href="#cb51-5" tabindex="-1"></a>                 <span class="at">strand =</span> <span class="st">&quot;both&quot;</span>, </span>
+<span id="cb51-6"><a href="#cb51-6" tabindex="-1"></a>                 <span class="at">threshold =</span> <span class="dv">60</span>, </span>
+<span id="cb51-7"><a href="#cb51-7" tabindex="-1"></a>                 <span class="at">bootstraps =</span> <span class="dv">100</span>, </span>
+<span id="cb51-8"><a href="#cb51-8" tabindex="-1"></a>                 <span class="at">processors =</span> <span class="cn">NULL</span>, </span>
+<span id="cb51-9"><a href="#cb51-9" tabindex="-1"></a>                 <span class="at">verbose =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb51-10"><a href="#cb51-10" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">&quot;extended&quot;</span>)</span></code></pre></div>
+<pre><code>## ================================================================================
 ## 
-## Time difference of 0.63 secs</code></pre>
-<p>Although it contains all the necessary information, the output of <code>IdTaxa</code> is not as intuitive as we would like. It outputs a list of the sequence variants. Within this list, each element will have its taxonomic classification and the confidence for each taxon. To facilitate easier manipulation and comprehension of the data, we will convert this list into a matrix, with the rows as the sequence variants and the columns as their taxonomic classifications. We also drop the “Root” column.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">taxid &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">sapply</span>(idtaxa, <span class="cf">function</span>(x) <span class="kw">setNames</span>(x<span class="op">$</span>taxon, x<span class="op">$</span>rank)))[, <span class="dv">-1</span>]</a></code></pre></div>
+## Time difference of 0.56 secs</code></pre>
+<p>Although it contains all the necessary information, the output of
+<code>IdTaxa</code> is not as intuitive as we would like. It outputs a
+list of the sequence variants. Within this list, each element will have
+its taxonomic classification and the confidence for each taxon. To
+facilitate easier manipulation and comprehension of the data, we will
+convert this list into a matrix, with the rows as the sequence variants
+and the columns as their taxonomic classifications. We also drop the
+“Root” column.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a>taxid <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(idtaxa, <span class="cf">function</span>(x) <span class="fu">setNames</span>(x<span class="sc">$</span>taxon, x<span class="sc">$</span>rank)))[, <span class="sc">-</span><span class="dv">1</span>]</span></code></pre></div>
 </div>
 <div id="over-to-phyloseq" class="section level3">
 <h3>Over to phyloseq</h3>
-<p>The individual pieces of the analysis can be save to text or excel files but if you’ve made it this far then why not continue on in R! <a href="https://joey711.github.io/phyloseq/">Phyloseq</a> is a powerful toolkit for working with these types of data in R and is the recommended next step for analysis. More tutorials on downstream analysis to come!</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">library</span>(phyloseq)</a>
-<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="co"># This is just a placeholder - normally this would be a dataframe containing all your sample inforamtion,</span></a>
-<a class="sourceLine" id="cb54-3" data-line-number="3"><span class="co"># with rownames matching the sample names</span></a>
-<a class="sourceLine" id="cb54-4" data-line-number="4">samp_data &lt;-<span class="st">  </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb54-5" data-line-number="5">  <span class="dt">row.names =</span> samples,</a>
-<a class="sourceLine" id="cb54-6" data-line-number="6">  <span class="dt">sample =</span> samples</a>
-<a class="sourceLine" id="cb54-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb54-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb54-9" data-line-number="9"><span class="co"># We need better tables for our sequences than the actual sequence which is the dada2 default</span></a>
-<a class="sourceLine" id="cb54-10" data-line-number="10">asvs &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;ASV_&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(dna))</a>
-<a class="sourceLine" id="cb54-11" data-line-number="11"><span class="kw">rownames</span>(taxid) &lt;-<span class="st"> </span>asvs</a>
-<a class="sourceLine" id="cb54-12" data-line-number="12"><span class="kw">colnames</span>(seqtab_nochim) &lt;-<span class="st"> </span>asvs</a>
-<a class="sourceLine" id="cb54-13" data-line-number="13"><span class="kw">names</span>(dna) &lt;-<span class="st"> </span>asvs</a>
-<a class="sourceLine" id="cb54-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb54-15" data-line-number="15"><span class="co"># Now we put everything into one phyloseq object (even the sequences) so it is easy to use</span></a>
-<a class="sourceLine" id="cb54-16" data-line-number="16">physeq =<span class="st"> </span><span class="kw">phyloseq</span>(</a>
-<a class="sourceLine" id="cb54-17" data-line-number="17">  <span class="kw">otu_table</span>(seqtab_nochim, <span class="dt">taxa_are_rows =</span> <span class="ot">FALSE</span>),</a>
-<a class="sourceLine" id="cb54-18" data-line-number="18">  <span class="kw">tax_table</span>(taxid),</a>
-<a class="sourceLine" id="cb54-19" data-line-number="19">  <span class="kw">sample_data</span>(samp_data),</a>
-<a class="sourceLine" id="cb54-20" data-line-number="20">  dna</a>
-<a class="sourceLine" id="cb54-21" data-line-number="21">)</a>
-<a class="sourceLine" id="cb54-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb54-23" data-line-number="23">physeq</a></code></pre></div>
+<p>The individual pieces of the analysis can be save to text or excel
+files but if you’ve made it this far then why not continue on in R! <a
+href="https://joey711.github.io/phyloseq/">Phyloseq</a> is a powerful
+toolkit for working with these types of data in R and is the recommended
+next step for analysis. More tutorials on downstream analysis to
+come!</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">library</span>(phyloseq)</span>
+<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a><span class="co"># This is just a placeholder - normally this would be a dataframe containing all your sample inforamtion,</span></span>
+<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a><span class="co"># with rownames matching the sample names</span></span>
+<span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a>samp_data <span class="ot">&lt;-</span>  <span class="fu">data.frame</span>(</span>
+<span id="cb54-5"><a href="#cb54-5" tabindex="-1"></a>  <span class="at">row.names =</span> samples,</span>
+<span id="cb54-6"><a href="#cb54-6" tabindex="-1"></a>  <span class="at">sample =</span> samples</span>
+<span id="cb54-7"><a href="#cb54-7" tabindex="-1"></a>)</span>
+<span id="cb54-8"><a href="#cb54-8" tabindex="-1"></a></span>
+<span id="cb54-9"><a href="#cb54-9" tabindex="-1"></a><span class="co"># We need better tables for our sequences than the actual sequence which is the dada2 default</span></span>
+<span id="cb54-10"><a href="#cb54-10" tabindex="-1"></a>asvs <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;ASV_&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(dna))</span>
+<span id="cb54-11"><a href="#cb54-11" tabindex="-1"></a><span class="fu">rownames</span>(taxid) <span class="ot">&lt;-</span> asvs</span>
+<span id="cb54-12"><a href="#cb54-12" tabindex="-1"></a><span class="fu">colnames</span>(seqtab_nochim) <span class="ot">&lt;-</span> asvs</span>
+<span id="cb54-13"><a href="#cb54-13" tabindex="-1"></a><span class="fu">names</span>(dna) <span class="ot">&lt;-</span> asvs</span>
+<span id="cb54-14"><a href="#cb54-14" tabindex="-1"></a></span>
+<span id="cb54-15"><a href="#cb54-15" tabindex="-1"></a><span class="co"># Now we put everything into one phyloseq object (even the sequences) so it is easy to use</span></span>
+<span id="cb54-16"><a href="#cb54-16" tabindex="-1"></a>physeq <span class="ot">=</span> <span class="fu">phyloseq</span>(</span>
+<span id="cb54-17"><a href="#cb54-17" tabindex="-1"></a>  <span class="fu">otu_table</span>(seqtab_nochim, <span class="at">taxa_are_rows =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb54-18"><a href="#cb54-18" tabindex="-1"></a>  <span class="fu">tax_table</span>(taxid),</span>
+<span id="cb54-19"><a href="#cb54-19" tabindex="-1"></a>  <span class="fu">sample_data</span>(samp_data),</span>
+<span id="cb54-20"><a href="#cb54-20" tabindex="-1"></a>  dna</span>
+<span id="cb54-21"><a href="#cb54-21" tabindex="-1"></a>)</span>
+<span id="cb54-22"><a href="#cb54-22" tabindex="-1"></a></span>
+<span id="cb54-23"><a href="#cb54-23" tabindex="-1"></a>physeq</span></code></pre></div>
 <pre><code>## phyloseq-class experiment-level object
 ## otu_table()   OTU Table:         [ 19 taxa and 2 samples ]
 ## sample_data() Sample Data:       [ 2 samples by 1 sample variables ]
@@ -803,13 +999,14 @@ Make your own decisions about trimming paramters! Your data will be different, p
 
 
 
+
 </div>
 
 <script>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -827,7 +1024,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
